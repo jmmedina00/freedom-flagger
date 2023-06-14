@@ -1,0 +1,24 @@
+{
+  "name": "freedom-flagger",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@testing-library/vue": "^7.0.0",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "bulma": "^0.9.4",
+    "happy-dom": "^9.20.3",
+    "sass": "^1.63.4",
+    "vite": "^4.3.9",
+    "vitest": "^0.32.0"
+  }
+}
