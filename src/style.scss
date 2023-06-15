@@ -1,9 +1,12 @@
 @use 'node_modules/bulma/bulma';
 
-$headings: 1, 2, 3, 4, 5, 6, 7;
+body {
+  height: 100vh;
+}
 
-@each $i in $headings {
-  h#{$i} {
-    @extend .is-size-#{$i};
-  }
+#app {
+  @extend .content;
+
+  height: 100%;
+  margin-bottom: 0;
 }

@@ -1,7 +1,17 @@
 <script setup>
-  import HelloWorld from './components/HelloWorld.vue';
+  import ConfigPanel from './components/config/ConfigPanel.vue';
+  import RenderPanel from './components/render/RenderPanel.vue';
 </script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
+  <div class="is-flex">
+    <RenderPanel />
+    <ConfigPanel />
+  </div>
 </template>
+
+<style scoped>
+  div {
+    height: 100%;
+  }
+</style>
