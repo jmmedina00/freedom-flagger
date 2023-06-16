@@ -7,13 +7,13 @@
     expanded.value = !expanded.value;
   };
 
-  const buttonLocale = computed(() => (expanded.value ? 'Collapse' : 'Extend'));
+  const buttonLocale = computed(() => (expanded.value ? 'collapse' : 'expand'));
 </script>
 
 <template>
   <div :class="{ expanded, collapsed: !expanded }">
     <span>Tabs</span>
-    <button @click="toggleExpanded">{{ buttonLocale }}</button>
+    <button @click="toggleExpanded">{{ $t(buttonLocale) }}</button>
   </div>
 </template>
 
