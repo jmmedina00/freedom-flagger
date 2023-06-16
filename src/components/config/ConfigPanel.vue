@@ -1,13 +1,38 @@
-<script setup></script>
+<script setup>
+  import ConfigSummary from './flag/ConfigSummary.vue';
+  import NumberEditor from './flag/NumberEditor.vue';
+  import PanelBar from './settings/PanelBar.vue';
+
+  const testConfig = { foo: 'bar' };
+</script>
 
 <template>
-  <div class="">
-    <h1>Test</h1>
-  </div>
+  <nav class="flex-column">
+    <PanelBar />
+    <div class="flex-column is-flex-grow-1">
+      <ConfigSummary
+        v-bind="testConfig"
+        class="has-background-info combined-subpanel"
+      />
+      <NumberEditor class="has-background-success combined-subpanel" />
+    </div>
+  </nav>
 </template>
 
-<style scoped>
-  div {
+<style scoped lang="scss">
+  @use 'node_modules/bulma/bulma';
+
+  nav {
     width: 360px;
+  }
+
+  .flex-column {
+    @extend .is-flex;
+    @extend .is-flex-direction-column;
+  }
+
+  .combined-subpanel {
+    @extend .is-flex-grow-1;
+    overflow-y: auto;
   }
 </style>

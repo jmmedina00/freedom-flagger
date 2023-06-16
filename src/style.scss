@@ -1,4 +1,5 @@
 @use 'node_modules/bulma/bulma';
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 body {
   height: 100vh;
@@ -8,5 +9,5 @@ body {
   @extend .content;
 
   height: 100%;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
