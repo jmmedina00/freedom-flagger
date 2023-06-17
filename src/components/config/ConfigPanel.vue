@@ -1,7 +1,7 @@
 <script setup>
-  import ConfigSummary from './flag/ConfigSummary.vue';
-  import NumberEditor from './flag/NumberEditor.vue';
-  import PanelBar from './settings/PanelBar.vue';
+  import ConfigSummary from './options/ConfigSummary.vue';
+  import NumberEditor from './number/NumberEditor.vue';
+  import PanelBar from './shared/PanelBar.vue';
 
   const testConfig = { foo: 'bar' };
 </script>
