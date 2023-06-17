@@ -1,6 +1,7 @@
 <script setup>
   import { inject } from 'vue';
   import { FULL_FLAG_DISPLAY } from '../../state';
+  import DiscreteIcon from '../shared/DiscreteIcon.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
 
@@ -11,11 +12,11 @@
 
 <template>
   <button
-    class="fullscreen-only"
+    class="fullscreen-only button"
     v-if="fullFlagDisplay"
     @click="exitFlagDisplay"
   >
-    {{ $t('exit') }}
+    <DiscreteIcon icon="close" />
   </button>
 </template>
 

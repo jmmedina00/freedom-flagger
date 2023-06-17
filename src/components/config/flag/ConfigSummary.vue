@@ -1,6 +1,7 @@
 <script setup>
   import { inject } from 'vue';
   import { FULL_FLAG_DISPLAY } from '../../../state';
+  import DiscreteIcon from '../../shared/DiscreteIcon.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
 
@@ -12,9 +13,7 @@
 <template>
   <div>
     <button class="button is-white" @click="enterFlagDisplay">
-      <span class="icon">
-        <span class="material-icons">face</span>
-      </span>
+      <DiscreteIcon icon="icons/flag-stripes.svg" />
       <span>Test</span>
     </button>
   </div>
