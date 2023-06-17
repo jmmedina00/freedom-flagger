@@ -5,7 +5,7 @@
 
 <template>
   <div class="is-flex">
-    <RenderPanel />
+    <RenderPanel class="is-hidden-mobile" />
     <ConfigPanel />
   </div>
 </template>

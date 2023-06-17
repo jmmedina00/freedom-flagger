@@ -20,10 +20,14 @@
 </template>
 
 <style scoped lang="scss">
-  @use 'node_modules/bulma/bulma';
+  @import '../../style/bulma';
 
   nav {
     width: 360px;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   .flex-column {
