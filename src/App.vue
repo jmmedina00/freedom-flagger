@@ -20,9 +20,9 @@
     console.log(status);
 
     if (!!status && !!isSupported.value) {
-      await Promise.any(enter(), lockOrientation('landscape')); // lock orientation doesn't work on desktop
+      await Promise.any([enter(), lockOrientation('landscape')]); // lock orientation doesn't work on desktop
     } else {
-      await Promise.all(exit(), unlockOrientation());
+      await Promise.all([exit(), unlockOrientation()]);
     }
   });
 </script>

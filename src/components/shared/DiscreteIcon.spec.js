@@ -8,8 +8,6 @@ describe('DiscreteIcon', () => {
       props: { icon: 'face' },
     });
 
-    console.log(container.innerHTML);
-
     const element = container.querySelector('.icon .material-icons');
     expect(element.innerHTML.trim()).toEqual('face');
   });
