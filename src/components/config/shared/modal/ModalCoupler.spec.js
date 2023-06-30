@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
 import ModalCoupler from './ModalCoupler.vue';
 import { computed, inject, ref } from 'vue';
-import { MODAL_ACTIVE } from '../../../state';
+import { MODAL_ACTIVE } from '@app/state';
 
 describe('ModalCoupler', () => {
   const generate = (props = {}, slots = {}) =>

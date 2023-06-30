@@ -1,7 +1,7 @@
 import { render } from '@testing-library/vue';
 import { describe, expect } from 'vitest';
 import ModalTemplate from './ModalTemplate.vue';
-import { MODAL_ACTIVE } from '../../../state';
+import { MODAL_ACTIVE } from '@app/state';
 import { ref } from 'vue';
 
 describe('ModalTemplate', () => {

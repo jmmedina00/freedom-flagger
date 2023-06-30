@@ -1,6 +1,6 @@
 <script setup>
   import { inject } from 'vue';
-  import { MODAL_ACTIVE } from '../../../state';
+  import { MODAL_ACTIVE } from '@app/state';
   const active = inject(MODAL_ACTIVE);
 
   const close = () => {

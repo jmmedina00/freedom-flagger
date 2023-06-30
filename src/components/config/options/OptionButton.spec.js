@@ -1,7 +1,7 @@
 import { render } from '@testing-library/vue';
 import { describe, expect } from 'vitest';
 import OptionButton from './OptionButton.vue';
-import IconStub from '../../shared/stubs/IconStub.vue';
+import IconStub from '@app/components/shared/stubs/IconStub.vue';
 
 describe('OptionButton', () => {
   const generate = (props, slots = {}) =>

@@ -1,7 +1,7 @@
 <script setup>
   import { provide, ref } from 'vue';
   import ModalTemplate from './ModalTemplate.vue';
-  import { MODAL_ACTIVE } from '../../../state';
+  import { MODAL_ACTIVE } from '@app/state';
 
   const props = defineProps(['enabled', 'label']);
   const enabled = ref(props.enabled ?? true);

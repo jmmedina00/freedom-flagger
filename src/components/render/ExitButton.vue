@@ -1,6 +1,6 @@
 <script setup>
   import { inject } from 'vue';
-  import { FULL_FLAG_DISPLAY } from '../../state';
+  import { FULL_FLAG_DISPLAY } from '@app/state';
   import DiscreteIcon from '../shared/DiscreteIcon.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);

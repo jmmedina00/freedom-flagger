@@ -1,5 +1,5 @@
 <script setup>
-  import DiscreteIcon from '../../shared/DiscreteIcon.vue';
+  import DiscreteIcon from '@app/components/shared/DiscreteIcon.vue';
 
   const props = defineProps({
     icon: String,
