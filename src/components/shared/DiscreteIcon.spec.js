@@ -17,7 +17,8 @@ describe('DiscreteIcon', () => {
       props: { icon: 'path/to/icon.png' },
     });
 
-    const element = container.querySelector('.icon img');
-    expect(element.src).toEqual('path/to/icon.png');
+    const element = container.querySelector('.icon .original');
+    const style = window.getComputedStyle(element);
+    expect(style.mask).toEqual('url(path/to/icon.png)');
   });
 });
