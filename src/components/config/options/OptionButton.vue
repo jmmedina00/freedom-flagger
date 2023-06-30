@@ -24,7 +24,7 @@
       class="secondary is-uppercase has-text-weight-light is-size-7"
       v-if="secondary || $slots.secondary"
     >
-      <slot name="secondary " v-if="$slots.secondary"></slot>
+      <slot name="secondary" v-if="$slots.secondary"></slot>
       <template v-else>{{ secondary }}</template>
     </span>
   </button>
