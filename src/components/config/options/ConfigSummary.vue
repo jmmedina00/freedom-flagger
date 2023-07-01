@@ -7,8 +7,10 @@
   import TestModal from '../shared/TestModal.vue';
   import DiscreteIcon from '../../shared/DiscreteIcon.vue';
   import PanelBar from '../shared/PanelBar.vue';
+  import { NOTIFICATION } from '../../../state';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
+  const notification = inject(NOTIFICATION);
 
   const enterFlagDisplay = () => {
     fullFlagDisplay.value = true;
@@ -20,8 +22,12 @@
   const flagIcon = computed(() => (flag.value ? 'done' : 'close'));
 
   const toggleFlag = () => {
-    console.log(flag.value);
     flag.value = !flag.value;
+
+    notification.value = {
+      message: 'test',
+      color: 'danger',
+    };
   };
 </script>
 

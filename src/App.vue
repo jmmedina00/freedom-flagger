@@ -4,6 +4,7 @@
   import RenderPanel from './components/render/RenderPanel.vue';
   import { useFullscreen, useScreenOrientation } from '@vueuse/core';
   import { FULL_FLAG_DISPLAY } from './state';
+  import NotificationBlock from './components/notification/NotificationBlock.vue';
 
   const fullFlagDisplay = ref(false);
   provide(FULL_FLAG_DISPLAY, fullFlagDisplay);
@@ -28,14 +29,15 @@
 </script>
 
 <template>
-  <div class="is-flex" :class="{ 'full-display': fullFlagDisplay }">
+  <div class="is-flex main" :class="{ 'full-display': fullFlagDisplay }">
     <RenderPanel class="is-hidden-mobile fullscreen-show" />
     <ConfigPanel class="fullscreen-hide" />
   </div>
+  <NotificationBlock />
 </template>
 
 <style scoped>
-  div {
+  .main {
     height: 100%;
   }
 
