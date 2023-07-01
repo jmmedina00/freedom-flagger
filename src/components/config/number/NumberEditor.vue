@@ -1,6 +1,7 @@
 <script setup>
   import { computed, ref } from 'vue';
   import DiscreteIcon from '../../shared/DiscreteIcon.vue';
+  import PanelBar from '../shared/PanelBar.vue';
 
   const expanded = ref(false);
 
@@ -16,10 +17,13 @@
 
 <template>
   <div :class="{ expanded, collapsed: !expanded }">
-    <span>Tabs</span>
-    <button class="button" @click="toggleExpanded">
-      <DiscreteIcon :icon="buttonIcon" />
-    </button>
+    <PanelBar :name="$t('tabs')" color="info">
+      <DiscreteIcon
+        :icon="buttonIcon"
+        class="clickable"
+        @click="toggleExpanded"
+      />
+    </PanelBar>
   </div>
 </template>
 

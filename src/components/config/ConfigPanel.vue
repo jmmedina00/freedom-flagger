@@ -1,21 +1,17 @@
 <script setup>
   import ConfigSummary from './options/ConfigSummary.vue';
   import NumberEditor from './number/NumberEditor.vue';
-  import PanelBar from './shared/PanelBar.vue';
 
   const testConfig = { foo: 'bar' };
 </script>
 
 <template>
-  <nav class="flex-column">
-    <PanelBar />
-    <div class="flex-column is-flex-grow-1">
-      <ConfigSummary
-        v-bind="testConfig"
-        class="has-background-info combined-subpanel"
-      />
-      <NumberEditor class="has-background-success combined-subpanel" />
-    </div>
+  <nav class="flex-column is-flex-grow-1">
+    <ConfigSummary
+      v-bind="testConfig"
+      class="has-background-info combined-subpanel"
+    />
+    <NumberEditor class="has-background-success combined-subpanel" />
   </nav>
 </template>
 
@@ -23,10 +19,13 @@
   @import '../../style/bulma';
 
   nav {
-    width: 360px;
+    $width: 360px;
+    width: $width;
+    max-width: $width;
 
     @include mobile {
       width: 100%;
+      max-width: none;
     }
   }
 
