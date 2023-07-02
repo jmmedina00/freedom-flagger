@@ -1,4 +1,9 @@
-<script setup></script>
+<script setup>
+  import { inject } from 'vue';
+  import { CONFIG } from '../../state';
+
+  const config = inject(CONFIG);
+</script>
 
 <template>
   <svg
@@ -9,5 +14,6 @@
   >
     <rect width="50%" height="50%" fill="red"></rect>
     <rect width="50%" height="50%" x="50%" y="50%" fill="blue"></rect>
+    <text x="20" y="20">{{ config.number }}</text>
   </svg>
 </template>

@@ -8,6 +8,7 @@
   import DiscreteIcon from '../../shared/DiscreteIcon.vue';
   import PanelBar from '../shared/PanelBar.vue';
   import { NOTIFICATION } from '../../../state';
+  import { getSomeConfig } from './plugin';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -29,6 +30,8 @@
       color: 'danger',
     };
   };
+
+  const number = getSomeConfig('number', 12);
 </script>
 
 <template>
@@ -74,5 +77,9 @@
     <ModalCoupler label="wut">
       <TestModal />
     </ModalCoupler>
+    <p>
+      <input type="range" min="2" max="64" v-model="number" />
+      {{ number }}
+    </p>
   </div>
 </template>

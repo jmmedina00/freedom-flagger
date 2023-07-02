@@ -9,6 +9,7 @@ import {
   getLocaleFromQuery,
 } from './i18n.detect';
 import { notification } from './components/notification/plugin';
+import { config } from './components/config/options/plugin';
 
 (async () => {
   const locale =
@@ -23,5 +24,6 @@ import { notification } from './components/notification/plugin';
 
   app.use(i18n);
   app.use(notification);
+  app.use(config);
   app.mount('#app');
 })();
