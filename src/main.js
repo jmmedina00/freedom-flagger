@@ -8,8 +8,9 @@ import {
   getLocaleFromPath,
   getLocaleFromQuery,
 } from './i18n.detect';
-import { notification } from './components/notification/plugin';
 import { config } from './components/config/options/plugin';
+import { provideDefault } from './components/shared/provide';
+import { NOTIFICATION } from './state';
 
 (async () => {
   const locale =
@@ -23,7 +24,7 @@ import { config } from './components/config/options/plugin';
   console.log(i18n);
 
   app.use(i18n);
-  app.use(notification);
+  app.use(provideDefault(NOTIFICATION, null));
   app.use(config);
   app.mount('#app');
 })();
