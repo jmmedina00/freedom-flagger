@@ -19,12 +19,19 @@
 </script>
 
 <template>
-  <input class="nibble" type="number" min="0" max="255" v-model="byte" />
+  <span>
+    <input class="nibble" type="number" min="0" max="255" v-model="byte" />
+    <button class="delete" @click="$emit('delete')"></button>
+  </span>
 </template>
 
 <style scoped>
   .nibble {
     width: 3.9em;
     height: 2em;
+  }
+
+  .delete {
+    vertical-align: middle;
   }
 </style>

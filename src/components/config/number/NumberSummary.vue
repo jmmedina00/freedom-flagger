@@ -31,12 +31,3 @@
     />
   </div>
 </template>
-
-<style scoped>
-  input {
-    margin: 0.2em;
-  }
-  .clickable {
-    margin-left: 0.2em;
-  }
-</style>
