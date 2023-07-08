@@ -9,9 +9,11 @@
   <nav class="flex-column is-flex-grow-1">
     <ConfigSummary
       v-bind="testConfig"
-      class="has-background-info combined-subpanel"
+      class="has-background-info combined-subpanel is-flex-grow-1"
     />
-    <NumberSection class="has-background-success combined-subpanel" />
+    <NumberSection
+      class="has-background-success combined-subpanel smaller is-flex-shrink-1"
+    />
   </nav>
 </template>
 
@@ -35,7 +37,10 @@
   }
 
   .combined-subpanel {
-    @extend .is-flex-grow-1;
     overflow-y: auto;
+  }
+
+  .smaller {
+    max-height: 25%;
   }
 </style>

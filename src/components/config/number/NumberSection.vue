@@ -18,7 +18,7 @@
 </script>
 
 <template>
-  <div :class="{ expanded, collapsed: !expanded }">
+  <div class="bottom-pad">
     <PanelBar :name="$t('tabs')" color="info">
       <DiscreteIcon
         :icon="buttonIcon"
@@ -32,11 +32,7 @@
 </template>
 
 <style scoped>
-  .collapsed {
-    max-height: 100px;
-  }
-
-  .expanded {
-    min-height: 200px;
+  .bottom-pad {
+    padding-bottom: 3em;
   }
 </style>

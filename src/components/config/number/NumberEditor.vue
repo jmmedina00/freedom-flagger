@@ -19,5 +19,12 @@
 </script>
 
 <template>
-  <input type="number" min="0" max="255" v-model="byte" />
+  <input class="nibble" type="number" min="0" max="255" v-model="byte" />
 </template>
+
+<style scoped>
+  .nibble {
+    width: 3.9em;
+    height: 2em;
+  }
+</style>

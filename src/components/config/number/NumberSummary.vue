@@ -18,10 +18,25 @@
 </script>
 
 <template>
-  <NumberEditor
-    v-for="index in positions"
-    :position="index"
-    @delete="deleteNumber(index)"
-  />
-  <DiscreteIcon class="clickable" icon="add" @click="addNumber" />
+  <div class="is-flex is-flex-wrap-wrap">
+    <NumberEditor
+      v-for="index in positions"
+      :position="index"
+      @delete="deleteNumber(index)"
+    />
+    <DiscreteIcon
+      class="clickable is-align-self-center"
+      icon="add"
+      @click="addNumber"
+    />
+  </div>
 </template>
+
+<style scoped>
+  input {
+    margin: 0.2em;
+  }
+  .clickable {
+    margin-left: 0.2em;
+  }
+</style>
