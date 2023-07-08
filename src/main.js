@@ -10,7 +10,7 @@ import {
 } from './i18n.detect';
 import { config } from './components/config/options/plugin';
 import { provideDefault } from './components/shared/provide';
-import { NOTIFICATION } from './state';
+import { NOTIFICATION, NUMBER_BYTES } from './state';
 
 (async () => {
   const locale =
@@ -25,6 +25,7 @@ import { NOTIFICATION } from './state';
 
   app.use(i18n);
   app.use(provideDefault(NOTIFICATION, null));
+  app.use(provideDefault(NUMBER_BYTES, [0]));
   app.use(config);
   app.mount('#app');
 })();

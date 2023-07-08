@@ -1,6 +1,6 @@
 <script setup>
   import ConfigSummary from './options/ConfigSummary.vue';
-  import NumberEditor from './number/NumberEditor.vue';
+  import NumberSection from './number/NumberSection.vue';
 
   const testConfig = { foo: 'bar' };
 </script>
@@ -11,7 +11,7 @@
       v-bind="testConfig"
       class="has-background-info combined-subpanel"
     />
-    <NumberEditor class="has-background-success combined-subpanel" />
+    <NumberSection class="has-background-success combined-subpanel" />
   </nav>
 </template>
 

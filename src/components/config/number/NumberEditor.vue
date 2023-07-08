@@ -1,38 +1,23 @@
 <script setup>
-  import { computed, ref } from 'vue';
-  import DiscreteIcon from '../../shared/DiscreteIcon.vue';
-  import PanelBar from '../shared/PanelBar.vue';
+  import { computed, inject, ref } from 'vue';
+  import { NUMBER_BYTES } from '@app/state';
 
-  const expanded = ref(false);
+  const props = defineProps({
+    base: { type: Number, default: 16 },
+    maxValue: { type: Number, default: 15 },
+    position: Number,
+  });
 
-  const toggleExpanded = () => {
-    expanded.value = !expanded.value;
-  };
+  const number = inject(NUMBER_BYTES, ref([0]));
 
-  const buttonLocale = computed(() => (expanded.value ? 'down' : 'up'));
-  const buttonIcon = computed(
-    () => 'keyboard_double_arrow_' + buttonLocale.value
-  );
+  const byte = computed({
+    get: () => number.value[props.position],
+    set: (setByte) => {
+      number.value[props.position] = setByte;
+    },
+  });
 </script>
 
 <template>
-  <div :class="{ expanded, collapsed: !expanded }">
-    <PanelBar :name="$t('tabs')" color="info">
-      <DiscreteIcon
-        :icon="buttonIcon"
-        class="clickable"
-        @click="toggleExpanded"
-      />
-    </PanelBar>
-  </div>
+  <input type="number" min="0" max="255" v-model="byte" />
 </template>
-
-<style scoped>
-  .collapsed {
-    max-height: 100px;
-  }
-
-  .expanded {
-    min-height: 200px;
-  }
-</style>
