@@ -15,7 +15,7 @@ describe('NumberSummary', () => {
             template:
               '<span @click="$emit(\'delete\')">Position: {{ position }}</span>',
           },
-          DiscreteIcon: {
+          IconButton: {
             template: '<button>Icon</button>',
           },
         },

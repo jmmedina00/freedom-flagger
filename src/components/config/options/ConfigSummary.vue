@@ -5,10 +5,10 @@
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
   import ModalTemplate from '../shared/modal/ModalTemplate.vue';
   import TestModal from '../shared/TestModal.vue';
-  import DiscreteIcon from '../../shared/DiscreteIcon.vue';
   import PanelBar from '../shared/PanelBar.vue';
   import { NOTIFICATION } from '../../../state';
   import { getSomeConfig } from './plugin';
+  import IconButton from '../../shared/IconButton.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -37,12 +37,8 @@
 <template>
   <div>
     <PanelBar :name="$t('test')">
-      <DiscreteIcon class="clickable" @click="toggleFlag" :icon="flagIcon" />
-      <DiscreteIcon
-        class="clickable"
-        @click="enterFlagDisplay"
-        icon="icons/flag-stripes.svg"
-      />
+      <IconButton @click="toggleFlag" :icon="flagIcon" />
+      <IconButton @click="enterFlagDisplay" icon="icons/flag-stripes.svg" />
     </PanelBar>
     <ModalCoupler label="khe" :enabled="flagged()">
       <template #button="{ clicked }">

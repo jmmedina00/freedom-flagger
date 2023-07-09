@@ -2,7 +2,7 @@
   import { computed, inject, ref } from 'vue';
   import { NUMBER_BYTES } from '@app/state';
   import NumberEditor from './NumberEditor.vue';
-  import DiscreteIcon from '../../shared/DiscreteIcon.vue';
+  import IconButton from '../../shared/IconButton.vue';
 
   const number = inject(NUMBER_BYTES, ref([0]));
 
@@ -24,10 +24,6 @@
       :position="index"
       @delete="deleteNumber(index)"
     />
-    <DiscreteIcon
-      class="clickable is-align-self-center"
-      icon="add"
-      @click="addNumber"
-    />
+    <IconButton class="is-align-self-center" icon="add" @click="addNumber" />
   </div>
 </template>
