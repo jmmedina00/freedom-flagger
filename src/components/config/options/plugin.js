@@ -8,7 +8,7 @@ export const config = {
   },
 };
 
-export const getSomeConfig = (key = '', defaultValue) => {
+export const useSomeConfig = (key = '', defaultValue) => {
   const config = inject(CONFIG);
 
   const interestingConfig = computed({

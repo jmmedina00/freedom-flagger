@@ -1,6 +1,6 @@
 import { describe, expect } from 'vitest';
 import { createApp, ref } from 'vue';
-import { getSomeConfig } from './plugin';
+import { useSomeConfig } from './plugin';
 import { CONFIG } from '@app/state';
 
 describe('Config plugin', () => {
@@ -10,7 +10,7 @@ describe('Config plugin', () => {
 
     const app = createApp({
       setup: () => {
-        reference = getSomeConfig('foo');
+        reference = useSomeConfig('foo');
         return () => {};
       },
     });
@@ -32,7 +32,7 @@ describe('Config plugin', () => {
 
     const app = createApp({
       setup: () => {
-        const _ = getSomeConfig('bar', 34);
+        const _ = useSomeConfig('bar', 34);
         return () => {};
       },
     });
@@ -49,7 +49,7 @@ describe('Config plugin', () => {
 
     const app = createApp({
       setup: () => {
-        const _ = getSomeConfig('foo', 'doremi');
+        const _ = useSomeConfig('foo', 'doremi');
         return () => {};
       },
     });

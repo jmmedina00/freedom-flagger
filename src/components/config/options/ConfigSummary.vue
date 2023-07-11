@@ -7,7 +7,7 @@
   import TestModal from '../shared/TestModal.vue';
   import PanelBar from '../shared/PanelBar.vue';
   import { NOTIFICATION } from '../../../state';
-  import { getSomeConfig } from './plugin';
+  import { useSomeConfig } from './plugin';
   import IconButton from '../../shared/IconButton.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
@@ -31,7 +31,7 @@
     };
   };
 
-  const number = getSomeConfig('number', 12);
+  const number = useSomeConfig('number', 12);
 </script>
 
 <template>
