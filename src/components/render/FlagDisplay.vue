@@ -1,10 +1,15 @@
 <script setup>
-  import { inject } from 'vue';
-  import { CONFIG, NUMBER_BYTES } from '../../state';
+  import { computed, inject, ref } from 'vue';
+  import { CONFIG } from '../../state';
+  import { useNumberAsColors } from './colors';
+  import ColorStripe from './ColorStripe.vue';
 
   const config = inject(CONFIG);
 
-  const number = inject(NUMBER_BYTES);
+  const { colors, remainder } = useNumberAsColors();
+  const amountColors = computed(() => colors.value.length);
+
+  const watchedColors = ref(colors);
 </script>
 
 <template>
@@ -14,9 +19,15 @@
     height="200"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="50%" height="50%" fill="red"></rect>
-    <rect width="50%" height="50%" x="50%" y="50%" fill="blue"></rect>
-    <text x="20" y="20">{{ config.number }}</text>
-    <text x="40" y="40">{{ number }}</text>
+    <svg width="100%" height="100%">
+      <ColorStripe
+        v-for="(color, index) in watchedColors"
+        :color="color"
+        :index="index"
+        :total-colors="amountColors"
+      />
+    </svg>
+
+    <text x="20" y="20">{{ remainder.join(', ') }}</text>
   </svg>
 </template>
