@@ -3,6 +3,10 @@
 
   const props = defineProps({
     icon: String,
+    size: {
+      type: Number,
+      default: 24,
+    },
   });
 
   const isOriginalIcon = computed(() => {
@@ -12,8 +16,11 @@
 
   const style = computed(() => ({
     mask: `url(${props.icon})`,
+    'mask-image': `url(${props.icon})`,
     'mask-size': 'contain',
-  }));
+  })); // Can't shove it in the styles unfortunately
+
+  const pxSize = computed(() => props.size + 'px');
 </script>
 
 <template>
@@ -23,11 +30,24 @@
   </span>
 </template>
 
-<style>
+<style scoped>
+  .icon {
+    user-select: none;
+
+    width: v-bind('pxSize');
+    height: v-bind('pxSize');
+  }
+
+  .icon .material-icons {
+    font-size: v-bind('pxSize');
+  }
+
   .icon .original {
-    width: 24px;
-    height: 24px;
+    width: v-bind('pxSize') !important;
+    height: v-bind('pxSize') !important;
+
     background: currentColor;
+    flex-shrink: 0;
   }
 
   .icon.clickable:hover {

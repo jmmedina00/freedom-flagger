@@ -1,12 +1,17 @@
 <script setup>
   import DiscreteIcon from './DiscreteIcon.vue';
 
-  const props = defineProps(['icon']);
+  const props = defineProps({
+    icon: {
+      type: String,
+    },
+    size: { type: Number, default: 24 },
+  });
 </script>
 
 <template>
   <button class="invisible">
-    <DiscreteIcon class="clickable" :icon="icon" />
+    <DiscreteIcon class="clickable" :icon="icon" :size="size" />
   </button>
 </template>
 
@@ -18,6 +23,5 @@
     color: inherit;
 
     line-height: 1;
-    height: 24px;
   }
 </style>
