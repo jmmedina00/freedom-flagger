@@ -36,16 +36,13 @@
 </template>
 
 <style scoped lang="scss">
-  @use 'sass:color';
-  @import '@app/style';
-
   .option-display {
     text-align: center;
     cursor: pointer;
   }
 
   .icon-holder {
-    background: color.change($primary, $lightness: 75%);
+    background: #80ffec;
     border-radius: 16px;
     padding: 8px;
   }
@@ -56,7 +53,7 @@
     &:checked + .option-display {
       font-weight: bold;
       .icon-holder {
-        background: $link;
+        background: #485fc7; // Copied straight from Bulma
 
         .icon {
           color: white;
