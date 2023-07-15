@@ -17,12 +17,15 @@ describe('ModalCoupler', () => {
           ModalTemplate: {
             template: '<div class="dismodal"><slot></slot></div>',
           },
+          MyContent: {
+            template: '<p>This is a silly test</p>',
+          },
         },
       },
     });
 
   const checkOnActive = {
-    default: {
+    content: {
       setup: () => {
         const active = inject(MODAL_ACTIVE);
         const reactive = computed(() => active.value);
@@ -33,7 +36,7 @@ describe('ModalCoupler', () => {
     },
   };
 
-  test('should provide generic button that launches modal', async () => {
+  test('should provide generic button that launches modal provided by content slot', async () => {
     const { findByRole, queryByText } = generate({}, checkOnActive);
 
     const button = await findByRole('button');
@@ -45,6 +48,13 @@ describe('ModalCoupler', () => {
 
     expect(queryByText('true')).toBeTruthy();
     expect(queryByText('false')).toBeNull();
+  });
+
+  test('should prefer passing component as modal contents', async () => {
+    const { queryByText } = generate({ component: 'MyContent' }, checkOnActive);
+    expect(queryByText('This is a silly test')).toBeTruthy();
+    expect(queryByText('true')).toBeFalsy();
+    expect(queryByText('false')).toBeFalsy();
   });
 
   test('should prevent generic button from launching if enabled is explicitly set to false', async () => {

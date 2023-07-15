@@ -3,7 +3,6 @@
   import { FULL_FLAG_DISPLAY } from '@app/state';
   import OptionButton from './OptionButton.vue';
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
-  import ModalTemplate from '../shared/modal/ModalTemplate.vue';
   import TestModal from '../shared/TestModal.vue';
   import PanelBar from '../shared/PanelBar.vue';
   import { NOTIFICATION } from '../../../state';
@@ -41,7 +40,7 @@
       <IconButton @click="enterFlagDisplay" icon="icons/flag-stripes.svg" />
     </PanelBar>
     <ModalCoupler label="khe" :enabled="flagged()">
-      <template #button="{ clicked }">
+      <template #default="{ clicked }">
         <OptionButton
           @click="clicked"
           icon="icons/flag-stripes.svg"
@@ -52,12 +51,10 @@
         </OptionButton>
       </template>
 
-      <template #default>
-        <ModalTemplate>
-          <div class="modal-content">
-            <div class="box">{{ new Date() }}</div>
-          </div>
-        </ModalTemplate>
+      <template #content>
+        <div class="modal-content">
+          <div class="box">{{ new Date() }}</div>
+        </div>
       </template>
     </ModalCoupler>
 
@@ -70,8 +67,8 @@
       :secondary="$t('test')"
     />
     <ModalCoupler label="what" />
-    <ModalCoupler label="wut">
-      <TestModal />
+    <ModalCoupler :component="TestModal" v-slot="{ clicked }">
+      <IconButton @click="clicked" icon="terminal" />
     </ModalCoupler>
     <p>
       <input type="range" min="2" max="64" v-model="number" />

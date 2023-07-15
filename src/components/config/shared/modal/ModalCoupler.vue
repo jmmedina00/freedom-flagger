@@ -3,7 +3,7 @@
   import ModalTemplate from './ModalTemplate.vue';
   import { MODAL_ACTIVE } from '@app/state';
 
-  const props = defineProps(['enabled', 'label']);
+  const props = defineProps(['enabled', 'label', 'component']);
   const enabled = ref(props.enabled ?? true);
   const active = ref(false);
 
@@ -15,19 +15,20 @@
 </script>
 
 <template>
-  <slot name="button" :clicked="launchModal">
+  <slot :clicked="launchModal">
     <button class="button" @click="launchModal">
       {{ $t(label || 'missingModal') }}
     </button>
   </slot>
 
-  <slot>
-    <ModalTemplate>
+  <ModalTemplate>
+    <component v-if="component" :is="component" />
+    <slot name="content" v-else>
       <div class="modal-content">
         <div class="box">
           {{ $t(label || 'missingModal') }}
         </div>
       </div>
-    </ModalTemplate>
-  </slot>
+    </slot>
+  </ModalTemplate>
 </template>
