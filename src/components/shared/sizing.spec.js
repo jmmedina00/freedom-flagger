@@ -33,6 +33,17 @@ describe('Sizing composable', () => {
     expect(calculated.value).toEqual({ width: 500, height: 400 });
   });
 
+  test('should return width and height as-is if no aspect ratio is provided', () => {
+    const size = ref({
+      width: 300,
+      height: undefined,
+      aspectRatio: null,
+    });
+
+    const calculated = useCalculatedSizes(size);
+    expect(calculated.value).toEqual({ width: 300, height: undefined });
+  });
+
   test('should calculate width according to provided height and proportions', () => {
     const size = ref({
       width: 300,
