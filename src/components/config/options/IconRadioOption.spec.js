@@ -42,6 +42,7 @@ describe('IconRadioOption', () => {
 
     const radio = await findByLabelText('bar - baz'); // Asserts icon and
     expect(radio.checked).toBeTruthy();
+    expect(radio.disabled).toBeFalsy();
   });
 
   test('should not be checked if provided v-model does not match value', async () => {
@@ -72,5 +73,20 @@ describe('IconRadioOption', () => {
     await fireEvent.click(radio);
 
     expect(reference.value).toEqual('re');
+  });
+
+  test('should be able to pass disabled', async () => {
+    const { reference, props } = useUpdatableModel('foo');
+
+    const { findByLabelText, container } = generate({
+      ...props,
+      icon: 'bar',
+      label: 'baz',
+      value: 're',
+      disabled: true,
+    });
+
+    const radio = await findByLabelText('bar - baz');
+    expect(radio.disabled).toBeTruthy();
   });
 });

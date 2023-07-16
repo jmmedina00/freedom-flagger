@@ -7,7 +7,8 @@
     icon: String,
     label: String,
     value: String,
-    modelValue: String,
+    modelValue: String, // TODO - update validations, add disabled
+    disabled: Boolean,
   });
   const emit = defineEmits(['update:modelValue']);
   const currentValue = computed({
@@ -19,7 +20,13 @@
 </script>
 
 <template>
-  <input :id="id" type="radio" :value="value" v-model="currentValue" />
+  <input
+    :id="id"
+    type="radio"
+    :value="value"
+    v-model="currentValue"
+    :disabled="disabled"
+  />
   <label
     class="option-display is-inline-flex is-flex-direction-column"
     role="button"
@@ -28,7 +35,7 @@
     :aria-label="$t(label)"
   >
     <div class="icon-holder is-flex">
-      <DiscreteIcon :icon="icon" size="48" />
+      <DiscreteIcon :icon="icon" :size="48" />
     </div>
 
     <span>{{ $t(label) }}</span>
@@ -49,6 +56,10 @@
 
   input[type='radio'] {
     display: none;
+
+    &:disabled + .option-display {
+      opacity: 0.5;
+    }
 
     &:checked + .option-display {
       font-weight: bold;
