@@ -76,4 +76,15 @@ describe('Sizing composable', () => {
     const calculated = useCalculatedSizes(size);
     expect(calculated.value).toEqual({ width: 300, height: 168 }); // actual height = 168.75
   });
+
+  test('should not attempt to do any calculation if both dimensions are missing', () => {
+    const size = ref({
+      width: undefined,
+      height: undefined,
+      aspectRatio: { x: 16, y: 9 },
+    });
+
+    const calculated = useCalculatedSizes(size);
+    expect(calculated.value).toEqual({ width: undefined, height: undefined });
+  });
 });

@@ -3,11 +3,11 @@
   import { FULL_FLAG_DISPLAY } from '@app/state';
   import OptionButton from './OptionButton.vue';
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
-  import TestModal from '../shared/TestModal.vue';
   import PanelBar from '../shared/PanelBar.vue';
   import { NOTIFICATION } from '../../../state';
   import { useSomeConfig } from './plugin';
   import IconButton from '../../shared/IconButton.vue';
+  import SizingAdjustModal from './modal/SizingAdjustModal.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -67,7 +67,7 @@
       :secondary="$t('test')"
     />
     <ModalCoupler label="what" />
-    <ModalCoupler :component="TestModal" v-slot="{ clicked }">
+    <ModalCoupler :component="SizingAdjustModal" v-slot="{ clicked }">
       <IconButton @click="clicked" icon="terminal" />
     </ModalCoupler>
     <p>

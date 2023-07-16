@@ -10,7 +10,7 @@ export const useCalculatedSizes = (
   computed(() => {
     const { width, height, aspectRatio } = sizing.value;
 
-    if ((!!width && !!height) || !aspectRatio) {
+    if ((!width && !height) || (!!width && !!height) || !aspectRatio) {
       return { width, height };
     }
 

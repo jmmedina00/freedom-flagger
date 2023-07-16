@@ -3,3 +3,5 @@ export const MODAL_ACTIVE = 'modalActive';
 export const NOTIFICATION = 'notification';
 export const CONFIG = 'config';
 export const NUMBER_BYTES = 'numberBytes';
+
+export const CONFIG_SIZING = 'sizing';
