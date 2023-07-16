@@ -74,12 +74,12 @@
     if (!editedConfig.value.aspectRatio) return null;
 
     const { x, y } = editedConfig.value.aspectRatio;
-    return verticallyOriented.value ? [y, x] : [x, y];
+    const list = verticallyOriented.value ? [y, x] : [x, y];
+
+    return getRatioLabel(list);
   });
 
-  const aspectRatio = ref(
-    decomposedAspectRatio.value ? [...decomposedAspectRatio.value] : null
-  );
+  const aspectRatio = ref(decomposedAspectRatio.value);
 
   watch([aspectRatio, verticallyOriented], ([ratio, revert]) => {
     if (!ratio) {
@@ -87,7 +87,7 @@
       return;
     }
 
-    const [one, two] = ratio;
+    const [one, two] = ratio.split(':').map((x) => parseInt(x));
     const aspectRatio = revert ? { y: one, x: two } : { x: one, y: two };
     editedConfig.value.aspectRatio = aspectRatio;
   });
@@ -115,7 +115,7 @@
         <IconRadioOption
           v-for="{ ratio, icon } in ratioLists"
           :id="getRatioLabel(ratio)"
-          :value="ratio"
+          :value="getRatioLabel(ratio)"
           :label="getRatioLabel(ratio)"
           :icon="icon"
           v-model="aspectRatio"

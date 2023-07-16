@@ -150,12 +150,12 @@ describe('SizingAdjustModal', () => {
     const emptyInput = queryByPlaceholderText('400');
     expect(emptyInput.placeholder).toEqual('400');
 
-    //const ratioOption = queryByLabelText('4:3');
-    //expect(ratioOption.checked).toBeTruthy();
+    const ratioOption = queryByLabelText('4:3');
+    expect(ratioOption.checked).toBeTruthy();
 
     await fireEvent.click(button);
     expect(emptyInput.placeholder).toEqual('100');
-    //expect(ratioOption.checked).toBeTruthy();
+    expect(ratioOption.checked).toBeTruthy();
     expect(button.innerText).toEqual(ORIENT_VERTICAL);
   });
 
