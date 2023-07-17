@@ -3,18 +3,26 @@
   import { useElementSize } from '@vueuse/core';
   import ExitButton from './ExitButton.vue';
   import FlagDisplay from './FlagDisplay.vue';
+  import { useFullStateSize } from './size';
+  import { useCalculatedSizes } from '../shared/sizing';
 
-  const baseDimensions = { width: 300, height: 200 }; // To fetch from state
+  const dimensions = useFullStateSize();
 
   const el = ref(null);
   const { width, height } = useElementSize(el); // TODO: test this?
 
-  const minAppropriateHeight = computed(
-    () => (width.value * baseDimensions.height) / baseDimensions.width
-  );
+  const assembledDimensionQuery = computed(() => ({
+    width: width.value,
+    aspectRatio: {
+      x: dimensions.value.width,
+      y: dimensions.value.height,
+    },
+  }));
+
+  const fullDimensions = useCalculatedSizes(assembledDimensionQuery);
 
   const isHorizontalAdequate = computed(
-    () => height.value >= minAppropriateHeight.value
+    () => height.value >= fullDimensions.value.height
   );
 
   const displayClass = computed(() => {

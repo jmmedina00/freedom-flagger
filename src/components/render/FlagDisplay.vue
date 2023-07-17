@@ -1,22 +1,21 @@
 <script setup>
-  import { computed, inject, ref } from 'vue';
-  import { CONFIG } from '../../state';
+  import { computed, ref } from 'vue';
   import { useNumberAsColors } from './colors';
   import ColorStripe from './ColorStripe.vue';
-
-  const config = inject(CONFIG);
+  import { useFullStateSize } from './size';
 
   const { colors, remainder } = useNumberAsColors();
   const amountColors = computed(() => colors.value.length);
 
   const watchedColors = ref(colors);
+  const dimensions = useFullStateSize();
 </script>
 
 <template>
   <svg
     version="1.1"
-    width="300"
-    height="200"
+    :width="dimensions.width"
+    :height="dimensions.height"
     xmlns="http://www.w3.org/2000/svg"
   >
     <svg width="100%" height="100%">
