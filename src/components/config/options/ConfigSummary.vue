@@ -8,6 +8,7 @@
   import { useSomeConfig } from './plugin';
   import IconButton from '../../shared/IconButton.vue';
   import SizingAdjustModal from './modal/SizingAdjustModal.vue';
+  import SizingButton from './button/SizingButton.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -57,6 +58,7 @@
         </div>
       </template>
     </ModalCoupler>
+    <SizingButton />
 
     <OptionButton @click="enterFlagDisplay" icon="icons/flag-stripes.svg">
       <template v-slot:primary> 300 x <i>200</i> </template>
