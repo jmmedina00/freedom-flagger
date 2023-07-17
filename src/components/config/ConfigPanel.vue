@@ -23,6 +23,7 @@
   nav {
     $width: 360px;
     width: $width;
+    min-width: 360px;
     max-width: $width;
 
     @include mobile {
