@@ -25,7 +25,8 @@
   });
 
   const verticallyOriented = ref(
-    config.value.aspectRatio.x < config.value.aspectRatio.y
+    !!config.value.aspectRatio &&
+      config.value.aspectRatio.x < config.value.aspectRatio.y
   );
   const orientation = computed(() =>
     verticallyOriented.value ? 'swap_vert' : 'swap_horiz'

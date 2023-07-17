@@ -66,6 +66,28 @@ describe('SizingAdjustModal', () => {
     expect(button).toBeTruthy();
   });
 
+  test('should start as horizontally oriented when config has both dimensions and no aspect ratio', () => {
+    const startingPoint = ref({
+      width: 400,
+      height: 200,
+      aspectRatio: null,
+    });
+
+    useSomeConfig.mockReturnValue(startingPoint);
+
+    const {
+      rendered: { queryByText },
+    } = generate();
+
+    expect(useSomeConfig).toHaveBeenCalledWith(
+      CONFIG_SIZING,
+      expect.anything()
+    );
+
+    const button = queryByText(ORIENT_HORIZONTAL);
+    expect(button).toBeTruthy();
+  });
+
   test('should start as vertically oriented when config reports aspect ratio X is lower than Y', () => {
     const startingPoint = ref({
       width: 400,
