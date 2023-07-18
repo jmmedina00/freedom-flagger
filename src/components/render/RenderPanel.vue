@@ -9,7 +9,7 @@
   const dimensions = useFullStateSize();
 
   const el = ref(null);
-  const { width, height } = useElementSize(el); // TODO: test this?
+  const { width, height } = useElementSize(el);
 
   const assembledDimensionQuery = computed(() => ({
     width: width.value,

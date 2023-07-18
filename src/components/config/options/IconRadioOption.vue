@@ -7,7 +7,7 @@
     icon: String,
     label: String,
     value: String,
-    modelValue: String, // TODO - update validations, add disabled
+    modelValue: String,
     disabled: Boolean,
   });
   const emit = defineEmits(['update:modelValue']);

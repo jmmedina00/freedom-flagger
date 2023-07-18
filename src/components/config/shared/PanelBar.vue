@@ -9,7 +9,7 @@
   const mainClasses = computed(() => [
     'is-flex',
     'is-justify-content-space-between',
-    `has-background-${props.color}`, // TODO - add test
+    `has-background-${props.color}`,
     `has-text-${props.color}-dark`,
     'px-4',
     'py-3',
