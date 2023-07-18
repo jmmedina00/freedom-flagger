@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
 import IconRadioOption from './IconRadioOption.vue';
-import { ref } from 'vue';
+import { useUpdatableModel } from '@app/util/testing';
 
 describe('IconRadioOption', () => {
   const generate = (props) =>
@@ -17,18 +17,6 @@ describe('IconRadioOption', () => {
         },
       },
     });
-
-  const useUpdatableModel = (initialValue = '') => {
-    const reference = ref(initialValue);
-    const props = {
-      modelValue: reference.value,
-      'onUpdate:modelValue': (e) => {
-        reference.value = e;
-      },
-    };
-
-    return { reference, props };
-  };
 
   test('should be checked if provided v-model matches value', async () => {
     const { props } = useUpdatableModel('foo');

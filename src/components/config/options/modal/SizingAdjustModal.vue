@@ -5,8 +5,8 @@
   import IconRadioOption from '../IconRadioOption.vue';
   import IconButton from '@app/components/shared/IconButton.vue';
   import { useCalculatedSizes } from '../../../shared/sizing';
-  import { parseAsIntOrNothing } from '../../shared/numeric';
   import { MODAL_ACTIVE } from '@app/state';
+  import StrictNumberInput from '../util/StrictNumberInput.vue';
 
   const ratioLists = [
     { ratio: [3, 2], icon: 'bolt' },
@@ -46,30 +46,16 @@
     active.value = false;
   };
 
-  const useFromEditedConfig = (attribute, parser = (value) => value) =>
+  const useFromEditedConfig = (attribute) =>
     computed({
       get: () => editedConfig.value[attribute],
       set: (value) => {
-        const parsedValue = parser(value);
-        const originalValue = editedConfig.value[attribute];
-
-        if (parsedValue === 0) {
-          editedConfig.value[attribute] = undefined;
-          return;
-        }
-
-        if (parsedValue !== undefined) {
-          editedConfig.value[attribute] = parsedValue;
-          return;
-        }
-
-        editedConfig.value[attribute] = 0;
-        editedConfig.value[attribute] = originalValue;
+        editedConfig.value[attribute] = value;
       },
     });
 
-  const width = useFromEditedConfig('width', parseAsIntOrNothing);
-  const height = useFromEditedConfig('height', parseAsIntOrNothing);
+  const width = useFromEditedConfig('width');
+  const height = useFromEditedConfig('height');
 
   const decomposedAspectRatio = computed(() => {
     if (!editedConfig.value.aspectRatio) return null;
@@ -132,20 +118,18 @@
         />
       </div>
       <div>
-        <input
+        <StrictNumberInput
           id="width"
           class="input numeric"
           maxlength="4"
-          type="text"
           :placeholder="fullDimensions.width"
           v-model="width"
         />
         <span>x</span>
-        <input
+        <StrictNumberInput
           id="height"
           class="input numeric"
           maxlength="4"
-          type="text"
           :placeholder="fullDimensions.height"
           v-model="height"
         />

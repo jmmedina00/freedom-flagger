@@ -10,8 +10,6 @@ vi.mock('../plugin');
 vi.mock('../../../shared/sizing');
 
 describe('SizingAdjustModal', () => {
-  // TEST strict number input separately
-
   const ORIENT_VERTICAL = 'swap_vert';
   const ORIENT_HORIZONTAL = 'swap_horiz';
 
@@ -36,7 +34,7 @@ describe('SizingAdjustModal', () => {
           IconButton: {
             props: ['icon'],
             template: '<button>{{ icon }}</button>',
-          },
+          }, // StrictNumberInput not really mocked, hopefully I don't regret it...
         },
       },
     });
