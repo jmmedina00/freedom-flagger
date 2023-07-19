@@ -4,6 +4,8 @@
   import NumberSummary from './NumberSummary.vue';
   import NumberCarousel from './read/NumberCarousel.vue';
   import IconButton from '../../shared/IconButton.vue';
+  import ModalCoupler from '../shared/modal/ModalCoupler.vue';
+  import NumberFromTextModal from './modal/NumberFromTextModal.vue';
 
   const expanded = ref(false);
 
@@ -20,6 +22,9 @@
 <template>
   <div class="bottom-pad">
     <PanelBar :name="$t('tabs')" color="info">
+      <ModalCoupler :component="NumberFromTextModal" v-slot="{ clicked }">
+        <IconButton icon="text_fields" @click="clicked" />
+      </ModalCoupler>
       <IconButton :icon="buttonIcon" @click="toggleExpanded" />
     </PanelBar>
     <NumberSummary v-if="expanded" />
