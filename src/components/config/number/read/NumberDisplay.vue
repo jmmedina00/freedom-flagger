@@ -2,18 +2,22 @@
   import { computed, ref } from 'vue';
 
   const props = defineProps({
-    base: ref(16),
+    base: ref(16), // Only documents what should get in here, doesn't define a default
     number: ref([0]),
   });
 
   const number = ref(props.number);
   const base = ref(props.base);
 
-  const byteLength = computed(() => (0xff).toString(base.value).length);
+  const cleanBase = computed(() => base.value || 16);
+  const byteLength = computed(() => (0xff).toString(cleanBase.value).length);
 
   const padded = computed(() =>
     number.value.map((byte) =>
-      byte.toString(base.value).padStart(byteLength.value, '0').toUpperCase()
+      byte
+        .toString(cleanBase.value)
+        .padStart(byteLength.value, '0')
+        .toUpperCase()
     )
   );
 

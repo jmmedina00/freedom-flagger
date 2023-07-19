@@ -28,7 +28,7 @@
   <div class="modal-content">
     <div class="box">
       <textarea class="textarea" v-model="text"></textarea>
-      <NumberDisplay class="preview" :number="getNumber()" :base="16" />
+      <NumberDisplay class="preview" :number="getNumber()" />
       <button class="button is-success" @click="applyNumber">
         {{ $t('apply') }}
       </button>

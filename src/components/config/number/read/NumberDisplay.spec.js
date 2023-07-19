@@ -37,4 +37,14 @@ describe('NumberDisplay', () => {
     const expectedText = [...expectedStrings].join(' ');
     expect(container.innerText).toEqual(expectedText);
   });
+
+  test('should default to base 16 when no base is provided', () => {
+    const number = [123, 255, 2, 13, 67, 28, 199];
+    const expected = '7B FF 02 0D 43 1C C7';
+
+    const { container } = render(NumberDisplay, {
+      props: { number },
+    });
+    expect(container.innerText).toEqual(expected);
+  });
 });
