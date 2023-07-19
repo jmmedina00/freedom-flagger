@@ -1,9 +1,13 @@
 <script setup>
-  import { ref } from 'vue';
+  import { inject, ref } from 'vue';
+  import { NUMBER_BYTES } from '@app/state';
   import NumberDisplay from './NumberDisplay.vue';
 
+  const number = inject(NUMBER_BYTES, ref([0]));
   const base = ref(16);
+
   const getBase = () => base;
+  const getNumber = () => number;
 </script>
 
 <template>
@@ -18,5 +22,5 @@
     <label for="bin">{{ $t('bytes.bin') }}</label>
   </p>
 
-  <NumberDisplay :base="getBase()" />
+  <NumberDisplay :base="getBase()" :number="getNumber()" />
 </template>

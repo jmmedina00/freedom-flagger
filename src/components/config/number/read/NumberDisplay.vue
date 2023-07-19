@@ -1,9 +1,12 @@
 <script setup>
-  import { computed, inject, ref } from 'vue';
-  import { NUMBER_BYTES } from '@app/state';
+  import { computed, ref } from 'vue';
 
-  const props = defineProps({ base: ref(16) });
-  const number = inject(NUMBER_BYTES, ref([0]));
+  const props = defineProps({
+    base: ref(16),
+    number: ref([0]),
+  });
+
+  const number = ref(props.number);
   const base = ref(props.base);
 
   const byteLength = computed(() => (0xff).toString(base.value).length);
@@ -23,6 +26,8 @@
 </script>
 
 <template>
-  <span v-for="byte in spacedBytes">{{ byte + ' ' }}</span>
-  <span>{{ lastByte }}</span>
+  <p>
+    <span v-for="byte in spacedBytes">{{ byte + ' ' }}</span>
+    <span>{{ lastByte }}</span>
+  </p>
 </template>

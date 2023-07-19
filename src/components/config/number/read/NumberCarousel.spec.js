@@ -1,17 +1,25 @@
 import { fireEvent, render } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
 import NumberCarousel from './NumberCarousel.vue';
+import { ref } from 'vue';
+import { NUMBER_BYTES } from '@app/state';
 
 describe('NumberCarousel', () => {
   test('should be able to alternate between hex, decimal and binary display', async () => {
+    const number = ref([0, 1, 2]);
+
     const { findByLabelText, findByText } = render(NumberCarousel, {
       global: {
         mocks: { $t: (foo) => foo },
         stubs: {
           NumberDisplay: {
-            props: ['base'],
-            template: '<span>Base {{ base }}</span>',
+            props: ['base', 'number'],
+            template:
+              '<span>Base {{ base }}, number {{ number.value.toString() }}</span>',
           },
+        },
+        provide: {
+          [NUMBER_BYTES]: number,
         },
       },
     });
@@ -23,16 +31,20 @@ describe('NumberCarousel', () => {
     expect(dec.checked).toBeFalsy();
     expect(bin.checked).toBeFalsy();
 
-    expect(await findByText('Base 16')).toBeTruthy();
+    expect(await findByText('Base 16, number 0,1,2')).toBeTruthy();
 
     await fireEvent.click(dec);
     expect(hex.checked).toBeFalsy();
     expect(bin.checked).toBeFalsy();
-    expect(await findByText('Base 10')).toBeTruthy();
+
+    number.value = [1, 2, 3];
+    expect(await findByText('Base 10, number 1,2,3')).toBeTruthy();
 
     await fireEvent.click(bin);
     expect(hex.checked).toBeFalsy();
     expect(dec.checked).toBeFalsy();
-    expect(await findByText('Base 2')).toBeTruthy();
+
+    number.value = [2, 4, 6];
+    expect(await findByText('Base 2, number 2,4,6')).toBeTruthy();
   });
 });

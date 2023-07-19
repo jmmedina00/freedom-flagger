@@ -1,18 +1,15 @@
-import { fireEvent, render } from '@testing-library/vue';
+import { render } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
-import { ref } from 'vue';
 import NumberDisplay from './NumberDisplay.vue';
-import { NUMBER_BYTES } from '@app/state';
 
 describe('NumberDisplay', () => {
   const generate = (number, base) =>
     render(NumberDisplay, {
-      props: { base },
-      global: { provide: { [NUMBER_BYTES]: ref(number) } },
+      props: { base, number },
     });
 
   test('should display all bytes in base 10 - default', () => {
-    const number = ref([123, 255, 2, 13, 67, 28, 199]);
+    const number = [123, 255, 2, 13, 67, 28, 199];
 
     const { container } = generate(number, 10);
     expect(container.innerText).toEqual('123 255 002 013 067 028 199');
@@ -36,9 +33,7 @@ describe('NumberDisplay', () => {
       ['5A', '20', '9D', '0M', '03', '0J', '4H', 'AJ'],
     ],
   ])('should display in base %d bytes %s', (base, bytes, expectedStrings) => {
-    const number = ref(bytes);
-
-    const { container } = generate(number, base);
+    const { container } = generate(bytes, base);
     const expectedText = [...expectedStrings].join(' ');
     expect(container.innerText).toEqual(expectedText);
   });
