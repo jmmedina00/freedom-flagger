@@ -14,6 +14,7 @@
     text.value.split('').flatMap((x) => splitIntoBytes(x.codePointAt()))
   );
   const getNumber = () => number;
+  const isValid = computed(() => number.value.length > 0);
 
   const isActive = inject(MODAL_ACTIVE, ref(true));
   const stateNumber = inject(NUMBER_BYTES, ref([0]));
@@ -29,7 +30,11 @@
     <div class="box">
       <textarea class="textarea" v-model="text"></textarea>
       <NumberDisplay class="preview" :number="getNumber()" />
-      <button class="button is-success" @click="applyNumber">
+      <button
+        class="button is-success"
+        @click="applyNumber"
+        :disabled="!isValid"
+      >
         {{ $t('apply') }}
       </button>
     </div>

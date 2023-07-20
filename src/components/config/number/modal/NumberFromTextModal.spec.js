@@ -40,6 +40,9 @@ describe('NumberFromTextModal', () => {
 
     const textarea = await findByRole('textbox');
     expect(textarea.value).toEqual('');
+
+    const applyButton = await findByRole('button');
+    expect(applyButton.disabled).toBeTruthy();
   });
 
   test("should update preview to bytes representation of textarea's value", async () => {
@@ -54,6 +57,9 @@ describe('NumberFromTextModal', () => {
     expect(preview.innerText).toEqual(
       '84,104,105,115,32,105,115,32,97,32,116,101,115,116'
     ); // Equivalent to "This is a test"
+
+    const applyButton = await findByRole('button');
+    expect(applyButton.disabled).toBeFalsy();
   });
 
   test('should split multi-byte characters into single bytes along with the others', async () => {
