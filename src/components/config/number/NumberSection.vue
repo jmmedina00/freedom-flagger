@@ -6,6 +6,7 @@
   import IconButton from '../../shared/IconButton.vue';
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
   import NumberFromTextModal from './modal/NumberFromTextModal.vue';
+  import NumberFromFileModal from './modal/NumberFromFileModal.vue';
 
   const expanded = ref(false);
 
@@ -24,6 +25,9 @@
     <PanelBar :name="$t('tabs')" color="info">
       <ModalCoupler :component="NumberFromTextModal" v-slot="{ clicked }">
         <IconButton icon="text_fields" @click="clicked" />
+      </ModalCoupler>
+      <ModalCoupler :component="NumberFromFileModal" v-slot="{ clicked }">
+        <IconButton icon="file_upload" @click="clicked" />
       </ModalCoupler>
       <IconButton :icon="buttonIcon" @click="toggleExpanded" />
     </PanelBar>
