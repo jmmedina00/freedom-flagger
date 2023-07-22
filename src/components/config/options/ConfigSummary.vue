@@ -1,14 +1,18 @@
 <script setup>
   import { computed, inject, ref } from 'vue';
-  import { FULL_FLAG_DISPLAY } from '@app/state';
+  import {
+    CONFIG_MAX_COLUMNS,
+    FULL_FLAG_DISPLAY,
+    NOTIFICATION,
+  } from '@app/state';
   import OptionButton from './OptionButton.vue';
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
   import PanelBar from '../shared/PanelBar.vue';
-  import { NOTIFICATION } from '../../../state';
   import { useSomeConfig } from './plugin';
   import IconButton from '../../shared/IconButton.vue';
   import SizingAdjustModal from './modal/SizingAdjustModal.vue';
   import SizingButton from './button/SizingButton.vue';
+  import LimitedSliderNumber from './util/LimitedSliderNumber.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -31,7 +35,7 @@
     };
   };
 
-  const number = useSomeConfig('number', 12);
+  const maxColumns = useSomeConfig(CONFIG_MAX_COLUMNS, 12);
 </script>
 
 <template>
@@ -73,8 +77,8 @@
       <IconButton @click="clicked" icon="terminal" />
     </ModalCoupler>
     <p>
-      <input type="range" min="2" max="64" v-model="number" />
-      {{ number }}
+      <span class="is-block">{{ $t('config.maxColumns') + ':' }}</span>
+      <LimitedSliderNumber v-model="maxColumns" :min="0" :max="32" />
     </p>
   </div>
 </template>

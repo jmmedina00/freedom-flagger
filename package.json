@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.2.0",
+    "bulma-slider": "^2.0.5",
     "vue": "^3.2.47",
     "vue-i18n": "^9.2.2"
   },
