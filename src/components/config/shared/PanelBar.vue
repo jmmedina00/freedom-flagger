@@ -3,22 +3,32 @@
 
   const props = defineProps({
     name: String,
-    color: { type: String, default: 'primary' },
+    color: String,
   });
 
-  const mainClasses = computed(() => [
-    'is-flex',
-    'is-justify-content-space-between',
-    `has-background-${props.color}`,
-    `has-text-${props.color}-dark`,
-    'px-4',
-    'py-3',
-  ]);
+  const isColorAvailable = computed(() => !!props.color);
+
+  const mainClasses = computed(() => {
+    const baseClasses = [
+      'is-flex',
+      'is-justify-content-space-between',
+      'px-4',
+      'py-3',
+    ];
+
+    const additionalClasses = isColorAvailable.value
+      ? [`has-background-${props.color}`, `has-text-${props.color}-dark`]
+      : [];
+
+    return [...baseClasses, ...additionalClasses];
+  });
 </script>
 
 <template>
   <div :class="mainClasses">
-    <h3 class="has-text-light m-0">{{ name }}</h3>
+    <h3 class="m-0" :class="isColorAvailable ? ['has-text-light'] : []">
+      {{ $t(name) }}
+    </h3>
     <div class="button-collection is-flex is-align-items-center">
       <slot></slot>
     </div>

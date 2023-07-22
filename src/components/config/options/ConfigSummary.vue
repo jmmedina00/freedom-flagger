@@ -40,7 +40,7 @@
 
 <template>
   <div>
-    <PanelBar :name="$t('test')">
+    <PanelBar :name="$t('test')" color="primary">
       <IconButton @click="toggleFlag" :icon="flagIcon" />
       <IconButton @click="enterFlagDisplay" icon="icons/flag-stripes.svg" />
     </PanelBar>
