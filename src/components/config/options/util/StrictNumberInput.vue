@@ -5,8 +5,7 @@
   const emit = defineEmits(['update:modelValue']);
 
   const isEmpty = (value = '') => value.toString().length === 0;
-  const isPotentiallyDecimal = (value = '') => value.toString().includes('.');
-  const isPotentiallyNegative = (value = '') => value.toString().includes('-');
+  const isProperNumber = (value = '') => /^\d+$/.test(value);
 
   const el = ref(null);
 
@@ -24,18 +23,12 @@
         return;
       }
 
-      if (isPotentiallyDecimal(value) || isPotentiallyNegative(value)) {
+      if (!isProperNumber(value)) {
         forceItBackToPrevious();
         return;
       }
 
       const parsed = parseInt(value);
-
-      if (isNaN(parsed)) {
-        forceItBackToPrevious();
-        return;
-      }
-
       const emitted = parsed || undefined; // Send undefined rather than 0
       emit('update:modelValue', emitted);
     },
@@ -45,3 +38,9 @@
 <template>
   <input ref="el" type="text" v-model="model" />
 </template>
+
+<style scoped>
+  .input {
+    border-color: hsl(0, 0%, 86%);
+  }
+</style>

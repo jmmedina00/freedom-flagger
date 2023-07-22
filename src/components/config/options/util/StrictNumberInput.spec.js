@@ -12,6 +12,7 @@ describe('StrictNumberInput', () => {
     await fireEvent.update(input, 110);
 
     expect(reference.value).toEqual(110);
+    expect(input.value).toEqual('110');
   });
 
   test('should set input to empty when value is effectively zero and model to undefined', async () => {
@@ -32,6 +33,7 @@ describe('StrictNumberInput', () => {
     await fireEvent.update(input, '115a');
 
     expect(reference.value).toEqual(115);
+    expect(input.value).toEqual('115');
   });
 
   test('should disallow decimal numbers', async () => {
@@ -53,5 +55,6 @@ describe('StrictNumberInput', () => {
     await fireEvent.update(input, -42);
 
     expect(reference.value).toEqual(42);
+    expect(input.value).toEqual('42');
   });
 });
