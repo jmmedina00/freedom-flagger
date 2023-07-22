@@ -32,6 +32,9 @@ describe('NumberFromFileModal', () => {
             props: ['number'],
             template: '<p>{{ number.value.toString() }}</p>',
           },
+          ModalTitle: {
+            template: '<span></span>',
+          },
         },
         mocks: {
           $t: (foo) => foo,

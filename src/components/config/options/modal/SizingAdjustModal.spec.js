@@ -35,6 +35,9 @@ describe('SizingAdjustModal', () => {
             props: ['icon'],
             template: '<button>{{ icon }}</button>',
           }, // StrictNumberInput not really mocked, hopefully I don't regret it...
+          ModalTitle: {
+            template: '<span></span>',
+          },
         },
       },
     });

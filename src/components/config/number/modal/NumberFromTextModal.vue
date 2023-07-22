@@ -2,6 +2,7 @@
   import { computed, inject, ref } from 'vue';
   import NumberDisplay from '../read/NumberDisplay.vue';
   import { MODAL_ACTIVE, NUMBER_BYTES } from '@app/state';
+  import ModalTitle from '../../shared/modal/ModalTitle.vue';
 
   const splitIntoBytes = (numeric) => {
     if (numeric === 0) return [];
@@ -28,6 +29,7 @@
 <template>
   <div class="modal-content">
     <div class="box">
+      <ModalTitle name="number.provide.text.title" />
       <textarea class="textarea" v-model="text"></textarea>
       <NumberDisplay class="preview" :number="getNumber()" />
       <button

@@ -3,6 +3,7 @@
   import NumberDisplay from '../read/NumberDisplay.vue';
   import { MODAL_ACTIVE, NUMBER_BYTES } from '@app/state';
   import DiscreteIcon from '@app/components/shared/DiscreteIcon.vue';
+  import ModalTitle from '../../shared/modal/ModalTitle.vue';
 
   const isActive = inject(MODAL_ACTIVE, ref(true));
   const stateNumber = inject(NUMBER_BYTES, ref([0]));
@@ -37,6 +38,7 @@
 <template>
   <div class="modal-content">
     <div class="box">
+      <ModalTitle name="number.provide.file.title" />
       <div class="file is-boxed">
         <label class="file-label" :aria-label="$t('number.provide.file.title')">
           <input class="file-input" type="file" @change="updateContents" />

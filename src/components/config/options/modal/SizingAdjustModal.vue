@@ -7,6 +7,7 @@
   import { useCalculatedSizes } from '../../../shared/sizing';
   import { MODAL_ACTIVE } from '@app/state';
   import StrictNumberInput from '../util/StrictNumberInput.vue';
+  import ModalTitle from '../../shared/modal/ModalTitle.vue';
 
   const ratioLists = [
     { ratio: [3, 2], icon: 'bolt' },
@@ -97,7 +98,7 @@
 <template>
   <div class="modal-content">
     <div class="box">
-      <!-- Pseudo-header -->
+      <ModalTitle name="config.sizing" />
       <div class="is-flex">
         <IconRadioOption
           v-for="{ ratio, icon } in ratioLists"
@@ -108,7 +109,7 @@
           v-model="aspectRatio"
           :disabled="bothPopulated"
         />
-        <!-- Disable non-custom options when both things are populated -->
+
         <IconRadioOption
           id="custom"
           :value="null"
