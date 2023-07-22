@@ -22,7 +22,7 @@
   );
 
   const getPercentage = (chunk = 0, total = 10) =>
-    ((chunk / total) * 100).toString() + '%';
+    ((chunk / total) * 100).toString() + '%'; // TODO - decouple percentage calc from this component
 
   const size = computed(() => getPercentage(1, props.totalColors));
   const position = computed(() =>

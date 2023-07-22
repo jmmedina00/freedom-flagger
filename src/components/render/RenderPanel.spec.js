@@ -1,13 +1,13 @@
 import { render } from '@testing-library/vue';
 import { describe, expect, test, vi } from 'vitest';
 import RenderPanel from './RenderPanel.vue';
-import { useFullStateSize } from './size';
+import { useFullStateSize } from './helper/size';
 import { ref } from 'vue';
 import { useElementSize } from '@vueuse/core';
 import { useCalculatedSizes } from '../shared/sizing';
 
 vi.mock('@vueuse/core');
-vi.mock('./size');
+vi.mock('./helper/size');
 vi.mock('../shared/sizing');
 
 describe('RenderPanel', () => {

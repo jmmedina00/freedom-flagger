@@ -1,8 +1,8 @@
 <script setup>
   import { computed, ref } from 'vue';
-  import { useNumberAsColors } from './colors';
+  import { useNumberAsColors } from './helper/colors';
   import ColorStripe from './ColorStripe.vue';
-  import { useFullStateSize } from './size';
+  import { useFullStateSize } from './helper/size';
 
   const { colors, remainder } = useNumberAsColors();
   const amountColors = computed(() => colors.value.length);

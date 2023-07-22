@@ -1,12 +1,12 @@
 import { describe, expect, vi } from 'vitest';
 import { ref } from 'vue';
-import { useSomeConfig } from '../config/options/plugin';
-import { useCalculatedSizes } from '../shared/sizing';
+import { useSomeConfig } from '@app/components/config/options/plugin';
+import { useCalculatedSizes } from '@app/components/shared/sizing';
 import { useFullStateSize } from './size';
 import { CONFIG_SIZING } from '@app/state';
 
-vi.mock('../config/options/plugin');
-vi.mock('../shared/sizing');
+vi.mock('@app/components/config/options/plugin');
+vi.mock('@app/components/shared/sizing');
 
 describe('State sizing composable', () => {
   test('should provide sizing calculation on state sizing config', () => {

@@ -3,7 +3,7 @@
   import { useElementSize } from '@vueuse/core';
   import ExitButton from './ExitButton.vue';
   import FlagDisplay from './FlagDisplay.vue';
-  import { useFullStateSize } from './size';
+  import { useFullStateSize } from './helper/size';
   import { useCalculatedSizes } from '../shared/sizing';
 
   const dimensions = useFullStateSize();
