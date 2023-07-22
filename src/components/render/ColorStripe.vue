@@ -1,5 +1,6 @@
 <script setup>
   import { computed } from 'vue';
+  import { usePortionSizeAndPosition } from './helper/portion';
 
   const DIR_VERTICAL = 'vertical';
   const DIR_HORIZONTAL = 'horizontal';
@@ -13,20 +14,19 @@
     direction: { type: String, default: DIR_VERTICAL },
   });
 
+  const positionParams = computed(() => ({
+    index: props.index,
+    total: props.totalColors,
+  }));
+
+  const { size, position } = usePortionSizeAndPosition(positionParams);
+
   const validDirections = [DIR_VERTICAL, DIR_HORIZONTAL];
   const directionIndex = computed(() =>
     validDirections.findIndex((dir) => dir === props.direction)
   );
   const direction = computed(
     () => validDirections[Math.max(0, directionIndex.value)]
-  );
-
-  const getPercentage = (chunk = 0, total = 10) =>
-    ((chunk / total) * 100).toString() + '%'; // TODO - decouple percentage calc from this component
-
-  const size = computed(() => getPercentage(1, props.totalColors));
-  const position = computed(() =>
-    getPercentage(props.index, props.totalColors)
   );
 
   const rectParameterPlaces = computed(() =>

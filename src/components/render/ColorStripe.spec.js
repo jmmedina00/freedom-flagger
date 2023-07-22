@@ -1,9 +1,18 @@
 import { render } from '@testing-library/vue';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import ColorStripe from './ColorStripe.vue';
+import { usePortionSizeAndPosition } from './helper/portion';
+import { ref } from 'vue';
+
+vi.mock('./helper/portion');
 
 describe('ColorStripe', () => {
   test('should draw a rect with the defined color', () => {
+    usePortionSizeAndPosition.mockReturnValue({
+      size: ref('0'),
+      position: ref('0'),
+    });
+
     const { container } = render(ColorStripe, { props: { color: '#fa357f' } });
 
     const rect = container.querySelector('rect');
@@ -11,70 +20,64 @@ describe('ColorStripe', () => {
     expect(rect.getAttribute('fill')).toEqual('#fa357f');
   });
 
-  test('should figure out correct % position in vertical direction', () => {
-    const { container } = render(ColorStripe, {
-      props: { index: 2, totalColors: 5, direction: 'vertical' },
+  test('should place size and position correctly for vertical direction', () => {
+    usePortionSizeAndPosition.mockReturnValue({
+      size: ref('12%'),
+      position: ref('24%'),
     });
 
-    const expectedPosition = ((2 / 5) * 100).toString() + '%';
+    const { container } = render(ColorStripe, {
+      props: { index: 3, totalColors: 6, direction: 'vertical' },
+    });
 
     const rect = container.querySelector('rect');
-    expect(rect.getAttribute('x')).toEqual(expectedPosition);
+    expect(rect.getAttribute('x')).toEqual('24%');
     expect(rect.getAttribute('y')).toBeFalsy();
-  });
-
-  test('should figure out correct % size in vertical direction', () => {
-    const { container } = render(ColorStripe, {
-      props: { index: 3, totalColors: 7, direction: 'vertical' },
-    });
-
-    const expectedSize = ((1 / 7) * 100).toString() + '%';
-
-    const rect = container.querySelector('rect');
-    expect(rect.getAttribute('width')).toEqual(expectedSize);
+    expect(rect.getAttribute('width')).toEqual('12%');
     expect(rect.getAttribute('height')).toEqual('100%');
+
+    expect(usePortionSizeAndPosition.mock.lastCall[0].value).toEqual({
+      index: 3,
+      total: 6,
+    });
   });
 
-  test('should figure out correct % position in horizontal direction', () => {
-    const { container } = render(ColorStripe, {
-      props: { index: 3, totalColors: 4, direction: 'horizontal' },
+  test('should place size and position correctly for horizontal direction', () => {
+    usePortionSizeAndPosition.mockReturnValue({
+      size: ref('24%'),
+      position: ref('36%'),
     });
 
-    const expectedPosition = ((3 / 4) * 100).toString() + '%';
+    const { container } = render(ColorStripe, {
+      props: { index: 2, totalColors: 5, direction: 'horizontal' },
+    });
 
     const rect = container.querySelector('rect');
-    expect(rect.getAttribute('y')).toEqual(expectedPosition);
+    expect(rect.getAttribute('y')).toEqual('36%');
     expect(rect.getAttribute('x')).toBeFalsy();
-  });
-
-  test('should figure out correct % size in horizontal direction', () => {
-    const { container } = render(ColorStripe, {
-      props: { index: 2, totalColors: 12, direction: 'horizontal' },
-    });
-
-    const expectedSize = ((1 / 12) * 100).toString() + '%';
-
-    const rect = container.querySelector('rect');
-    expect(rect.getAttribute('height')).toEqual(expectedSize);
+    expect(rect.getAttribute('height')).toEqual('24%');
     expect(rect.getAttribute('width')).toEqual('100%');
-  });
 
-  test('should consider 0 as the first index', () => {
-    const { container } = render(ColorStripe, {
-      props: { index: 0, totalColors: 12 }, // vertical by default
+    expect(usePortionSizeAndPosition.mock.lastCall[0].value).toEqual({
+      index: 2,
+      total: 5,
     });
-
-    const rect = container.querySelector('rect');
-    expect(rect.getAttribute('x')).toEqual('0%');
   });
 
   test('should fallback to vertical direction if invalid direction provided', () => {
+    usePortionSizeAndPosition.mockReturnValue({
+      size: ref('24%'),
+      position: ref('58%'),
+    });
+
     const { container } = render(ColorStripe, {
       props: { index: 0, totalColors: 12, direction: 'foo' },
     });
 
     const rect = container.querySelector('rect');
-    expect(rect.getAttribute('x')).toEqual('0%');
+    expect(rect.getAttribute('x')).toEqual('58%');
     expect(rect.getAttribute('y')).toBeFalsy();
+    expect(rect.getAttribute('width')).toEqual('24%');
+    expect(rect.getAttribute('height')).toEqual('100%');
   });
 });
