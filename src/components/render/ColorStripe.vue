@@ -1,53 +1,32 @@
 <script setup>
-  import { computed } from 'vue';
+  import { computed, ref } from 'vue';
   import { usePortionSizeAndPosition } from './helper/portion';
-
-  const DIR_VERTICAL = 'vertical';
-  const DIR_HORIZONTAL = 'horizontal';
-  const SIZE_VERTICAL = 'width';
-  const SIZE_HORIZONTAL = 'height';
+  import { useDirectionHolds } from './helper/direction';
 
   const props = defineProps({
     color: { type: String, default: '#000000' },
     index: { type: Number, default: 0 },
     totalColors: { type: Number, default: 10 },
-    direction: { type: String, default: DIR_VERTICAL },
+    direction: { type: String, default: 'vertical' },
   });
+  const direction = ref(props.direction);
+  const index = ref(props.index);
+  const total = ref(props.totalColors);
 
   const positionParams = computed(() => ({
-    index: props.index,
-    total: props.totalColors,
+    index: index.value,
+    total: total.value,
   }));
 
   const { size, position } = usePortionSizeAndPosition(positionParams);
+  const { sizeHold, positionHold, stretchHold } = useDirectionHolds(direction);
 
-  const validDirections = [DIR_VERTICAL, DIR_HORIZONTAL];
-  const directionIndex = computed(() =>
-    validDirections.findIndex((dir) => dir === props.direction)
-  );
-  const direction = computed(
-    () => validDirections[Math.max(0, directionIndex.value)]
-  );
-
-  const rectParameterPlaces = computed(() =>
-    direction.value === DIR_VERTICAL
-      ? ['x', SIZE_VERTICAL]
-      : ['y', SIZE_HORIZONTAL]
-  );
-
-  const attributes = computed(() => {
-    const [positionHold, sizeHold] = rectParameterPlaces.value;
-    const [toStretch] = [SIZE_HORIZONTAL, SIZE_VERTICAL].filter(
-      (sizeProp) => sizeProp !== sizeHold
-    );
-
-    return {
-      fill: props.color,
-      [positionHold]: position.value,
-      [sizeHold]: size.value,
-      [toStretch]: '100%',
-    };
-  });
+  const attributes = computed(() => ({
+    fill: props.color,
+    [positionHold.value]: position.value,
+    [sizeHold.value]: size.value,
+    [stretchHold.value]: '100%',
+  }));
 </script>
 
 <template>

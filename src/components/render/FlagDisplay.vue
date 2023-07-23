@@ -21,6 +21,7 @@
     <svg width="100%" height="100%">
       <ColorStripe
         v-for="(color, index) in watchedColors"
+        :key="color + '-' + index + '-' + amountColors"
         :color="color"
         :index="index"
         :total-colors="amountColors"
