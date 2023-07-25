@@ -2,11 +2,11 @@ import { render } from '@testing-library/vue';
 import { describe, expect, test, vi } from 'vitest';
 import { ref } from 'vue';
 import ColorStripe from './ColorStripe.vue';
-import { usePortionSizeAndPosition } from './helper/portion';
-import { useDirectionHolds } from './helper/direction';
+import { usePortionSizeAndPosition } from '../helper/portion';
+import { useDirectionHolds } from '../helper/direction';
 
-vi.mock('./helper/portion');
-vi.mock('./helper/direction');
+vi.mock('../helper/portion');
+vi.mock('../helper/direction');
 
 describe('ColorStripe', () => {
   test('should draw a rect with the defined color', () => {

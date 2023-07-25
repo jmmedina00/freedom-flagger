@@ -1,7 +1,7 @@
 <script setup>
   import { computed, ref } from 'vue';
-  import { usePortionSizeAndPosition } from './helper/portion';
-  import { useDirectionHolds } from './helper/direction';
+  import { usePortionSizeAndPosition } from '../helper/portion';
+  import { useDirectionHolds } from '../helper/direction';
 
   const props = defineProps({
     color: { type: String, default: '#000000' },

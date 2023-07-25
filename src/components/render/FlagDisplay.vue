@@ -1,7 +1,7 @@
 <script setup>
   import { computed, ref } from 'vue';
   import { useNumberAsColors } from './helper/colors';
-  import ColorStripe from './ColorStripe.vue';
+  import ColorStripe from './core/ColorStripe.vue';
   import { useFullStateSize } from './helper/size';
 
   const { colors, remainder } = useNumberAsColors();

@@ -2,11 +2,11 @@ import { render } from '@testing-library/vue';
 import { ref } from 'vue';
 import { describe, expect, test, vi } from 'vitest';
 import FlagPortion from './FlagPortion.vue';
-import { usePortionSizeAndPosition } from './helper/portion';
-import { useDirectionHolds } from './helper/direction';
+import { usePortionSizeAndPosition } from '../helper/portion';
+import { useDirectionHolds } from '../helper/direction';
 
-vi.mock('./helper/portion');
-vi.mock('./helper/direction');
+vi.mock('../helper/portion');
+vi.mock('../helper/direction');
 
 describe('FlagPortion', () => {
   const generate = (props) =>

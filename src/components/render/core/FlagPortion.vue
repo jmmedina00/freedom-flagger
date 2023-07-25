@@ -1,8 +1,8 @@
 <script setup>
   import { computed, ref } from 'vue';
   import ColorStripe from './ColorStripe.vue';
-  import { usePortionSizeAndPosition } from './helper/portion';
-  import { useDirectionHolds } from './helper/direction';
+  import { usePortionSizeAndPosition } from '../helper/portion';
+  import { useDirectionHolds } from '../helper/direction';
 
   const props = defineProps({
     colors: Array,
