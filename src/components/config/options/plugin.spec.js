@@ -1,6 +1,10 @@
 import { describe, expect } from 'vitest';
 import { createApp, ref } from 'vue';
-import { useSomeConfig } from './plugin';
+import {
+  unsetConfig,
+  useSomeConfig,
+  useWhetherSomeConfigPresent,
+} from './plugin';
 import { CONFIG } from '@app/state';
 
 describe('Config plugin', () => {
@@ -57,5 +61,76 @@ describe('Config plugin', () => {
     app.provide(CONFIG, config);
     app.mount(document.createElement('div'));
     expect(config.value).toEqual({ foo: 'bar', bar: 'baz' });
+    app.unmount();
+  });
+
+  test('should not provide value without default when no value is present', () => {
+    let reference;
+    const config = ref({ foo: 'bar', bar: 'baz' });
+
+    const app = createApp({
+      setup: () => {
+        reference = useSomeConfig('rip');
+        return () => {};
+      },
+    });
+
+    app.provide(CONFIG, config);
+    app.mount(document.createElement('div'));
+    expect(reference.value).toBeFalsy();
+
+    app.unmount();
+  });
+
+  test('should be able to unset given config key', () => {
+    const config = ref({ foo: 'bar', bar: 'baz' });
+
+    const app = createApp({
+      setup: () => {
+        unsetConfig('foo');
+        return () => {};
+      },
+    });
+
+    app.provide(CONFIG, config);
+    app.mount(document.createElement('div'));
+    expect(config.value).toEqual({ bar: 'baz' });
+    app.unmount();
+  });
+
+  test('should provide a flag set to true when given config is defined', () => {
+    let reference;
+    const config = ref({ foo: 'bar', bar: 'baz' });
+
+    const app = createApp({
+      setup: () => {
+        reference = useWhetherSomeConfigPresent('foo');
+        return () => {};
+      },
+    });
+
+    app.provide(CONFIG, config);
+    app.mount(document.createElement('div'));
+    expect(reference.value).toBeTruthy();
+
+    app.unmount();
+  });
+
+  test('should provide a flag set to false when given config is undefined', () => {
+    let reference;
+    const config = ref({ foo: 'bar', bar: 'baz' });
+
+    const app = createApp({
+      setup: () => {
+        reference = useWhetherSomeConfigPresent('rip');
+        return () => {};
+      },
+    });
+
+    app.provide(CONFIG, config);
+    app.mount(document.createElement('div'));
+    expect(reference.value).toBeFalsy();
+
+    app.unmount();
   });
 });

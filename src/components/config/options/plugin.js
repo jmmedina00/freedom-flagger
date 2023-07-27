@@ -8,6 +8,16 @@ export const config = {
   },
 };
 
+export const unsetConfig = (key = '') => {
+  const config = inject(CONFIG);
+  config.value[key] = undefined;
+};
+
+export const useWhetherSomeConfigPresent = (key = '') => {
+  const config = inject(CONFIG);
+  return computed(() => !!config.value[key]);
+};
+
 export const useSomeConfig = (key = '', defaultValue) => {
   const config = inject(CONFIG);
 
