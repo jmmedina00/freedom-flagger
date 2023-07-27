@@ -12,6 +12,9 @@
   });
 
   const direction = ref(props.direction);
+  const adoptedDirection = computed(
+    () => ['vertical', 'horizontal'].filter((a) => a !== direction.value)[0]
+  );
   const index = ref(props.index);
   const total = ref(props.total);
 
@@ -21,7 +24,8 @@
   }));
 
   const { size, position } = usePortionSizeAndPosition(positionParams);
-  const { sizeHold, positionHold, stretchHold } = useDirectionHolds(direction);
+  const { sizeHold, positionHold, stretchHold } =
+    useDirectionHolds(adoptedDirection);
 
   const attributes = computed(() => ({
     [positionHold.value]: position.value,

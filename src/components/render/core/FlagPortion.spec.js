@@ -54,7 +54,7 @@ describe('FlagPortion', () => {
     ]);
   });
 
-  test('should place size and direction according to direction holds', () => {
+  test('should place size and direction according to opposite direction holds', () => {
     usePortionSizeAndPosition.mockReturnValue({
       size: ref('12%'),
       position: ref('34%'),
@@ -81,6 +81,6 @@ describe('FlagPortion', () => {
       index: 2,
       total: 4,
     });
-    expect(useDirectionHolds.mock.lastCall[0].value).toEqual('horizontal');
+    expect(useDirectionHolds.mock.lastCall[0].value).toEqual('vertical'); // vertical is opposite of horizontal
   });
 });
