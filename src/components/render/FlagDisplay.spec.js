@@ -121,6 +121,22 @@ describe('FlagDisplay', () => {
       const span = container.querySelector('svg span');
       expect(span.innerHTML).toContain('[#FF0000,#00FF00,#0000FF]');
     });
+
+    test('should provide single row if columns are equal or lower than max', () => {
+      useNumberAsColors.mockReturnValue({
+        colors: ref(['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#800080']),
+        remainder: ref([1, 2, 3]),
+      });
+      useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
+      useSomeConfig.mockReturnValue(ref(null));
+
+      const { container } = generate();
+
+      const span = container.querySelector('svg span');
+      expect(span.innerHTML).toContain(
+        '[#FF0000,#00FF00,#0000FF,#FFFF00,#800080]'
+      );
+    });
   });
 
   describe('Direction provision', () => {

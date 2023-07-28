@@ -12,7 +12,7 @@
   import IconButton from '../../shared/IconButton.vue';
   import SizingAdjustModal from './modal/SizingAdjustModal.vue';
   import SizingButton from './button/SizingButton.vue';
-  import LimitedSliderNumber from './util/LimitedSliderNumber.vue';
+  import ColumnLimiter from './ColumnLimiter.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -34,8 +34,6 @@
       color: 'danger',
     };
   };
-
-  const maxColumns = useSomeConfig(CONFIG_MAX_COLUMNS, 12);
 </script>
 
 <template>
@@ -76,9 +74,6 @@
     <ModalCoupler :component="SizingAdjustModal" v-slot="{ clicked }">
       <IconButton @click="clicked" icon="terminal" />
     </ModalCoupler>
-    <p>
-      <span class="is-block">{{ $t('config.maxColumns') + ':' }}</span>
-      <LimitedSliderNumber v-model="maxColumns" :min="0" :max="32" />
-    </p>
+    <ColumnLimiter />
   </div>
 </template>

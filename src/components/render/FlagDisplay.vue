@@ -26,7 +26,7 @@
     const divideBy = maxColumns.value;
     const hexColors = [...watchedColors.value];
 
-    if (divideBy >= length) {
+    if (!divideBy || divideBy >= length) {
       return [hexColors];
     }
 
