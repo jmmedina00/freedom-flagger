@@ -1,6 +1,7 @@
 <script setup>
   import { computed, inject, ref } from 'vue';
   import { NUMBER_BYTES } from '@app/state';
+  import ByteModifier from './write/ByteModifier.vue';
 
   const props = defineProps({
     base: { type: Number, default: 16 },
@@ -20,7 +21,8 @@
 
 <template>
   <span>
-    <input class="nibble" type="number" min="0" max="255" v-model="byte" />
+    <!-- <input class="nibble" type="number" min="0" max="255" v-model="byte" /> -->
+    <ByteModifier :base="base" v-model="byte" />
     <button class="delete" @click="$emit('delete')"></button>
   </span>
 </template>
