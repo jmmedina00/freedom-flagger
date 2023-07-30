@@ -1,13 +1,27 @@
 <script setup>
   import IconButton from '@app/components/shared/IconButton.vue';
-  import { computed, ref } from 'vue';
+  import { computed, inject, ref, watch } from 'vue';
+  import {
+    FOCUS_END,
+    FOCUS_START,
+    OUTSIDE_COMMAND,
+    POSITION_ADVANCE,
+    POSITION_BACK,
+    POSITION_SELECTED,
+  } from '../state';
 
   const ADMITTED_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   const props = defineProps(['base', 'modelValue']);
   const emit = defineEmits(['update:modelValue']);
+  const outsideCommand = inject(OUTSIDE_COMMAND, ref(null));
+
+  const inputs = ref([]);
+  const focusedIndex = ref(-1);
+  const isFocused = (index) => computed(() => index === focusedIndex.value);
 
   const base = props.base;
+  const acceptableChars = ADMITTED_CHARS.slice(0, base);
   const lastChar = ADMITTED_CHARS.charAt(base - 1);
   const fromModel = ref(props.modelValue);
   const model = computed({
@@ -41,12 +55,24 @@
   };
 
   const handleKeyStroke = (index, { key = '' }) => {
-    const acceptableChars = ADMITTED_CHARS.slice(0, base);
+    if (['ArrowUp', 'ArrowDown'].includes(key)) {
+      const increment = key === 'ArrowUp' ? 1 : -1;
+      addToNibble(index, increment);
+      return;
+    }
+
+    if (['ArrowLeft', 'ArrowRight'].includes(key)) {
+      const increment = key === 'ArrowRight' ? 1 : -1;
+      focusedIndex.value += increment;
+      return;
+    }
+
     if (key.length !== 1 || !acceptableChars.includes(key.toUpperCase())) {
       return;
     }
 
     updateNibble(index, key);
+    focusedIndex.value += 1;
   };
 
   const addToNibble = (index, increment) => {
@@ -57,8 +83,41 @@
       return;
     }
 
-    updateNibble(index, ADMITTED_CHARS[charIndex + increment]);
-  }; // TODO - handle focus swaps + keyboard stuff
+    const newChar = acceptableChars[charIndex + increment];
+    if (!newChar) {
+      return;
+    }
+
+    updateNibble(index, newChar);
+  };
+
+  const announceFocus = (index) => {
+    focusedIndex.value = index;
+    outsideCommand.value = POSITION_SELECTED;
+  };
+
+  watch(outsideCommand, (command) => {
+    const watchedCommands = {
+      [FOCUS_START]: 0,
+      [FOCUS_END]: inputs.value.length - 1,
+    };
+
+    const newPos = watchedCommands[command];
+    if (!!newPos) focusedIndex.value = newPos;
+  });
+
+  watch(focusedIndex, (index) => {
+    const focused = inputs.value[index];
+    if (!!focused) focused.focus(); // If triggered by announcement, causes announcement to happen twice - shouldn't be a problem...?
+
+    const outOfScope = {
+      [-1]: POSITION_BACK,
+      [inputs.value.length]: POSITION_ADVANCE,
+    };
+
+    const nextCommand = outOfScope[index];
+    if (!!nextCommand) outsideCommand.value = nextCommand;
+  });
 </script>
 
 <template>
@@ -71,9 +130,12 @@
       />
       <input
         type="text"
+        :class="{ focused: isFocused(index) }"
         readonly
         :value="nibble"
         @keydown="(e) => handleKeyStroke(index, e)"
+        @focus="announceFocus(index)"
+        ref="inputs"
       />
       <IconButton
         icon="keyboard_arrow_down"
