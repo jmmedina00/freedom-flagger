@@ -1,7 +1,7 @@
 <script setup>
   import { computed, inject, provide, ref, watch } from 'vue';
   import { NUMBER_BYTES } from '@app/state';
-  import ByteModifier from './write/ByteModifier.vue';
+  import ByteModifier from './ByteModifier.vue';
   import {
     CURRENT_POSITION,
     FOCUS_END,
@@ -10,7 +10,7 @@
     POSITION_ADVANCE,
     POSITION_BACK,
     POSITION_SELECTED,
-  } from './state';
+  } from '../state';
 
   const props = defineProps({
     base: { type: Number, default: 16 },

@@ -10,7 +10,7 @@ import {
   POSITION_ADVANCE,
   POSITION_BACK,
   POSITION_SELECTED,
-} from './state';
+} from '../state';
 import { NUMBER_BYTES } from '@app/state';
 
 describe('NumberEditor', () => {

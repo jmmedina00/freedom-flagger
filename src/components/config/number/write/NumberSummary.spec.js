@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 import NumberSummary from './NumberSummary.vue';
 import { inject, ref } from 'vue';
 import { NUMBER_BYTES } from '@app/state';
-import { CURRENT_POSITION } from './state';
+import { CURRENT_POSITION } from '../state';
 
 describe('NumberSummary', () => {
   const generate = (number) => {

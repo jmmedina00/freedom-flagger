@@ -2,8 +2,8 @@
   import { computed, inject, provide, ref, watch } from 'vue';
   import { NUMBER_BYTES } from '@app/state';
   import NumberEditor from './NumberEditor.vue';
-  import IconButton from '../../shared/IconButton.vue';
-  import { CURRENT_POSITION } from './state';
+  import IconButton from '../../../shared/IconButton.vue';
+  import { CURRENT_POSITION } from '../state';
 
   const number = inject(NUMBER_BYTES, ref([0]));
   const currentPosition = ref(-1);
