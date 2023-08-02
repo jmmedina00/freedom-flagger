@@ -1,7 +1,7 @@
 <script setup>
   import { computed, ref } from 'vue';
   import PanelBar from '../shared/PanelBar.vue';
-  import NumberSummary from './NumberSummary.vue';
+  import NumberSummary from './write/NumberSummary.vue';
   import NumberCarousel from './read/NumberCarousel.vue';
   import IconButton from '../../shared/IconButton.vue';
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
