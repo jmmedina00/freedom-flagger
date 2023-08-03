@@ -10,6 +10,7 @@
   provide(CURRENT_POSITION, currentPosition);
 
   const positions = computed(() => number.value.map((_, index) => index));
+  const key = ref(0);
 
   const addNumber = () => {
     number.value = [...number.value, 0];
@@ -20,6 +21,7 @@
 
     const oldPosition = currentPosition.value;
     currentPosition.value = Math.min(oldPosition, number.value.length - 1);
+    key.value += 1;
   };
 
   watch(currentPosition, (newValue, oldValue) => {
@@ -29,7 +31,7 @@
 </script>
 
 <template>
-  <div class="is-flex is-flex-wrap-wrap">
+  <div class="is-flex is-flex-wrap-wrap" :key="key">
     <NumberEditor
       v-for="index in positions"
       :position="index"

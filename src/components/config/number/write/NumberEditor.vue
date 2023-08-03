@@ -54,11 +54,7 @@
 <template>
   <span>
     <!-- <input class="nibble" type="number" min="0" max="255" v-model="byte" /> -->
-    <ByteModifier
-      :key="position + number.toString()"
-      :base="base"
-      v-model="byte"
-    />
+    <ByteModifier :base="base" v-model="byte" />
     <button class="delete" @click="$emit('delete')"></button>
   </span>
 </template>

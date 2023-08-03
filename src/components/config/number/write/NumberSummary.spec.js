@@ -48,15 +48,17 @@ describe('NumberSummary', () => {
     }
   });
 
-  test('should react appropriately to a byte being deleted', async () => {
+  test('should react appropriately to a byte being deleted and refresh the component', async () => {
     const number = ref([145, 200, 56, 99, 11, 22]);
 
     const {
       rendered: { findByText },
     } = generate(number);
+    const kept = await findByText('Position: 1');
     await fireEvent.click(await findByText('Position: 2'));
 
     expect(number.value).toEqual([145, 200, 99, 11, 22]);
+    expect(kept.isConnected).toBeFalsy();
   });
 
   test('should add a new byte into the number', async () => {
