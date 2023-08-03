@@ -45,6 +45,10 @@
       ArrowRight: () => {
         currentNibble.value = props.position + 1;
       },
+      Backspace: () => {
+        model.value = admittedChars.value[0];
+        currentNibble.value = props.position - 1;
+      },
     };
 
     const specialHandler = arrowKeyHandling[key];
@@ -58,9 +62,8 @@
 
     if (index !== -1) {
       model.value = inputKey;
+      currentNibble.value = props.position + 1;
     }
-
-    focused.value = true;
   };
 
   watch(currentNibble, (nibble) => {

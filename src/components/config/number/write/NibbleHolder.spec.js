@@ -66,7 +66,7 @@ describe('NibbleHolder', () => {
     expect(focused.value).toBeFalsy();
   });
 
-  test('should update model to admitted char to uppercase on keydown', async () => {
+  test('should update model to admitted char to uppercase on keydown and advance current nibble', async () => {
     const focused = ref(true);
     useFocus.mockReturnValue({ focused });
 
@@ -84,10 +84,12 @@ describe('NibbleHolder', () => {
     await fireEvent.keyDown(input, { key: 'b' });
     expect(reference.value).toEqual('B');
     expect(input.value).toEqual('B');
+    expect(currentNibble.value).toEqual(4);
 
     await fireEvent.keyDown(input, { key: 'C' });
     expect(reference.value).toEqual('C');
     expect(input.value).toEqual('C');
+    expect(currentNibble.value).toEqual(4);
   });
 
   test('should not update model to unadmitted char on keydown', async () => {
@@ -108,6 +110,7 @@ describe('NibbleHolder', () => {
     await fireEvent.keyDown(input, { key: 'P' });
     expect(reference.value).toEqual('A');
     expect(input.value).toEqual('A');
+    expect(currentNibble.value).toEqual(3);
   });
 
   test('should not update model on foreign special keys', async () => {
@@ -132,6 +135,7 @@ describe('NibbleHolder', () => {
     });
     expect(reference.value).toEqual('C');
     expect(input.value).toEqual('C');
+    expect(currentNibble.value).toEqual(3);
   });
 
   test('should update model to next char on up arrow key', async () => {
@@ -237,7 +241,7 @@ describe('NibbleHolder', () => {
     const focused = ref(true);
     useFocus.mockReturnValue({ focused });
 
-    const { props } = useUpdatableModel('A');
+    const { props } = useUpdatableModel('C');
     const admittedChars = 'ABC';
     const position = 3;
     const currentNibble = ref(3);
@@ -249,6 +253,26 @@ describe('NibbleHolder', () => {
     const input = container.querySelector('input');
     await fireEvent.keyDown(input, { key: 'ArrowLeft' });
 
+    expect(currentNibble.value).toEqual(2);
+  });
+
+  test('should "zero out" current nibble and take the position back one step', async () => {
+    const focused = ref(true);
+    useFocus.mockReturnValue({ focused });
+
+    const { props, reference } = useUpdatableModel('C');
+    const admittedChars = 'ABC';
+    const position = 3;
+    const currentNibble = ref(3);
+
+    const { container } = render(NibbleHolder, {
+      props: { ...props, admittedChars, position, currentNibble },
+    });
+
+    const input = container.querySelector('input');
+    await fireEvent.keyDown(input, { key: 'Backspace' });
+
+    expect(reference.value).toEqual('A'); // First admitted char is considered "0"
     expect(currentNibble.value).toEqual(2);
   });
 });
