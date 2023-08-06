@@ -9,10 +9,7 @@
 </script>
 
 <template>
-  <button
-    class="button is-flex is-justify-content-space-between"
-    @click="$emit('click')"
-  >
+  <button class="button is-flex is-justify-content-space-between">
     <DiscreteIcon :icon="icon" />
 
     <span class="primary" v-if="primary || $slots.primary">
