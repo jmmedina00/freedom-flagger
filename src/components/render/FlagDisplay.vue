@@ -5,6 +5,7 @@
   import StandardFlagRenderer from './flag/StandardFlagRenderer.vue';
   import { useSomeConfig } from '../config/options/plugin';
   import { CONFIG_MAX_COLUMNS } from '@app/state';
+  import TinyWatermark from './TinyWatermark.vue';
 
   const { colors, remainder } = useNumberAsColors();
 
@@ -60,5 +61,7 @@
     />
 
     <text x="20" y="20">{{ remainder.join(', ') }}</text>
+
+    <TinyWatermark path="watermark.svg" proportion="0.1" />
   </svg>
 </template>
