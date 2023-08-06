@@ -2,6 +2,7 @@
   import { inject, nextTick, ref, watch } from 'vue';
   import { MODAL_ACTIVE } from '@app/state';
   import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
+  import { onKeyStroke } from '@vueuse/core';
 
   const div = ref(null);
 
@@ -11,6 +12,11 @@
   const close = () => {
     active.value = false;
   };
+
+  onKeyStroke('Escape', (e) => {
+    e.preventDefault();
+    close();
+  });
 
   watch(active, async (current) => {
     if (current) {

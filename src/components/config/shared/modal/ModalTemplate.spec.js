@@ -1,8 +1,8 @@
-import { render } from '@testing-library/vue';
+import { fireEvent, render } from '@testing-library/vue';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import ModalTemplate from './ModalTemplate.vue';
 import { MODAL_ACTIVE } from '@app/state';
-import { nextTick, ref } from 'vue';
+import { ref } from 'vue';
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 
 vi.mock('@vueuse/integrations/useFocusTrap');
@@ -86,5 +86,17 @@ describe('ModalTemplate', () => {
 
     expect(deactivate).toHaveBeenCalled();
     expect(activate).not.toHaveBeenCalled();
+  });
+
+  test('should disable the modal when Esc key is pressed', async () => {
+    getMockedTrap();
+    const active = ref(true);
+
+    const { container } = render(ModalTemplate, {
+      global: { provide: { [MODAL_ACTIVE]: active } },
+    });
+
+    await fireEvent.keyDown(container, { key: 'Escape' });
+    expect(active.value).toBeFalsy();
   });
 });
