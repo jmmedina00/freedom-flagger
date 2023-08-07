@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import { getNumberStartingValue } from './number';
+import { getNumberAsBase64, getNumberStartingValue } from './number';
 import { NUMBER_DEFAULT } from '@app/state';
 
 describe('Number default fetching', () => {
@@ -34,5 +34,21 @@ describe('Number default fetching', () => {
     const converted = number.map((char) => String.fromCharCode(char)).join('');
 
     expect(converted).toEqual(NUMBER_DEFAULT);
+  });
+
+  test('should be able to handle arbitrary data as well', () => {
+    vi.stubGlobal('location', {
+      href: 'http://foo.com/bar?number=AQL_UP_-',
+    });
+
+    const number = getNumberStartingValue();
+    expect(number).toEqual([0x01, 0x02, 0xff, 0x50, 0xff, 0xfe]);
+  });
+
+  test('should be able to convert number into URL-safe Base64 as well', () => {
+    const number = [0x01, 0x02, 0xff, 0x50];
+    const converted = getNumberAsBase64(number);
+
+    expect(converted).toEqual('AQL_UA');
   });
 });
