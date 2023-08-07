@@ -63,6 +63,38 @@ describe('IconRadioOption', () => {
     expect(reference.value).toEqual('re');
   });
 
+  test('should be able to be checked by pressing the Space key', async () => {
+    const { reference, props } = useUpdatableModel('foo');
+
+    const { container } = generate({
+      ...props,
+      icon: 'bar',
+      label: 'baz',
+      value: 're',
+    });
+
+    const radio = container.querySelector('label'); // Need to explicitly find the label
+    await fireEvent.keyDown(radio, { code: 'Space' });
+
+    expect(reference.value).toEqual('re');
+  });
+
+  test('should be able to checked by pressing the Enter key', async () => {
+    const { reference, props } = useUpdatableModel('foo');
+
+    const { container } = generate({
+      ...props,
+      icon: 'bar',
+      label: 'baz',
+      value: 're',
+    });
+
+    const radio = container.querySelector('label'); // Need to explicitly find the label
+    await fireEvent.keyDown(radio, { code: 'Enter' });
+
+    expect(reference.value).toEqual('re');
+  });
+
   test('should be able to pass disabled', async () => {
     const { reference, props } = useUpdatableModel('foo');
 

@@ -17,6 +17,12 @@
       emit('update:modelValue', value);
     },
   });
+
+  const explicitlySet = ({ code = '' }) => {
+    if (['Space', 'Enter'].includes(code)) {
+      currentValue.value = props.value;
+    }
+  };
 </script>
 
 <template>
@@ -33,6 +39,7 @@
     :for="id"
     tabindex="0"
     :aria-label="$t(label)"
+    @keydown="explicitlySet"
   >
     <div class="icon-holder is-flex">
       <DiscreteIcon :icon="icon" :size="48" />
