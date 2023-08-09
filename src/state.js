@@ -3,6 +3,9 @@ export const MODAL_ACTIVE = 'modalActive';
 export const NOTIFICATION = 'notification';
 export const CONFIG = 'config';
 
+export const DECORATE_CONFIG = 'decorateConfig';
+export const DECORATE_SIZE = 'decorateSize';
+
 export const NUMBER_BYTES = 'numberBytes';
 export const NUMBER_DEFAULT = 'dis is a lot of freedom';
 
