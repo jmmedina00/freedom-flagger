@@ -13,6 +13,7 @@
   import { useDownloadFlag } from './export/download';
   import { useFullStateSize } from '@app/components/render/helper/size';
   import { useI18n } from 'vue-i18n';
+  import RemainingBytesModal from './modal/RemainingBytesModal.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -82,7 +83,7 @@
       :secondary="$t('test')"
     />
     <ModalCoupler label="what" />
-    <ModalCoupler :component="SizingAdjustModal" v-slot="{ clicked }">
+    <ModalCoupler :component="RemainingBytesModal" v-slot="{ clicked }">
       <IconButton @click="clicked" icon="terminal" />
     </ModalCoupler>
     <ColumnLimiter />
