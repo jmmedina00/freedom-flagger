@@ -7,8 +7,12 @@
     icon: String,
     label: String,
     value: String,
-    modelValue: String,
+    modelValue: [String, Array],
     disabled: Boolean,
+    type: {
+      type: String,
+      default: 'radio',
+    },
   });
   const emit = defineEmits(['update:modelValue']);
   const currentValue = computed({
@@ -28,7 +32,7 @@
 <template>
   <input
     :id="id"
-    type="radio"
+    :type="type"
     :value="value"
     v-model="currentValue"
     :disabled="disabled"
@@ -61,7 +65,10 @@
     padding: 8px;
   }
 
-  input[type='radio'] {
+  input[type='radio'],
+  input[type='checkbox'] {
+    text-align: center;
+    cursor: pointer;
     display: none;
 
     &:disabled + .option-display {

@@ -1,11 +1,11 @@
 import { fireEvent, render } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
-import IconRadioOption from './IconRadioOption.vue';
+import IconOption from './IconOption.vue';
 import { useUpdatableModel } from '@app/util/testing';
 
-describe('IconRadioOption', () => {
+describe('IconOption', () => {
   const generate = (props) =>
-    render(IconRadioOption, {
+    render(IconOption, {
       props,
       global: {
         mocks: { $t: (foo) => foo },
@@ -108,5 +108,43 @@ describe('IconRadioOption', () => {
 
     const radio = await findByLabelText('bar - baz');
     expect(radio.disabled).toBeTruthy();
+  });
+
+  test('should be able to act as a checkbox that can be unchecked', async () => {
+    const { reference, props } = useUpdatableModel(['re', 'la']);
+
+    const { findByLabelText } = generate({
+      ...props,
+      icon: 'bar',
+      label: 'baz',
+      value: 're',
+      type: 'checkbox',
+    });
+
+    const check = await findByLabelText('bar - baz');
+    expect(check.checked).toBeTruthy();
+    await fireEvent.click(check);
+
+    expect(reference.value.includes('re')).toBeFalsy();
+    expect(check.checked).toBeFalsy();
+  });
+
+  test('should be able to act as a checkbox that can be checked', async () => {
+    const { reference, props } = useUpdatableModel(['la']);
+
+    const { findByLabelText } = generate({
+      ...props,
+      icon: 'bar',
+      label: 'baz',
+      value: 're',
+      type: 'checkbox',
+    });
+
+    const check = await findByLabelText('bar - baz');
+    expect(check.checked).toBeFalsy();
+    await fireEvent.click(check);
+
+    expect(reference.value.includes('re')).toBeTruthy();
+    expect(check.checked).toBeTruthy();
   });
 });

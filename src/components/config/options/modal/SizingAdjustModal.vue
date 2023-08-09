@@ -2,7 +2,7 @@
   import { computed, inject, ref, watch } from 'vue';
   import { useSomeConfig } from '../plugin';
   import { CONFIG_SIZING } from '@app/state';
-  import IconRadioOption from '../util/icon/IconRadioOption.vue';
+  import IconOption from '../util/icon/IconOption.vue';
   import IconButton from '@app/components/shared/IconButton.vue';
   import { useCalculatedSizes } from '../../../shared/sizing';
   import { MODAL_ACTIVE } from '@app/state';
@@ -100,7 +100,7 @@
     <div class="box">
       <ModalTitle name="config.sizing" />
       <div class="is-flex">
-        <IconRadioOption
+        <IconOption
           v-for="{ ratio, icon } in ratioLists"
           :id="getRatioLabel(ratio)"
           :value="getRatioLabel(ratio)"
@@ -110,7 +110,7 @@
           :disabled="bothPopulated"
         />
 
-        <IconRadioOption
+        <IconOption
           id="custom"
           :value="null"
           label="custom"

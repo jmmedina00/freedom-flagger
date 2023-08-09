@@ -23,7 +23,7 @@ describe('SizingAdjustModal', () => {
         provide: { [MODAL_ACTIVE]: isActive },
         mocks: { $t: (foo) => foo },
         stubs: {
-          IconRadioOption: {
+          IconOption: {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
             template:

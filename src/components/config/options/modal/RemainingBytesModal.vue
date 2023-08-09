@@ -5,6 +5,7 @@
   import { computed, provide, ref } from 'vue';
   import { DECORATE_CONFIG } from '@app/state';
   import StrictNumberInput from '../util/numeric/StrictNumberInput.vue';
+  import IconOption from '../util/icon/IconOption.vue';
 
   const props = defineProps(['foo']);
 
@@ -20,6 +21,8 @@
   }));
 
   provide(DECORATE_CONFIG, test);
+
+  const options = ref(['dis', 'nu', 'option']);
 </script>
 
 <template>
@@ -39,6 +42,15 @@
         <span>{{ $t('config.remainder.offset') }}</span>
         <StrictNumberInput class="input" v-model="offset" />
       </p>
+
+      <IconOption
+        type="checkbox"
+        icon="settings"
+        label="test"
+        value="dis"
+        v-model="options"
+      />
+      <p>{{ options }}</p>
     </div>
   </div>
 </template>
