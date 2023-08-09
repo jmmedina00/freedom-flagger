@@ -1,6 +1,6 @@
 <script setup>
   import { ref, watch } from 'vue';
-  import LimitedSliderNumber from './util/LimitedSliderNumber.vue';
+  import LimitedSliderNumber from './util/numeric/LimitedSliderNumber.vue';
   import { useSomeConfig } from './plugin';
   import { CONFIG_MAX_COLUMNS } from '@app/state';
 

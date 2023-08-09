@@ -1,6 +1,6 @@
 <script setup>
   import { computed } from 'vue';
-  import DiscreteIcon from '../../shared/DiscreteIcon.vue';
+  import DiscreteIcon from '@app/components/shared/DiscreteIcon.vue';
 
   const props = defineProps({
     id: { type: String, default: 'temp' },
@@ -22,7 +22,7 @@
     if (['Space', 'Enter'].includes(code)) {
       currentValue.value = props.value;
     }
-  };
+  }; // TODO - refactor into checkbox, derive radio option from this
 </script>
 
 <template>

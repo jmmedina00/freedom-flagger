@@ -2,11 +2,11 @@
   import { computed, inject, ref, watch } from 'vue';
   import { useSomeConfig } from '../plugin';
   import { CONFIG_SIZING } from '@app/state';
-  import IconRadioOption from '../IconRadioOption.vue';
+  import IconRadioOption from '../util/icon/IconRadioOption.vue';
   import IconButton from '@app/components/shared/IconButton.vue';
   import { useCalculatedSizes } from '../../../shared/sizing';
   import { MODAL_ACTIVE } from '@app/state';
-  import StrictNumberInput from '../util/StrictNumberInput.vue';
+  import StrictNumberInput from '../util/numeric/StrictNumberInput.vue';
   import ModalTitle from '../../shared/modal/ModalTitle.vue';
 
   const ratioLists = [

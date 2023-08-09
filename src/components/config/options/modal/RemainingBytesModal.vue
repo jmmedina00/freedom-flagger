@@ -4,7 +4,7 @@
   import ModalTitle from '../../shared/modal/ModalTitle.vue';
   import { computed, provide, ref } from 'vue';
   import { DECORATE_CONFIG } from '@app/state';
-  import StrictNumberInput from '../util/StrictNumberInput.vue';
+  import StrictNumberInput from '../util/numeric/StrictNumberInput.vue';
 
   const props = defineProps(['foo']);
 
