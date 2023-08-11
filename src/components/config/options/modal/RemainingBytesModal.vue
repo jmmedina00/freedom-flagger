@@ -6,18 +6,32 @@
   import { DECORATE_CONFIG } from '@app/state';
   import StrictNumberInput from '../util/numeric/StrictNumberInput.vue';
   import IconOption from '../util/icon/IconOption.vue';
+  import BorderDecorate from '@app/components/shared/decorate/BorderDecorate.vue';
 
   const props = defineProps(['foo']);
 
-  const squares = ref(25);
+  /* const squares = ref(25);
   const rows = ref(2);
-  const offset = ref(1);
+  const offset = ref(1); */
 
-  const test = computed(() => ({
+  const size = ref(20);
+  const left = ref('');
+  const right = ref('');
+  const top = ref('');
+  const bottom = ref('');
+
+  /* const test = computed(() => ({
     colors: ['#ff6347', '#800000', '#ff00ff'],
     squareRows: squares.value,
     rows: rows.value,
     offset: offset.value || 0,
+  })); */
+  const test = computed(() => ({
+    size: size.value,
+    left: left.value || null,
+    right: right.value || null,
+    top: top.value || null,
+    bottom: bottom.value || null,
   }));
 
   provide(DECORATE_CONFIG, test);
@@ -29,8 +43,8 @@
   <div class="modal-content">
     <div class="box">
       <ModalTitle name="config.remainder" />
-      <DemoMiniFlag :component="MosaicDecorate" />
-      <p>
+      <DemoMiniFlag :component="BorderDecorate" />
+      <!-- <p>
         <span>{{ $t('config.remainder.squares') }}</span>
         <StrictNumberInput class="input" v-model="squares" />
       </p>
@@ -41,6 +55,32 @@
       <p>
         <span>{{ $t('config.remainder.offset') }}</span>
         <StrictNumberInput class="input" v-model="offset" />
+      </p> -->
+
+      <p>
+        <span>{{ $t('config.remainder.size') }}</span>
+        <StrictNumberInput class="input" v-model="size" />
+      </p>
+
+      <p>
+        <span>{{ $t('config.remainder.left') }}</span>
+        <input type="color" v-model="left" />
+        <button @click="left = null">X</button>
+      </p>
+      <p>
+        <span>{{ $t('config.remainder.right') }}</span>
+        <input type="color" v-model="right" />
+        <button @click="right = null">X</button>
+      </p>
+      <p>
+        <span>{{ $t('config.remainder.top') }}</span>
+        <input type="color" v-model="top" />
+        <button @click="top = null">X</button>
+      </p>
+      <p>
+        <span>{{ $t('config.remainder.bottom') }}</span>
+        <input type="color" v-model="bottom" />
+        <button @click="bottom = null">X</button>
       </p>
 
       <IconOption
