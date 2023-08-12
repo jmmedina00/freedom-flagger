@@ -9,6 +9,7 @@
   import BorderDecorate from '@app/components/shared/decorate/BorderDecorate.vue';
   import { TOP_LEFT } from '@app/components/shared/decorate/corner';
   import InfiniteDecorate from '@app/components/shared/decorate/InfiniteDecorate.vue';
+  import CornerTriangleDecorate from '@app/components/shared/decorate/CornerTriangleDecorate.vue';
 
   const props = defineProps(['foo']);
 
@@ -21,6 +22,11 @@
   const right = ref('');
   const top = ref('');
   const bottom = ref(''); */
+
+  const topLeft = ref('');
+  const topRight = ref('');
+  const bottomLeft = ref('');
+  const bottomRight = ref('');
 
   const directions = ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'];
   const icons = ['add', 'delete', 'arrow_back', 'star'];
@@ -41,10 +47,18 @@
     bottom: bottom.value || null,
   })); */
 
-  const test = computed(() => ({
+  /* const test = computed(() => ({
     size: size.value,
     colors,
     corner: corner.value,
+  })); */
+
+  const test = computed(() => ({
+    size: size.value,
+    topLeft: topLeft.value || null,
+    topRight: topRight.value || null,
+    bottomLeft: bottomLeft.value || null,
+    bottomRight: bottomRight.value || null,
   }));
 
   provide(DECORATE_CONFIG, test);
@@ -56,7 +70,7 @@
   <div class="modal-content">
     <div class="box">
       <ModalTitle name="config.remainder" />
-      <DemoMiniFlag :component="InfiniteDecorate" />
+      <DemoMiniFlag :component="CornerTriangleDecorate" />
       <!-- <p>
         <span>{{ $t('config.remainder.squares') }}</span>
         <StrictNumberInput class="input" v-model="squares" />
@@ -74,7 +88,7 @@
         <span>{{ $t('config.remainder.size') }}</span>
         <StrictNumberInput class="input" v-model="size" />
       </p>
-      <p>
+      <!-- <p>
         <IconOption
           v-for="(direction, index) in directions"
           :id="direction"
@@ -83,28 +97,28 @@
           :icon="icons[index]"
           v-model="corner"
         />
-      </p>
-
-      <!-- <p>
-        <span>{{ $t('config.remainder.left') }}</span>
-        <input type="color" v-model="left" />
-        <button @click="left = null">X</button>
-      </p>
-      <p>
-        <span>{{ $t('config.remainder.right') }}</span>
-        <input type="color" v-model="right" />
-        <button @click="right = null">X</button>
-      </p>
-      <p>
-        <span>{{ $t('config.remainder.top') }}</span>
-        <input type="color" v-model="top" />
-        <button @click="top = null">X</button>
-      </p>
-      <p>
-        <span>{{ $t('config.remainder.bottom') }}</span>
-        <input type="color" v-model="bottom" />
-        <button @click="bottom = null">X</button>
       </p> -->
+
+      <p>
+        <span>{{ $t('config.remainder.topLeft') }}</span>
+        <input type="color" v-model="topLeft" />
+        <button @click="topLeft = null">X</button>
+      </p>
+      <p>
+        <span>{{ $t('config.remainder.topRight') }}</span>
+        <input type="color" v-model="topRight" />
+        <button @click="topRight = null">X</button>
+      </p>
+      <p>
+        <span>{{ $t('config.remainder.bottomRight') }}</span>
+        <input type="color" v-model="bottomRight" />
+        <button @click="bottomRight = null">X</button>
+      </p>
+      <p>
+        <span>{{ $t('config.remainder.bottomLeft') }}</span>
+        <input type="color" v-model="bottomLeft" />
+        <button @click="bottomLeft = null">X</button>
+      </p>
 
       <IconOption
         type="checkbox"
