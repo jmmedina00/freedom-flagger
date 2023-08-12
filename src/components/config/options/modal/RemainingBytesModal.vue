@@ -2,7 +2,7 @@
   import MosaicDecorate from '@app/components/shared/decorate/MosaicDecorate.vue';
   import DemoMiniFlag from '../util/DemoMiniFlag.vue';
   import ModalTitle from '../../shared/modal/ModalTitle.vue';
-  import { computed, provide, ref } from 'vue';
+  import { computed, provide, ref, shallowRef } from 'vue';
   import { DECORATE_CONFIG } from '@app/state';
   import StrictNumberInput from '../util/numeric/StrictNumberInput.vue';
   import IconOption from '../util/icon/IconOption.vue';
@@ -10,6 +10,9 @@
   import { TOP_LEFT } from '@app/components/shared/decorate/corner';
   import InfiniteDecorate from '@app/components/shared/decorate/InfiniteDecorate.vue';
   import CornerTriangleDecorate from '@app/components/shared/decorate/CornerTriangleDecorate.vue';
+  import CircleShape from '@app/components/shared/shape/CircleShape.vue';
+  import SquareShape from '@app/components/shared/shape/SquareShape.vue';
+  import ShapeSeriesDecorate from '@app/components/shared/decorate/ShapeSeriesDecorate.vue';
 
   const props = defineProps(['foo']);
 
@@ -33,6 +36,8 @@
   const colors = ['#cc6632', '#7ced08', '#d68f44'];
   const corner = ref(TOP_LEFT);
 
+  const component = shallowRef(SquareShape);
+
   /* const test = computed(() => ({
     colors: ['#ff6347', '#800000', '#ff00ff'],
     squareRows: squares.value,
@@ -53,12 +58,18 @@
     corner: corner.value,
   })); */
 
-  const test = computed(() => ({
+  /* const test = computed(() => ({
     size: size.value,
     topLeft: topLeft.value || null,
     topRight: topRight.value || null,
     bottomLeft: bottomLeft.value || null,
     bottomRight: bottomRight.value || null,
+  })); */
+
+  const test = computed(() => ({
+    size: size.value,
+    colors,
+    component: component.value,
   }));
 
   provide(DECORATE_CONFIG, test);
@@ -70,7 +81,7 @@
   <div class="modal-content">
     <div class="box">
       <ModalTitle name="config.remainder" />
-      <DemoMiniFlag :component="CornerTriangleDecorate" />
+      <DemoMiniFlag :component="ShapeSeriesDecorate" />
       <!-- <p>
         <span>{{ $t('config.remainder.squares') }}</span>
         <StrictNumberInput class="input" v-model="squares" />
@@ -99,7 +110,7 @@
         />
       </p> -->
 
-      <p>
+      <!-- <p>
         <span>{{ $t('config.remainder.topLeft') }}</span>
         <input type="color" v-model="topLeft" />
         <button @click="topLeft = null">X</button>
@@ -118,7 +129,22 @@
         <span>{{ $t('config.remainder.bottomLeft') }}</span>
         <input type="color" v-model="bottomLeft" />
         <button @click="bottomLeft = null">X</button>
-      </p>
+      </p> -->
+
+      <IconOption
+        :value="CircleShape"
+        id="circle"
+        label="circle"
+        icon="watch_later"
+        v-model="component"
+      />
+      <IconOption
+        :value="SquareShape"
+        id="square"
+        label="square"
+        icon="launch"
+        v-model="component"
+      />
 
       <IconOption
         type="checkbox"
