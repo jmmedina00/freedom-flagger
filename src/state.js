@@ -3,6 +3,7 @@ export const MODAL_ACTIVE = 'modalActive';
 export const NOTIFICATION = 'notification';
 export const CONFIG = 'config';
 
+export const HANDLING_CONFIG = 'handling';
 export const DECORATE_CONFIG = 'decorateConfig';
 export const DECORATE_SIZE = 'decorateSize';
 
