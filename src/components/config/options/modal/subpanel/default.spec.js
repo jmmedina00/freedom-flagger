@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { createApp, ref } from 'vue';
-import { useDefaultedConfig, useProportionalFields } from './default';
+import { useDefaultedConfig } from './default';
 import { HANDLING_CONFIG } from '@app/state';
 
 describe('Default decorate config composable', () => {
@@ -155,21 +155,65 @@ describe('Default decorate config composable', () => {
     disable();
   });
 
-  test('should allow to set proportional fields to a new array', () => {
+  test('should allow to set essential information outside component config', () => {
     const handlingConfig = ref({
-      foo: 'baz',
-      proportional: ['wat', 'is', 'dis'],
+      foo: 'bar',
+      component: 'WRONG',
+      config: {
+        text: 'Dunno',
+        fake: false,
+        icons: 2,
+      },
     });
 
-    const { disable } = getReference(
-      handlingConfig,
-      [['number', 'two']],
-      useProportionalFields
-    );
+    const { reference: actual, disable } = getReference(handlingConfig, [
+      'TEST',
+      { items: 20, size: 3 },
+      { test: 'foo', re: 'la' },
+    ]);
+
+    expect(actual.value).toEqual({
+      items: 20,
+      size: 3,
+    });
+    expect(handlingConfig.value).toEqual({
+      foo: 'bar',
+      component: 'TEST',
+      config: {
+        items: 20,
+        size: 3,
+      },
+      test: 'foo',
+      re: 'la',
+    });
+
+    disable();
+  });
+
+  test('should replace essential information even if initially provided component is correct', () => {
+    const handlingConfig = ref({
+      foo: 'bar',
+      component: 'TEST',
+      config: {
+        items: 3,
+        size: 27,
+      },
+    });
+
+    const { reference: actual, disable } = getReference(handlingConfig, [
+      'TEST',
+      { items: 20, size: 3 },
+      { foo: 'qwe', active: true },
+    ]);
 
     expect(handlingConfig.value).toEqual({
-      foo: 'baz',
-      proportional: ['number', 'two'],
+      foo: 'qwe',
+      active: true,
+      component: 'TEST',
+      config: {
+        items: 3,
+        size: 27,
+      },
     });
 
     disable();
