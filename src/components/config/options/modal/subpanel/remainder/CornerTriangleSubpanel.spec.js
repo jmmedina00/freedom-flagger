@@ -36,13 +36,17 @@ describe('CornerTriangleSubpanel', () => {
 
     const { container } = generate();
 
-    expect(useDefaultedConfig).toHaveBeenCalledWith(REM_TRIANGLE, {
-      size: 20,
-      topLeft: '0',
-      topRight: '0',
-      bottomRight: '0',
-      bottomLeft: '0',
-    });
+    expect(useDefaultedConfig).toHaveBeenCalledWith(
+      REM_TRIANGLE,
+      {
+        size: 20,
+        topLeft: '0',
+        topRight: '0',
+        bottomRight: '0',
+        bottomLeft: '0',
+      },
+      expect.anything()
+    );
   });
 
   test('should allow to freely set size', async () => {

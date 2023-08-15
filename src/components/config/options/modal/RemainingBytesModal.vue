@@ -1,43 +1,67 @@
 <script setup>
-  import MosaicDecorate from '@app/components/shared/decorate/MosaicDecorate.vue';
   import DemoMiniFlag from '../util/DemoMiniFlag.vue';
   import ModalTitle from '../../shared/modal/ModalTitle.vue';
   import { computed, provide, ref } from 'vue';
   import { DECORATE_CONFIG, HANDLING_CONFIG } from '@app/state';
   import IconOption from '../util/icon/IconOption.vue';
-  import BorderDecorate from '@app/components/shared/decorate/BorderDecorate.vue';
-  import CornerTriangleDecorate from '@app/components/shared/decorate/CornerTriangleDecorate.vue';
   import MosaicSubpanel from './subpanel/remainder/MosaicSubpanel.vue';
   import CornerTriangleSubpanel from './subpanel/remainder/CornerTriangleSubpanel.vue';
   import BorderSubpanel from './subpanel/remainder/BorderSubpanel.vue';
+  import { placeColorsOnIndexes } from '@app/components/shared/color-index';
+  import {
+    REMAINDER_COMPONENTS,
+    REMAINDER_ICONS,
+    REM_BORDER,
+    REM_MOSAIC,
+    REM_TRIANGLE,
+  } from '@app/components/shared/constant/remainder';
+  import { useFullStateSize } from '@app/components/render/helper/size';
 
-  const props = defineProps(['foo']);
   const SUBPANELS = {
-    mosaic: MosaicSubpanel,
-    triangle: CornerTriangleSubpanel,
-    border: BorderSubpanel,
+    [REM_MOSAIC]: MosaicSubpanel,
+    [REM_TRIANGLE]: CornerTriangleSubpanel,
+    [REM_BORDER]: BorderSubpanel,
   };
-
-  const ADAPTERS = {
-    mosaic: MosaicDecorate,
-    triangle: CornerTriangleDecorate,
-    border: BorderDecorate,
-  };
-
-  const ICONS = {
-    mosaic: 'auto_awesome_mosaic',
-    triangle: 'rounded_corner',
-    border: 'border_style',
-  };
-
+  const MAX_SCALED_DIMENSION = 200;
+  const SAMPLE_COLORS = ['#fff', '#aaa', '#777'];
   const DECORATES = Object.keys(SUBPANELS);
+
+  const sizing = useFullStateSize();
   const handlingConfig = ref({}); // TODO - initialize from current state
 
-  const activeSubpanel = ref('mosaic'); // TODO - initialize from current state
-  const activeAdapter = computed(() => ADAPTERS[activeSubpanel.value]);
+  const activeSubpanel = ref(REM_MOSAIC); // TODO - initialize from current state
+  const activeComponent = computed(
+    () => REMAINDER_COMPONENTS[activeSubpanel.value]
+  );
 
-  const decorateConfig = computed(() => handlingConfig.value.config || {});
-  const proportional = computed(() => handlingConfig.value.proportional || []);
+  const decorateConfig = computed(() => {
+    const { config, proportional, adapted } = handlingConfig.value;
+    if (!config) return {};
+
+    const { width, height } = sizing.value;
+    const largerDimension = Math.max(width, height);
+
+    const fieldsToScale = [...proportional];
+    const adaptedConfig =
+      adapted.length > 0
+        ? placeColorsOnIndexes(config, {
+            colors: SAMPLE_COLORS,
+            fields: adapted,
+          })
+        : { ...config, colors: SAMPLE_COLORS };
+
+    const scaledEntries = Object.entries(adaptedConfig).map(([key, value]) => {
+      if (!fieldsToScale.includes(key)) return [key, value];
+
+      const parsedValue = parseInt(value) || 0;
+      const scaledValue =
+        (MAX_SCALED_DIMENSION * parsedValue) / largerDimension;
+
+      return [key, scaledValue];
+    });
+
+    return Object.fromEntries([...scaledEntries]);
+  });
 
   provide(HANDLING_CONFIG, handlingConfig);
   provide(DECORATE_CONFIG, decorateConfig);
@@ -47,7 +71,7 @@
   <div class="modal-content">
     <div class="box">
       <ModalTitle name="config.remainder" />
-      <DemoMiniFlag :component="activeAdapter" />
+      <DemoMiniFlag :component="activeComponent" />
 
       <h5>{{ $t('config.decorate') }}</h5>
       <p>
@@ -56,16 +80,13 @@
           :id="decorate"
           :value="decorate"
           :label="'config.decorate.' + decorate"
-          :icon="ICONS[decorate]"
+          :icon="REMAINDER_ICONS[decorate]"
           v-model="activeSubpanel"
         />
       </p>
 
       <h5>{{ $t('config.decorate.options') }}</h5>
       <component :is="SUBPANELS[activeSubpanel]"></component>
-      <p>{{ activeSubpanel }}</p>
-
-      <p>{{ proportional }}</p>
     </div>
   </div>
 </template>

@@ -3,11 +3,15 @@
   import { useDefaultedConfig } from '../default';
   import LimitedSliderNumber from '../../../util/numeric/LimitedSliderNumber.vue';
 
-  const config = useDefaultedConfig(REM_MOSAIC, {
-    squareRows: 25,
-    rows: 2,
-    offset: 1,
-  });
+  const config = useDefaultedConfig(
+    REM_MOSAIC,
+    {
+      squareRows: 25,
+      rows: 2,
+      offset: 1,
+    },
+    { proportional: [], adapted: [] }
+  );
 </script>
 
 <template>

@@ -36,13 +36,17 @@ describe('BorderSubpanel', () => {
 
     const { container } = generate();
 
-    expect(useDefaultedConfig).toHaveBeenCalledWith(REM_BORDER, {
-      size: 20,
-      top: '0',
-      bottom: '0',
-      left: '0',
-      right: '0',
-    });
+    expect(useDefaultedConfig).toHaveBeenCalledWith(
+      REM_BORDER,
+      {
+        size: 20,
+        top: '0',
+        bottom: '0',
+        left: '0',
+        right: '0',
+      },
+      expect.anything()
+    );
   });
 
   test('should allow to freely set size', async () => {

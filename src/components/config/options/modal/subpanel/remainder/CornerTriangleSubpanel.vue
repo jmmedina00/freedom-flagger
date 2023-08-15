@@ -10,10 +10,14 @@
     selectableAttrs.map((attr) => [attr, '0'])
   );
 
-  const config = useDefaultedConfig(REM_TRIANGLE, {
-    size: 20,
-    ...zeroedEntries,
-  });
+  const config = useDefaultedConfig(
+    REM_TRIANGLE,
+    {
+      size: 20,
+      ...zeroedEntries,
+    },
+    { adapted: selectableAttrs, proportional: ['size'] }
+  );
 </script>
 
 <template>
