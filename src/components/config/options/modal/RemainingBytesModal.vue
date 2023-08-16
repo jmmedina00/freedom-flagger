@@ -39,28 +39,44 @@
   });
   const isActive = inject(MODAL_ACTIVE, ref(true));
   const sizing = useFullStateSize();
-  const handlingConfig = ref(state.value || {});
+  const handlingConfig = ref({ colorChoices: 2, ...state.value });
 
-  const activeSubpanel = ref(state.value.component);
+  const activeSubpanel = ref(handlingConfig.value.component);
   const activeComponent = computed(
     () => REMAINDER_COMPONENTS[activeSubpanel.value]
   );
 
+  const complexColorsEnabled = computed({
+    get: () => (handlingConfig.value.colorChoices || 2) === 3,
+    set: (value) => {
+      handlingConfig.value = {
+        ...handlingConfig.value,
+        colorChoices: 2 + value,
+      };
+    },
+  });
+
   const decorateConfig = computed(() => {
-    const { config, proportional = [], adapted = [] } = handlingConfig.value;
+    const {
+      config,
+      proportional = [],
+      adapted = [],
+      colorChoices = 2,
+    } = handlingConfig.value;
     if (!config) return {};
 
     const { width, height } = sizing.value;
     const largerDimension = Math.max(width, height);
 
     const fieldsToScale = [...proportional];
+    const providedColors = SAMPLE_COLORS.slice(0, colorChoices);
     const adaptedConfig =
       adapted.length > 0
         ? placeColorsOnIndexes(config, {
-            colors: SAMPLE_COLORS,
+            colors: providedColors,
             fields: adapted,
           })
-        : { ...config, colors: SAMPLE_COLORS };
+        : { ...config, colors: providedColors };
 
     const scaledEntries = Object.entries(adaptedConfig).map(([key, value]) => {
       if (!fieldsToScale.includes(key)) return [key, value];
@@ -80,8 +96,8 @@
 
   const applyConfig = () => {
     const savedState = {
-      component: activeSubpanel.value,
-      config: { ...handlingConfig.value.config },
+      ...handlingConfig.value,
+      component: activeSubpanel.value, // Still need to reapply component manually
     };
     state.value = savedState;
     isActive.value = false;
@@ -104,6 +120,15 @@
           :icon="REMAINDER_ICONS[decorate]"
           v-model="activeSubpanel"
         />
+      </p>
+      <p>
+        <input
+          id="enabled"
+          type="checkbox"
+          class="switch"
+          v-model="complexColorsEnabled"
+        />
+        <label for="enabled">{{ $t('config.remainder.complexColors') }}</label>
       </p>
 
       <h5>{{ $t('config.decorate.options') }}</h5>

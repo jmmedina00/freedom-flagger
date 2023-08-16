@@ -25,7 +25,7 @@ describe('RemainingBytesModal', () => {
   const componentSetup = (value) => () => {
     const handling = inject(HANDLING_CONFIG);
     const set = () => {
-      handling.value = value;
+      handling.value = { ...handling.value, ...value };
     };
 
     return {
@@ -61,7 +61,12 @@ describe('RemainingBytesModal', () => {
           },
           ModalTitle: {
             props: ['name'],
-            template: '<h1>{{ name }}</h1>',
+            setup: () => {
+              const state = inject(HANDLING_CONFIG);
+              const choices = computed(() => state.value.colorChoices);
+              return { choices };
+            },
+            template: '<h1>Choices: {{ choices }}</h1>',
           },
           DemoMiniFlag: {
             props: ['component'],
@@ -96,9 +101,7 @@ describe('RemainingBytesModal', () => {
 
   beforeEach(() => {
     useFullStateSize.mockReturnValue(ref({ width: 500, height: 440 }));
-    useSomeConfig.mockReturnValue(
-      ref({ component: REM_BORDER, config: { origin: 'state' } })
-    );
+    useSomeConfig.mockReturnValue(ref({ component: REM_BORDER, config: {} }));
   });
 
   afterEach(() => {
@@ -106,6 +109,10 @@ describe('RemainingBytesModal', () => {
   });
 
   test('should provide initial value from state', async () => {
+    useSomeConfig.mockReturnValue(
+      ref({ component: REM_BORDER, config: { origin: 'state' } })
+    );
+
     const { findByLabelText, findByText } = defaultGenerate();
 
     const option = await findByLabelText('config.decorate.' + REM_BORDER);
@@ -264,14 +271,31 @@ describe('RemainingBytesModal', () => {
     );
   });
 
+  test('should provide amount of color choices depending on toggle state', async () => {
+    const { findByText, findByRole } = defaultGenerate();
+
+    const checkbox = await findByRole('checkbox');
+    expect(checkbox.checked).toBeFalsy();
+
+    const title = await findByText('Choices:', { exact: false });
+    expect(title.innerText).toEqual('Choices: 2');
+
+    await fireEvent.click(checkbox);
+    expect(title.innerText).toEqual('Choices: 3');
+  });
+
   test('should apply all changes to state and close modal', async () => {
     const state = ref({ component: REM_BORDER, config: { origin: 'state' } });
     const active = ref(true);
     useSomeConfig.mockReturnValue(state);
 
-    const { findByLabelText, findByText } = defaultGenerate(active);
+    const { findByLabelText, findByText, findByRole } = defaultGenerate(active);
     const option = await findByLabelText('config.decorate.' + REM_TRIANGLE);
     await fireEvent.click(option);
+
+    const checkbox = await findByRole('checkbox');
+    await fireEvent.click(checkbox);
+    await fireEvent.click(checkbox);
 
     const subSpan = await findByText('Triangle:', { exact: false });
     const subButton = subSpan.parentElement.querySelector('button');
@@ -283,6 +307,7 @@ describe('RemainingBytesModal', () => {
     expect(state.value).toEqual({
       component: REM_TRIANGLE,
       config: { active: 23 },
+      colorChoices: 2,
     });
     expect(active.value).toBeFalsy();
   });
