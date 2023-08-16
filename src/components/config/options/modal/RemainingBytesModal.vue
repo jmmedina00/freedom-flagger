@@ -39,7 +39,7 @@
   });
   const isActive = inject(MODAL_ACTIVE, ref(true));
   const sizing = useFullStateSize();
-  const handlingConfig = ref(state.value.config || {});
+  const handlingConfig = ref(state.value || {});
 
   const activeSubpanel = ref(state.value.component);
   const activeComponent = computed(
@@ -47,7 +47,7 @@
   );
 
   const decorateConfig = computed(() => {
-    const { config, proportional, adapted } = handlingConfig.value;
+    const { config, proportional = [], adapted = [] } = handlingConfig.value;
     if (!config) return {};
 
     const { width, height } = sizing.value;
@@ -81,7 +81,7 @@
   const applyConfig = () => {
     const savedState = {
       component: activeSubpanel.value,
-      config: { ...handlingConfig.value },
+      config: { ...handlingConfig.value.config },
     };
     state.value = savedState;
     isActive.value = false;

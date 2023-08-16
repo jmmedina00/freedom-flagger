@@ -28,7 +28,10 @@ describe('RemainingBytesModal', () => {
       handling.value = value;
     };
 
-    return { config: computed(() => JSON.stringify(handling.value)), set };
+    return {
+      config: computed(() => JSON.stringify(handling.value.config)),
+      set,
+    };
   };
 
   const generate = ({ mosaic, corner, border }, active = ref(true)) =>
@@ -84,9 +87,9 @@ describe('RemainingBytesModal', () => {
   const defaultGenerate = (active = ref(true)) =>
     generate(
       {
-        mosaic: { active: 12 },
-        corner: { active: 23 },
-        border: { active: 34 },
+        mosaic: { config: { active: 12 } },
+        corner: { config: { active: 23 } },
+        border: { config: { active: 34 } },
       },
       active
     );
