@@ -1,7 +1,12 @@
 import { fireEvent, render } from '@testing-library/vue';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { computed, inject, ref } from 'vue';
-import { DECORATE_CONFIG, HANDLING_CONFIG } from '@app/state';
+import {
+  CONFIG_REMAINDER,
+  DECORATE_CONFIG,
+  HANDLING_CONFIG,
+  MODAL_ACTIVE,
+} from '@app/state';
 import {
   REM_BORDER,
   REM_MOSAIC,
@@ -9,10 +14,12 @@ import {
 } from '@app/components/shared/constant/remainder';
 import { placeColorsOnIndexes } from '@app/components/shared/color-index';
 import { useFullStateSize } from '@app/components/render/helper/size';
+import { useSomeConfig } from '../plugin';
 import RemainingBytesModal from './RemainingBytesModal.vue';
 
 vi.mock('@app/components/shared/color-index');
 vi.mock('@app/components/render/helper/size');
+vi.mock('../plugin');
 
 describe('RemainingBytesModal', () => {
   const componentSetup = (value) => () => {
@@ -24,9 +31,12 @@ describe('RemainingBytesModal', () => {
     return { config: computed(() => JSON.stringify(handling.value)), set };
   };
 
-  const generate = ({ mosaic, corner, border }) =>
+  const generate = ({ mosaic, corner, border }, active = ref(true)) =>
     render(RemainingBytesModal, {
       global: {
+        provide: {
+          [MODAL_ACTIVE]: active,
+        },
         mocks: {
           $t: (foo) => foo,
         },
@@ -71,22 +81,43 @@ describe('RemainingBytesModal', () => {
       },
     });
 
-  const defaultGenerate = () =>
-    generate({
-      mosaic: { active: 12 },
-      corner: { active: 23 },
-      border: { active: 34 },
-    });
+  const defaultGenerate = (active = ref(true)) =>
+    generate(
+      {
+        mosaic: { active: 12 },
+        corner: { active: 23 },
+        border: { active: 34 },
+      },
+      active
+    );
 
   beforeEach(() => {
     useFullStateSize.mockReturnValue(ref({ width: 500, height: 440 }));
+    useSomeConfig.mockReturnValue(
+      ref({ component: REM_BORDER, config: { origin: 'state' } })
+    );
   });
 
   afterEach(() => {
     placeColorsOnIndexes.mockClear();
   });
 
-  test.skip('should provide initial value from state', () => {});
+  test('should provide initial value from state', async () => {
+    const { findByLabelText, findByText } = defaultGenerate();
+
+    const option = await findByLabelText('config.decorate.' + REM_BORDER);
+    expect(option.checked).toBeTruthy();
+
+    const subSpan = await findByText('Border:', { exact: false });
+    expect(subSpan.innerText).toEqual(
+      'Border: ' + JSON.stringify({ origin: 'state' })
+    );
+
+    expect(useSomeConfig).toHaveBeenCalledWith(
+      CONFIG_REMAINDER,
+      expect.anything()
+    );
+  });
 
   test('should feed handling to mosaic subpanel and handle its changes', async () => {
     const { findByLabelText, findByText } = defaultGenerate();
@@ -230,5 +261,26 @@ describe('RemainingBytesModal', () => {
     );
   });
 
-  test.skip('should apply all changes to state', () => {});
+  test('should apply all changes to state and close modal', async () => {
+    const state = ref({ component: REM_BORDER, config: { origin: 'state' } });
+    const active = ref(true);
+    useSomeConfig.mockReturnValue(state);
+
+    const { findByLabelText, findByText } = defaultGenerate(active);
+    const option = await findByLabelText('config.decorate.' + REM_TRIANGLE);
+    await fireEvent.click(option);
+
+    const subSpan = await findByText('Triangle:', { exact: false });
+    const subButton = subSpan.parentElement.querySelector('button');
+    await fireEvent.click(subButton);
+
+    const applyButton = await findByText('apply');
+    await fireEvent.click(applyButton);
+
+    expect(state.value).toEqual({
+      component: REM_TRIANGLE,
+      config: { active: 23 },
+    });
+    expect(active.value).toBeFalsy();
+  });
 });

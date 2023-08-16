@@ -12,3 +12,4 @@ export const NUMBER_DEFAULT = 'dis is a lot of freedom';
 
 export const CONFIG_SIZING = 'sizing';
 export const CONFIG_MAX_COLUMNS = 'maxColumns';
+export const CONFIG_REMAINDER = 'remainder';

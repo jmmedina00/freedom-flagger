@@ -1,8 +1,13 @@
 <script setup>
   import DemoMiniFlag from '../util/DemoMiniFlag.vue';
   import ModalTitle from '../../shared/modal/ModalTitle.vue';
-  import { computed, provide, ref } from 'vue';
-  import { DECORATE_CONFIG, HANDLING_CONFIG } from '@app/state';
+  import { computed, inject, provide, ref } from 'vue';
+  import {
+    CONFIG_REMAINDER,
+    DECORATE_CONFIG,
+    HANDLING_CONFIG,
+    MODAL_ACTIVE,
+  } from '@app/state';
   import IconOption from '../util/icon/IconOption.vue';
   import MosaicSubpanel from './subpanel/remainder/MosaicSubpanel.vue';
   import CornerTriangleSubpanel from './subpanel/remainder/CornerTriangleSubpanel.vue';
@@ -16,6 +21,7 @@
     REM_TRIANGLE,
   } from '@app/components/shared/constant/remainder';
   import { useFullStateSize } from '@app/components/render/helper/size';
+  import { useSomeConfig } from '../plugin';
 
   const SUBPANELS = {
     [REM_MOSAIC]: MosaicSubpanel,
@@ -26,10 +32,16 @@
   const SAMPLE_COLORS = ['#fff', '#aaa', '#777'];
   const DECORATES = Object.keys(SUBPANELS);
 
+  const state = useSomeConfig(CONFIG_REMAINDER, {
+    component: REM_MOSAIC,
+    config: {},
+    colorChoices: 2,
+  });
+  const isActive = inject(MODAL_ACTIVE, ref(true));
   const sizing = useFullStateSize();
-  const handlingConfig = ref({}); // TODO - initialize from current state
+  const handlingConfig = ref(state.value.config || {});
 
-  const activeSubpanel = ref(REM_MOSAIC); // TODO - initialize from current state
+  const activeSubpanel = ref(state.value.component);
   const activeComponent = computed(
     () => REMAINDER_COMPONENTS[activeSubpanel.value]
   );
@@ -65,6 +77,15 @@
 
   provide(HANDLING_CONFIG, handlingConfig);
   provide(DECORATE_CONFIG, decorateConfig);
+
+  const applyConfig = () => {
+    const savedState = {
+      component: activeSubpanel.value,
+      config: { ...handlingConfig.value },
+    };
+    state.value = savedState;
+    isActive.value = false;
+  };
 </script>
 
 <template>
@@ -87,6 +108,9 @@
 
       <h5>{{ $t('config.decorate.options') }}</h5>
       <component :is="SUBPANELS[activeSubpanel]"></component>
+      <button class="button is-success" @click="applyConfig">
+        {{ $t('apply') }}
+      </button>
     </div>
   </div>
 </template>
