@@ -19,13 +19,11 @@ describe('CornerTriangleSubpanel', () => {
             template:
               '<input class="slider" :value="modelValue" @input="$emit(\'update:modelValue\', parseInt($event.target.value))">',
           },
-          IconOption: {
-            props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
+          ColorChoice: {
+            props: ['title', 'modelValue'],
             emits: ['update:modelValue'],
             template:
-              '<label :for="id">{{ label }}</label>' +
-              '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
-              '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
+              '<button @click="$emit(\'update:modelValue\', title.length)">{{ title }}</button>',
           },
         },
       },
@@ -40,10 +38,10 @@ describe('CornerTriangleSubpanel', () => {
       REM_TRIANGLE,
       {
         size: 20,
-        topLeft: '0',
-        topRight: '0',
-        bottomRight: '0',
-        bottomLeft: '0',
+        topLeft: 1,
+        topRight: 0,
+        bottomRight: 0,
+        bottomLeft: 0,
       },
       expect.anything()
     );
@@ -52,10 +50,10 @@ describe('CornerTriangleSubpanel', () => {
   test('should allow to freely set size', async () => {
     const config = ref({
       size: 20,
-      topLeft: '0',
-      topRight: '0',
-      bottomRight: '0',
-      bottomLeft: '0',
+      topLeft: 0,
+      topRight: 0,
+      bottomRight: 0,
+      bottomLeft: 0,
     });
     useDefaultedConfig.mockReturnValue(config);
 
@@ -66,53 +64,36 @@ describe('CornerTriangleSubpanel', () => {
 
     expect(config.value).toEqual({
       size: 45,
-      topLeft: '0',
-      topRight: '0',
-      bottomRight: '0',
-      bottomLeft: '0',
+      topLeft: 0,
+      topRight: 0,
+      bottomRight: 0,
+      bottomLeft: 0,
     });
   });
 
   test('should allow to set and unset corner remainder bytes', async () => {
     const config = ref({
       size: 20,
-      topLeft: '0',
-      topRight: '0',
-      bottomRight: '0',
-      bottomLeft: '0',
+      topLeft: 0,
+      topRight: 0,
+      bottomRight: 0,
+      bottomLeft: 0,
     });
     useDefaultedConfig.mockReturnValue(config);
 
-    const { container } = generate();
-    const topLeft2 = container.querySelector('#topLeft-2');
-    const topRight3 = container.querySelector('#topRight-3');
-    const bottomRight3 = container.querySelector('#bottomRight-3');
-    const bottomLeft2 = container.querySelector('#bottomLeft-2');
-
-    const topRight1 = container.querySelector('#topRight-1');
-
-    await Promise.all(
-      [topLeft2, topRight3, bottomRight3, bottomLeft2].map((radio) =>
-        fireEvent.click(radio)
-      )
+    const { findByText } = generate();
+    const buttons = await Promise.all(
+      ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'].map(findByText)
     );
 
-    expect(config.value).toEqual({
-      size: 20,
-      topLeft: '1',
-      topRight: '2',
-      bottomRight: '2',
-      bottomLeft: '1',
-    });
-
-    await fireEvent.click(topRight1);
+    await Promise.all(buttons.map((button) => fireEvent.click(button)));
 
     expect(config.value).toEqual({
       size: 20,
-      topLeft: '1',
-      topRight: '0',
-      bottomRight: '2',
-      bottomLeft: '1',
+      topLeft: 7,
+      topRight: 8,
+      bottomRight: 11,
+      bottomLeft: 10,
     });
   });
 });
