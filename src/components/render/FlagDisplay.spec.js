@@ -27,6 +27,10 @@ describe('FlagDisplay', () => {
             },
             template: '<span>{{ pretty }} - {{ direction }}</span>',
           },
+          RemainderHandler: {
+            props: ['bytes'],
+            template: '<p>{{ bytes.join(", ") }}</p>',
+          },
         },
       },
     });
@@ -180,8 +184,21 @@ describe('FlagDisplay', () => {
     });
   });
 
+  test('should provide remainder bytes to remainder handler', () => {
+    useNumberAsColors.mockReturnValue({
+      colors: ref(['foo', 'bar', 'baz']),
+      remainder: ref([1, 2, 3]),
+    });
+    useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
+    useSomeConfig.mockReturnValue(ref(5));
+
+    const { container } = generate();
+    const paragraph = container.querySelector('svg p');
+
+    expect(paragraph.innerText).toEqual('1, 2, 3');
+  });
+
   /* Remaining to implement + test:
-      - Byte remainder handling
       - Renderer picking / handling
    */
 });

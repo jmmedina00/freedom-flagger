@@ -6,6 +6,7 @@
   import { useSomeConfig } from '../config/options/plugin';
   import { CONFIG_MAX_COLUMNS } from '@app/state';
   import TinyWatermark from './TinyWatermark.vue';
+  import RemainderHandler from './flag/RemainderHandler.vue';
 
   const { colors, remainder } = useNumberAsColors();
 
@@ -60,8 +61,7 @@
       :direction="getDirection()"
     />
 
-    <text x="20" y="20">{{ remainder.join(', ') }}</text>
-
+    <RemainderHandler :bytes="remainder" />
     <TinyWatermark path="watermark.svg" proportion="0.1" />
   </svg>
 </template>
