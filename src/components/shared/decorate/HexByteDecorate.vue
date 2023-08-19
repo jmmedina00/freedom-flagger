@@ -44,10 +44,10 @@
 
 <template>
   <svg v-bind="viewBox">
-    <defs></defs>
-
     <text
       text-anchor="end"
+      style="mix-blend-mode: difference"
+      fill="white"
       font-family="'JetBrains Mono', monospace"
       :font-size="fontSize"
       v-bind="textParameters"
