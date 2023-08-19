@@ -9,6 +9,7 @@ import {
 } from '@app/state';
 import {
   REM_BORDER,
+  REM_HEX,
   REM_MOSAIC,
   REM_TRIANGLE,
 } from '@app/components/shared/constant/remainder';
@@ -34,7 +35,7 @@ describe('RemainingBytesModal', () => {
     };
   };
 
-  const generate = ({ mosaic, corner, border }, active = ref(true)) =>
+  const generate = ({ mosaic, corner, border, hex }, active = ref(true)) =>
     render(RemainingBytesModal, {
       global: {
         provide: {
@@ -58,6 +59,11 @@ describe('RemainingBytesModal', () => {
             setup: componentSetup(border),
             template:
               '<p><span>Border: {{ config }}</span><button @click="set"></button></p>',
+          },
+          HexSubpanel: {
+            setup: componentSetup(hex),
+            template:
+              '<p><span>Hex: {{ config }}</span><button @click="set"></button></p>',
           },
           ModalTitle: {
             props: ['name'],
@@ -95,6 +101,7 @@ describe('RemainingBytesModal', () => {
         mosaic: { config: { active: 12 } },
         corner: { config: { active: 23 } },
         border: { config: { active: 34 } },
+        hex: { config: { active: 45 } },
       },
       active
     );
@@ -175,6 +182,19 @@ describe('RemainingBytesModal', () => {
     );
   });
 
+  test('should feed handling to border subpanel and handle its changes', async () => {
+    const { findByLabelText, findByText } = defaultGenerate();
+
+    const option = await findByLabelText('config.decorate.' + REM_HEX);
+    await fireEvent.click(option);
+
+    const subSpan = await findByText('Hex:', { exact: false });
+    const subButton = subSpan.parentElement.querySelector('button');
+
+    await fireEvent.click(subButton);
+    expect(subSpan.innerText).toEqual('Hex: ' + JSON.stringify({ active: 45 }));
+  });
+
   test('should feed mini flag with currently selected decorate', async () => {
     const { findByLabelText, findByText } = defaultGenerate();
 
@@ -195,7 +215,7 @@ describe('RemainingBytesModal', () => {
     expect(paragraph.innerText).toEqual('Component: BorderDecorate');
   });
 
-  test('should provide decorate config from adapted handling', async () => {
+  test('should provide decorate config from adapted handling plus sample bytes', async () => {
     const handling = {
       config: { foo: 'bar' },
       adapted: ['foo'],
@@ -213,7 +233,7 @@ describe('RemainingBytesModal', () => {
     await fireEvent.click(subButton);
 
     expect(paragraph.innerText).toEqual(
-      'Config: ' + JSON.stringify({ bar: 'baz' })
+      'Config: ' + JSON.stringify({ bar: 'baz', bytes: [0, 0xff] })
     );
 
     expect(placeColorsOnIndexes).toHaveBeenCalledWith(
@@ -245,7 +265,14 @@ describe('RemainingBytesModal', () => {
     await fireEvent.click(subButton);
 
     expect(paragraph.innerText).toEqual(
-      'Config: ' + JSON.stringify({ re: 80, la: 140, shi: 23, car: 'qwe' })
+      'Config: ' +
+        JSON.stringify({
+          re: 80,
+          la: 140,
+          shi: 23,
+          car: 'qwe',
+          bytes: [0, 0xff],
+        })
     );
   });
 

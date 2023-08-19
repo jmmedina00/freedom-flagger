@@ -53,10 +53,13 @@
       ...remainder.value,
     };
 
-    return placeColorsOnIndexes(config, {
-      fields: adapted,
-      colors: colorGenerators[colorChoices](props.bytes),
-    });
+    return {
+      ...placeColorsOnIndexes(config, {
+        fields: adapted,
+        colors: colorGenerators[colorChoices](props.bytes),
+      }),
+      bytes: props.bytes,
+    };
   });
 
   provide(DECORATE_CONFIG, adaptedConfig);

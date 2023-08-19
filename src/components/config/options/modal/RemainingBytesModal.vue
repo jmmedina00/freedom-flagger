@@ -12,11 +12,13 @@
   import MosaicSubpanel from './subpanel/remainder/MosaicSubpanel.vue';
   import CornerTriangleSubpanel from './subpanel/remainder/CornerTriangleSubpanel.vue';
   import BorderSubpanel from './subpanel/remainder/BorderSubpanel.vue';
+  import HexSubpanel from './subpanel/remainder/HexSubpanel.vue';
   import { placeColorsOnIndexes } from '@app/components/shared/color-index';
   import {
     REMAINDER_COMPONENTS,
     REMAINDER_ICONS,
     REM_BORDER,
+    REM_HEX,
     REM_MOSAIC,
     REM_TRIANGLE,
   } from '@app/components/shared/constant/remainder';
@@ -27,6 +29,7 @@
     [REM_MOSAIC]: MosaicSubpanel,
     [REM_TRIANGLE]: CornerTriangleSubpanel,
     [REM_BORDER]: BorderSubpanel,
+    [REM_HEX]: HexSubpanel,
   };
   const MAX_SCALED_DIMENSION = 200;
   const SAMPLE_COLORS = ['#fff', '#aaa', '#777'];
@@ -85,7 +88,7 @@
       return [key, scaledValue];
     });
 
-    return Object.fromEntries([...scaledEntries]);
+    return Object.fromEntries([...scaledEntries, ['bytes', [0, 255]]]);
   });
 
   provide(HANDLING_CONFIG, handlingConfig);

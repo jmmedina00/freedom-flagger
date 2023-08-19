@@ -1,0 +1,25 @@
+<script setup>
+  import { REM_HEX } from '@app/components/shared/constant/remainder';
+  import { useDefaultedConfig } from '../default';
+  import LimitedSliderNumber from '../../../util/numeric/LimitedSliderNumber.vue';
+
+  const config = useDefaultedConfig(
+    REM_HEX,
+    {
+      size: 30,
+      margin: 10,
+    },
+    { proportional: ['size', 'margin'], adapted: [] }
+  );
+</script>
+
+<template>
+  <p>
+    <span>{{ $t('config.remainder.size') }}</span>
+    <LimitedSliderNumber :min="30" :max="70" v-model="config.size" />
+  </p>
+  <p>
+    <span>{{ $t('config.remainder.margin') }}</span>
+    <LimitedSliderNumber :min="5" :max="100" v-model="config.margin" />
+  </p>
+</template>

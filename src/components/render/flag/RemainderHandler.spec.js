@@ -35,6 +35,7 @@ describe('RemainderHandler', () => {
     border: 'Border',
     triangle: 'Triangle',
     mosaic: 'Mosaic',
+    hex: 'Hex',
   };
 
   const generate = (props) =>
@@ -53,6 +54,10 @@ describe('RemainderHandler', () => {
           MosaicDecorate: {
             setup: commonSetup,
             template: getTemplate(titles.mosaic),
+          },
+          HexByteDecorate: {
+            setup: commonSetup,
+            template: getTemplate(titles.hex),
           },
         },
       },
@@ -111,7 +116,7 @@ describe('RemainderHandler', () => {
 
     const configParagraph = await findByText('Config:', { exact: false });
     expect(configParagraph.innerText).toEqual(
-      'Config: ' + JSON.stringify({ adapted: true, test: 12 })
+      'Config: ' + JSON.stringify({ adapted: true, test: 12, bytes: [31, 139] })
     );
 
     expect(placeColorsOnIndexes).toHaveBeenCalledWith(
@@ -136,7 +141,7 @@ describe('RemainderHandler', () => {
 
     const configParagraph = await findByText('Config:', { exact: false });
     expect(configParagraph.innerText).toEqual(
-      'Config: ' + JSON.stringify({ adapted: true, test: 55 })
+      'Config: ' + JSON.stringify({ adapted: true, test: 55, bytes: [32] })
     );
 
     expect(placeColorsOnIndexes).toHaveBeenCalledWith(
@@ -160,7 +165,7 @@ describe('RemainderHandler', () => {
 
     const configParagraph = await findByText('Config:', { exact: false });
     expect(configParagraph.innerText).toEqual(
-      'Config: ' + JSON.stringify({ adapted: true, test: 23 })
+      'Config: ' + JSON.stringify({ adapted: true, test: 23, bytes: [55, 166] })
     );
 
     expect(placeColorsOnIndexes).toHaveBeenCalledWith(
@@ -184,7 +189,7 @@ describe('RemainderHandler', () => {
 
     const configParagraph = await findByText('Config:', { exact: false });
     expect(configParagraph.innerText).toEqual(
-      'Config: ' + JSON.stringify({ adapted: true, test: 88 })
+      'Config: ' + JSON.stringify({ adapted: true, test: 88, bytes: [240] })
     );
 
     expect(placeColorsOnIndexes).toHaveBeenCalledWith(
