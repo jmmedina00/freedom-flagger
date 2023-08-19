@@ -1,9 +1,12 @@
 <script setup>
   import { DECORATE_CONFIG, DECORATE_SIZE } from '@app/state';
   import { computed, inject, ref } from 'vue';
+  import { getViewboxForSizing } from './viewbox';
 
   const config = inject(DECORATE_CONFIG, ref({}));
   const sizing = inject(DECORATE_SIZE, ref({ width: 0, height: 0 }));
+
+  const viewBox = computed(() => getViewboxForSizing(sizing.value));
 
   const completedConfig = computed(() => ({
     size: 0,
@@ -65,7 +68,7 @@
 </script>
 
 <template>
-  <svg :width="sizing.width" :height="sizing.height">
+  <svg v-bind="viewBox">
     <polygon
       v-if="completedConfig.top"
       :fill="completedConfig.top"

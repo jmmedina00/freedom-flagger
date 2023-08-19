@@ -3,6 +3,9 @@ import CornerTriangleDecorate from './CornerTriangleDecorate.vue';
 import { DECORATE_CONFIG, DECORATE_SIZE } from '@app/state';
 import { ref } from 'vue';
 import { render } from '@testing-library/vue';
+import { getViewboxForSizing } from './viewbox';
+
+vi.mock('./viewbox');
 
 describe('CornerTriangleDecorate', () => {
   const generate = (size, config) =>
@@ -19,12 +22,17 @@ describe('CornerTriangleDecorate', () => {
     ['bottomLeft', 9, '#5eb872', '0,300 9,300 0,291'],
   ];
 
-  test('should be an SVG of the size provided', () => {
+  test('should be an SVG with a viewbox of size provided', () => {
+    getViewboxForSizing.mockReturnValue({ foo: 'bar', bar: 'baz' });
     const { container } = generate({ width: 250, height: 300 });
 
     const svg = container.querySelector('svg');
-    expect(svg.getAttribute('width')).toEqual('250');
-    expect(svg.getAttribute('height')).toEqual('300');
+    expect(svg.getAttribute('foo')).toEqual('bar');
+    expect(svg.getAttribute('bar')).toEqual('baz');
+    expect(getViewboxForSizing).toHaveBeenCalledWith({
+      width: 250,
+      height: 300,
+    });
   });
 
   test.each(parameters)(

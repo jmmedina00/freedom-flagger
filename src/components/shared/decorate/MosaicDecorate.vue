@@ -1,12 +1,12 @@
 <script setup>
   import { DECORATE_CONFIG, DECORATE_SIZE } from '@app/state';
   import { computed, inject, ref } from 'vue';
-
-  //123123123123123
-  //3123123123
+  import { getViewboxForSizing } from './viewbox';
 
   const config = inject(DECORATE_CONFIG, ref({}));
   const sizing = inject(DECORATE_SIZE, ref({ width: 0, height: 0 }));
+
+  const viewBox = computed(() => getViewboxForSizing(sizing.value));
 
   const completedConfig = computed(() => ({
     colors: ['#000000', '#ffffff'],
@@ -45,7 +45,7 @@
     const upperRows = new Array(rows).fill('0').map((_, index) => ({
       position: index * squareSize.value,
       offset: index * offset,
-    })); // TODO - implement lowerRows
+    }));
 
     const lowerRows = new Array(rows).fill('0').map((_, index) => ({
       offset: index * offset,
@@ -64,14 +64,14 @@
         width: squareSize.value,
         height: squareSize.value,
         [dynamic]: index * squareSize.value,
-        [fixed]: position, // TODO - hotswap these as per direction xP
+        [fixed]: position,
         fill: getColor(index + offset),
       }));
     })
   );
 </script>
 <template>
-  <svg :width="sizing.width" :height="sizing.height">
+  <svg v-bind="viewBox">
     <rect v-for="params in rectParameters" v-bind="params"></rect>
   </svg>
 </template>

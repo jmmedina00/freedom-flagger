@@ -3,6 +3,9 @@ import { describe, expect, test } from 'vitest';
 import MosaicDecorate from './MosaicDecorate.vue';
 import { DECORATE_CONFIG, DECORATE_SIZE } from '@app/state';
 import { ref } from 'vue';
+import { getViewboxForSizing } from './viewbox';
+
+vi.mock('./viewbox');
 
 const attributes = ['width', 'height', 'x', 'y', 'fill'];
 
@@ -29,12 +32,17 @@ describe('MosaicDecorate', () => {
       ...coords,
     }));
 
-  test('should be an SVG of the size provided', () => {
-    const { container } = generate(ref({ width: 250, height: 300 }));
+  test('should be an SVG with a viewbox of size provided', () => {
+    getViewboxForSizing.mockReturnValue({ foo: 'bar', bar: 'baz' });
+    const { container } = generate({ width: 250, height: 300 });
 
     const svg = container.querySelector('svg');
-    expect(svg.getAttribute('width')).toEqual('250');
-    expect(svg.getAttribute('height')).toEqual('300');
+    expect(svg.getAttribute('foo')).toEqual('bar');
+    expect(svg.getAttribute('bar')).toEqual('baz');
+    expect(getViewboxForSizing).toHaveBeenCalledWith({
+      width: 250,
+      height: 300,
+    });
   });
 
   test('should render x squares of size y across width z (z / x = y) at start and end of height with colors', () => {
