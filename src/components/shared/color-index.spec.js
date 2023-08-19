@@ -112,7 +112,7 @@ describe('Color on index placing', () => {
     expect(actual).toEqual(expected);
   });
 
-  test('should leave data alone if no fields are specified', () => {
+  test('should add colors to its own field and leave the rest alone if no fields are specified', () => {
     const props = {
       size: 35,
       topLeft: 2,
@@ -125,7 +125,7 @@ describe('Color on index placing', () => {
       fields: [],
       colors: ['#fff', '#aaa'],
     });
-    expect(actual).toEqual(props);
+    expect(actual).toEqual({ ...props, colors: ['#fff', '#aaa'] });
   });
 
   test('should leave data alone if no colors are provided', () => {

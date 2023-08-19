@@ -70,13 +70,10 @@
 
     const fieldsToScale = [...proportional];
     const providedColors = SAMPLE_COLORS.slice(0, colorChoices);
-    const adaptedConfig =
-      adapted.length > 0
-        ? placeColorsOnIndexes(config, {
-            colors: providedColors,
-            fields: adapted,
-          })
-        : { ...config, colors: providedColors };
+    const adaptedConfig = placeColorsOnIndexes(config, {
+      colors: providedColors,
+      fields: adapted,
+    });
 
     const scaledEntries = Object.entries(adaptedConfig).map(([key, value]) => {
       if (!fieldsToScale.includes(key)) return [key, value];

@@ -102,6 +102,7 @@ describe('RemainingBytesModal', () => {
   beforeEach(() => {
     useFullStateSize.mockReturnValue(ref({ width: 500, height: 440 }));
     useSomeConfig.mockReturnValue(ref({ component: REM_BORDER, config: {} }));
+    placeColorsOnIndexes.mockReturnValue({});
   });
 
   afterEach(() => {
@@ -219,29 +220,6 @@ describe('RemainingBytesModal', () => {
       { foo: 'bar' },
       { colors: expect.anything(), fields: ['foo'] }
     );
-  });
-
-  test('should append colors to handling if it does not need to be adapted', async () => {
-    const handling = {
-      config: { foo: 'bar' },
-      adapted: [],
-      proportional: [],
-    };
-
-    placeColorsOnIndexes.mockReturnValue({ wrong: 'value' });
-
-    const { findByLabelText, findByText } = generate({ border: handling });
-    const option = await findByLabelText('config.decorate.' + REM_BORDER);
-    await fireEvent.click(option);
-
-    const paragraph = await findByText('Config:', { exact: false });
-    const subButton = paragraph.parentElement.querySelector('button');
-    await fireEvent.click(subButton);
-
-    const parsed = JSON.parse(paragraph.innerText.replace('Config: ', ''));
-    expect(parsed).toEqual({ foo: 'bar', colors: expect.anything() });
-
-    expect(placeColorsOnIndexes).not.toHaveBeenCalled();
   });
 
   test('should provide decorate config from scaled handling', async () => {

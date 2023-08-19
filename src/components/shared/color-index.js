@@ -7,6 +7,8 @@ export const placeColorsOnIndexes = (
   const transformed =
     colors.length === 0
       ? [...entries]
+      : fields.length === 0
+      ? [...entries, ['colors', colors]]
       : entries.map(([key, value]) => {
           if (!fields.includes(key)) return [key, value];
 
