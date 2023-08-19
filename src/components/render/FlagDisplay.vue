@@ -61,7 +61,7 @@
       :direction="getDirection()"
     />
 
-    <RemainderHandler :bytes="remainder" />
+    <RemainderHandler v-if="remainder.length > 0" :bytes="remainder" />
     <TinyWatermark path="watermark.svg" proportion="0.1" />
   </svg>
 </template>

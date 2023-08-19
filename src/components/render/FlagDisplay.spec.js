@@ -198,6 +198,20 @@ describe('FlagDisplay', () => {
     expect(paragraph.innerText).toEqual('1, 2, 3');
   });
 
+  test('should not display remainder handler unless there is a remainder to handle', () => {
+    useNumberAsColors.mockReturnValue({
+      colors: ref(['foo', 'bar', 'baz']),
+      remainder: ref([]),
+    });
+    useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
+    useSomeConfig.mockReturnValue(ref(5));
+
+    const { container } = generate();
+    const paragraph = container.querySelector('svg p');
+
+    expect(paragraph).toBeFalsy();
+  });
+
   /* Remaining to implement + test:
       - Renderer picking / handling
    */
