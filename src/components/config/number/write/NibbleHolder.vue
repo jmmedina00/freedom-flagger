@@ -25,6 +25,11 @@
     },
   });
 
+  watch(props, async (test) => {
+    await Promise.resolve(); // Allows tests to keep passing :)
+    currentValue.value = test.modelValue;
+  });
+
   const handleKeyStroke = ({ key = '' }) => {
     const chars = admittedChars.value.split('').map((c) => c.toUpperCase());
     const currentIndex = Math.max(chars.indexOf(model.value), 0);
@@ -81,7 +86,7 @@
   <input
     type="text"
     readonly
-    v-model="model"
+    :value="currentValue"
     @keydown="handleKeyStroke"
     ref="input"
   />
