@@ -1,7 +1,6 @@
 <script setup>
   import { computed, provide } from 'vue';
-  import { useFullStateSize } from '../helper/size';
-  import { CONFIG_REMAINDER, DECORATE_CONFIG, DECORATE_SIZE } from '@app/state';
+  import { CONFIG_REMAINDER, DECORATE_CONFIG } from '@app/state';
   import {
     REMAINDER_COMPONENTS,
     REM_MOSAIC,
@@ -33,9 +32,6 @@
         : shuffleVersions(bytes, 0).reverse();
     },
   };
-
-  const sizing = useFullStateSize();
-  provide(DECORATE_SIZE, sizing);
 
   const remainder = useSomeConfig(CONFIG_REMAINDER);
 

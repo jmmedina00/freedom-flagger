@@ -1,11 +1,11 @@
 import { render } from '@testing-library/vue';
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 import { describe, expect, test, vi } from 'vitest';
 import FlagDisplay from './FlagDisplay.vue';
 import { useNumberAsColors } from './helper/colors';
 import { useFullStateSize } from './helper/size';
 import { useSomeConfig } from '../config/options/plugin';
-import { CONFIG_MAX_COLUMNS } from '@app/state';
+import { CONFIG_MAX_COLUMNS, DECORATE_SIZE } from '@app/state';
 
 vi.mock('./helper/colors');
 vi.mock('./helper/size');
@@ -29,13 +29,18 @@ describe('FlagDisplay', () => {
           },
           RemainderHandler: {
             props: ['bytes'],
-            template: '<p>{{ bytes.join(", ") }}</p>',
+            setup: () => {
+              const size = inject(DECORATE_SIZE);
+              return { size };
+            },
+            template:
+              '<p>Bytes: {{ bytes.join(", ") }}</p><p>Size: {{ size?.width }} x {{ size?.height }}</p>',
           },
         },
       },
     });
 
-  test('should provide dimensions from state', () => {
+  test('should provide dimensions from state to both SVG and decorates', async () => {
     useNumberAsColors.mockReturnValue({
       colors: ref(['foo', 'bar', 'baz']),
       remainder: ref([1, 2, 3]),
@@ -43,11 +48,14 @@ describe('FlagDisplay', () => {
     useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
     useSomeConfig.mockReturnValue(ref(5));
 
-    const { container } = generate();
+    const { container, findByText } = generate();
 
     const svg = container.querySelector('svg');
     expect(svg.getAttribute('width')).toEqual('200');
     expect(svg.getAttribute('height')).toEqual('300');
+
+    const sizeParagraph = await findByText('Size: ', { exact: false });
+    expect(sizeParagraph.innerText).toEqual('Size: 200 x 300');
   });
 
   describe('Color division', () => {
@@ -184,7 +192,7 @@ describe('FlagDisplay', () => {
     });
   });
 
-  test('should provide remainder bytes to remainder handler', () => {
+  test('should provide remainder bytes to remainder handler', async () => {
     useNumberAsColors.mockReturnValue({
       colors: ref(['foo', 'bar', 'baz']),
       remainder: ref([1, 2, 3]),
@@ -192,10 +200,10 @@ describe('FlagDisplay', () => {
     useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
     useSomeConfig.mockReturnValue(ref(5));
 
-    const { container } = generate();
-    const paragraph = container.querySelector('svg p');
+    const { findByText } = generate();
+    const paragraph = await findByText('Bytes: ', { exact: false });
 
-    expect(paragraph.innerText).toEqual('1, 2, 3');
+    expect(paragraph.innerText).toEqual('Bytes: 1, 2, 3');
   });
 
   test('should not display remainder handler unless there is a remainder to handle', () => {

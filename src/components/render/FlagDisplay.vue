@@ -1,10 +1,10 @@
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, provide, ref } from 'vue';
   import { useNumberAsColors } from './helper/colors';
   import { useFullStateSize } from './helper/size';
   import StandardFlagRenderer from './flag/StandardFlagRenderer.vue';
   import { useSomeConfig } from '../config/options/plugin';
-  import { CONFIG_MAX_COLUMNS } from '@app/state';
+  import { CONFIG_MAX_COLUMNS, DECORATE_SIZE } from '@app/state';
   import TinyWatermark from './TinyWatermark.vue';
   import RemainderHandler from './flag/RemainderHandler.vue';
 
@@ -12,6 +12,7 @@
 
   const watchedColors = ref(colors);
   const dimensions = useFullStateSize();
+  provide(DECORATE_SIZE, dimensions);
 
   const direction = computed(() =>
     dimensions.value.width >= dimensions.value.height

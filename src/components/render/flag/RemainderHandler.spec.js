@@ -6,7 +6,7 @@ import {
   REM_MOSAIC,
 } from '@app/components/shared/constant/remainder';
 import { render } from '@testing-library/vue';
-import { CONFIG_REMAINDER, DECORATE_CONFIG, DECORATE_SIZE } from '@app/state';
+import { CONFIG_REMAINDER, DECORATE_CONFIG } from '@app/state';
 import { placeColorsOnIndexes } from '@app/components/shared/color-index';
 import { useSomeConfig } from '@app/components/config/options/plugin';
 import RemainderHandler from './RemainderHandler.vue';
@@ -16,19 +16,12 @@ vi.mock('@app/components/shared/color-index');
 vi.mock('@app/components/config/options/plugin');
 
 describe('RemainderHandler', () => {
-  const getTemplate = (
-    component = 'foo'
-  ) => `<p>Size: {{ size.width }} x {{ size.height }}</p>
-  <p>Component: ${component}</p>
+  const getTemplate = (component = 'foo') => `<p>Component: ${component}</p>
   <p>Config: {{ config }}</p>`;
 
   const commonSetup = () => {
     const config = inject(DECORATE_CONFIG);
-    const size = inject(DECORATE_SIZE);
-
-    const readableConfig = computed(() => JSON.stringify(config?.value));
-
-    return { config: readableConfig, size };
+    return { config: computed(() => JSON.stringify(config?.value)) };
   };
 
   const titles = {
@@ -70,27 +63,12 @@ describe('RemainderHandler', () => {
     placeColorsOnIndexes.mockReset();
   });
 
-  test('should provide state sizing directly as decorate size', async () => {
-    const config = {
-      component: REM_MOSAIC,
-      config: { asd: 123, qwe: 234, re: 'la' },
-      colorChoices: 3,
-      adapted: ['qwe', 're'],
-    };
-    useSomeConfig.mockReturnValue(ref(config));
-
-    const { findByText, container } = generate({ bytes: [0, 255] });
-
-    const sizeParagraph = await findByText('Size:', { exact: false });
-    expect(sizeParagraph.innerText).toEqual('Size: 400 x 200');
-  });
-
   test.each(possibleDecorates)(
     'should render %s component as specified by remainder config',
     async (component) => {
       const config = { component, config: { foo: 'bar', adapted: [] } };
       useSomeConfig.mockReturnValue(ref(config));
-      const { findByText, container } = generate({ bytes: [0, 255] });
+      const { findByText } = generate({ bytes: [0, 255] });
 
       const componentParagraph = await findByText('Component', {
         exact: false,
