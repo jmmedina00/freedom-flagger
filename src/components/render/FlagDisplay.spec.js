@@ -1,32 +1,109 @@
 import { render } from '@testing-library/vue';
-import { inject, ref } from 'vue';
+import { computed, inject, ref, useAttrs } from 'vue';
 import { describe, expect, test, vi } from 'vitest';
 import FlagDisplay from './FlagDisplay.vue';
 import { useNumberAsColors } from './helper/colors';
 import { useFullStateSize } from './helper/size';
 import { useSomeConfig } from '../config/options/plugin';
-import { CONFIG_MAX_COLUMNS, DECORATE_SIZE } from '@app/state';
+import { CONFIG_RENDERING, DECORATE_SIZE } from '@app/state';
+import {
+  RENDERERS,
+  RENDERER_DECORATE,
+  RENDERER_DIVIDED,
+  RENDERER_STANDARD,
+} from '../shared/constant/rendering';
 
 vi.mock('./helper/colors');
 vi.mock('./helper/size');
 vi.mock('../config/options/plugin');
 
 describe('FlagDisplay', () => {
+  const infiniteColors = [
+    '#FF0000',
+    '#00FF00',
+    '#0000FF',
+    '#FFFF00',
+    '#800080',
+    '#FFA500',
+    '#008080',
+    '#FFC0CB',
+    '#00FFFF',
+    '#FF6347',
+    '#7CFC00',
+    '#FF00FF',
+    '#FF4500',
+    '#32CD32',
+    '#800000',
+  ];
+  const colorDivisionCases = [
+    [
+      12,
+      5,
+      RENDERER_STANDARD,
+      { asd: '123', qwe: 'asd' },
+      {
+        portions: [
+          ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#800080'],
+          ['#FFA500', '#008080', '#FFC0CB', '#00FFFF', '#FF6347'],
+          ['#7CFC00', '#FF00FF'],
+        ],
+        asd: '123',
+        qwe: 'asd',
+      },
+    ],
+    [
+      9,
+      3,
+      RENDERER_DIVIDED,
+      { done: true },
+      {
+        portions: [
+          ['#FF0000', '#00FF00', '#0000FF'],
+          ['#FFFF00', '#800080', '#FFA500'],
+          ['#008080', '#FFC0CB', '#00FFFF'],
+        ],
+        done: true,
+      },
+    ],
+    [
+      3,
+      5,
+      RENDERER_DECORATE,
+      { first: 123, second: 345, third: 'whatever' },
+      {
+        portions: [['#FF0000', '#00FF00', '#0000FF']],
+        first: 123,
+        second: 345,
+        third: 'whatever',
+      },
+    ],
+  ];
+
+  const autoStubs = Object.fromEntries(
+    Object.entries(RENDERERS).map(([key, component]) => [
+      component.__name,
+      {
+        props: ['portions', 'direction'],
+        setup: (props) => {
+          const params = computed(() => {
+            const { portions } = props;
+            const attrs = useAttrs();
+            return JSON.stringify({ portions: portions.value, ...attrs });
+          });
+
+          return { direction: props.direction, params };
+        },
+        template: `<p>Direction: {{ direction }}</p>
+        <p>Params: {{ params }}</p>
+        <p>Component: ${key}</p>`,
+      },
+    ])
+  );
+
   const generate = () =>
     render(FlagDisplay, {
       global: {
         stubs: {
-          StandardFlagRenderer: {
-            props: ['portions', 'direction'],
-            setup: (props) => {
-              const pretty = props.portions.value
-                .map((row) => '[' + row.join(',') + ']')
-                .join(',');
-
-              return { direction: props.direction, pretty };
-            },
-            template: '<span>{{ pretty }} - {{ direction }}</span>',
-          },
           RemainderHandler: {
             props: ['bytes'],
             setup: () => {
@@ -36,6 +113,7 @@ describe('FlagDisplay', () => {
             template:
               '<p>Bytes: {{ bytes.join(", ") }}</p><p>Size: {{ size?.width }} x {{ size?.height }}</p>',
           },
+          ...autoStubs,
         },
       },
     });
@@ -56,139 +134,138 @@ describe('FlagDisplay', () => {
 
     const sizeParagraph = await findByText('Size: ', { exact: false });
     expect(sizeParagraph.innerText).toEqual('Size: 200 x 300');
+
+    expect(useSomeConfig).toHaveBeenCalledWith(
+      CONFIG_RENDERING,
+      expect.anything()
+    );
   });
 
   describe('Color division', () => {
-    test('should divide provided colors by column limit and provide them to renderer', () => {
-      useNumberAsColors.mockReturnValue({
-        colors: ref([
-          '#FF0000',
-          '#00FF00',
-          '#0000FF',
-          '#FFFF00',
-          '#800080',
-          '#FFA500',
-          '#00FFFF',
-          '#FFC0CB',
-          '#008080',
-          '#FF6347',
-          '#800000',
-          '#FF00FF',
-        ]),
-        remainder: ref([1, 2, 3]),
-      });
-      useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
-      useSomeConfig.mockReturnValue(ref(5));
+    test.each(colorDivisionCases)(
+      'should divide %i colors by column limit of %i and provide them %s along with other params',
+      async (
+        numberColors,
+        columnsMax,
+        renderer,
+        providedParams,
+        expectedParams
+      ) => {
+        const colors = infiniteColors.slice(0, numberColors);
+        const config = ref({
+          columnsLimited: true,
+          columnsMax,
+          renderer,
+          params: providedParams,
+        });
 
-      const { container } = generate();
+        useNumberAsColors.mockReturnValue({
+          colors: ref(colors),
+          remainder: ref([]),
+        });
+        useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
+        useSomeConfig.mockReturnValue(config);
 
-      const span = container.querySelector('svg span');
-      expect(span.innerHTML).toContain(
-        '[#FF0000,#00FF00,#0000FF,#FFFF00,#800080],' +
-          '[#FFA500,#00FFFF,#FFC0CB,#008080,#FF6347],[#800000,#FF00FF]'
-      );
-      expect(useSomeConfig).toHaveBeenCalledWith(
-        CONFIG_MAX_COLUMNS,
-        expect.anything()
-      );
-    });
+        const { findByText } = generate();
 
-    test('should provide equally sized, non-empty rows when total is divisible by max', () => {
-      useNumberAsColors.mockReturnValue({
-        colors: ref([
-          '#FF0000',
-          '#00FF00',
-          '#0000FF',
-          '#FFFF00',
-          '#800080',
-          '#FFA500',
-          '#00FFFF',
-          '#FFC0CB',
-          '#008080',
-        ]),
-        remainder: ref([1, 2, 3]),
-      });
-      useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
-      useSomeConfig.mockReturnValue(ref(3));
+        const rendererParagraph = await findByText('Component:', {
+          exact: false,
+        });
+        expect(rendererParagraph.innerText).toEqual('Component: ' + renderer);
 
-      const { container } = generate();
+        const paramsParagraph = await findByText('Params:', { exact: false });
+        expect(paramsParagraph.innerText).toEqual(
+          'Params: ' + JSON.stringify(expectedParams)
+        );
+      }
+    );
 
-      const span = container.querySelector('svg span');
-      expect(span.innerHTML).toContain(
-        '[#FF0000,#00FF00,#0000FF],[#FFFF00,#800080,#FFA500],' +
-          '[#00FFFF,#FFC0CB,#008080]'
-      );
-    });
-
-    test('should provide single row if columns are equal or lower than max', () => {
-      useNumberAsColors.mockReturnValue({
-        colors: ref(['#FF0000', '#00FF00', '#0000FF']),
-        remainder: ref([1, 2, 3]),
-      });
-      useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
-      useSomeConfig.mockReturnValue(ref(5));
-
-      const { container } = generate();
-
-      const span = container.querySelector('svg span');
-      expect(span.innerHTML).toContain('[#FF0000,#00FF00,#0000FF]');
-    });
-
-    test('should provide single row if columns are equal or lower than max', () => {
+    test('should provide single row if column limiting is disabled', async () => {
       useNumberAsColors.mockReturnValue({
         colors: ref(['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#800080']),
         remainder: ref([1, 2, 3]),
       });
       useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
-      useSomeConfig.mockReturnValue(ref(null));
+      useSomeConfig.mockReturnValue(
+        ref({
+          columnsLimited: false,
+          columnsMax: 3,
+          renderer: RENDERER_STANDARD,
+          params: {},
+        })
+      );
 
-      const { container } = generate();
+      const { findByText } = generate();
+      const expectedParams = {
+        portions: [['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#800080']],
+      };
 
-      const span = container.querySelector('svg span');
-      expect(span.innerHTML).toContain(
-        '[#FF0000,#00FF00,#0000FF,#FFFF00,#800080]'
+      const paramsParagraph = await findByText('Params:', { exact: false });
+      expect(paramsParagraph.innerText).toEqual(
+        'Params: ' + JSON.stringify(expectedParams)
       );
     });
   });
 
   describe('Direction provision', () => {
-    test('should provide direction as vertical if width is higher than height', () => {
+    test('should provide direction as vertical if width is higher than height', async () => {
       useNumberAsColors.mockReturnValue({
         colors: ref(['foo', 'bar', 'baz']),
         remainder: ref([1, 2, 3]),
       });
       useFullStateSize.mockReturnValue(ref({ width: 300, height: 200 }));
-      useSomeConfig.mockReturnValue(ref(5));
+      useSomeConfig.mockReturnValue(
+        ref({
+          columnsLimited: false,
+          columnsMax: 3,
+          renderer: RENDERER_STANDARD,
+          params: {},
+        })
+      );
 
-      const { container } = generate();
-      const span = container.querySelector('svg span');
-      expect(span.innerHTML).toEqual('[foo,bar,baz] - vertical');
+      const { findByText } = generate();
+      const paragraph = await findByText('Direction:', { exact: false });
+      expect(paragraph.innerText).toEqual('Direction: vertical');
     });
 
-    test('should provide direction as vertical if width and height are equal', () => {
+    test('should provide direction as vertical if width and height are equal', async () => {
       useNumberAsColors.mockReturnValue({
         colors: ref(['foo', 'bar', 'baz']),
         remainder: ref([1, 2, 3]),
       });
       useFullStateSize.mockReturnValue(ref({ width: 300, height: 300 }));
-      useSomeConfig.mockReturnValue(ref(5));
+      useSomeConfig.mockReturnValue(
+        ref({
+          columnsLimited: false,
+          columnsMax: 3,
+          renderer: RENDERER_STANDARD,
+          params: {},
+        })
+      );
 
-      const { container } = generate();
-      const span = container.querySelector('svg span');
-      expect(span.innerHTML).toEqual('[foo,bar,baz] - vertical');
+      const { findByText } = generate();
+      const paragraph = await findByText('Direction:', { exact: false });
+      expect(paragraph.innerText).toEqual('Direction: vertical');
     });
 
-    test('should provide direction as horizontal if width is lower than height', () => {
+    test('should provide direction as horizontal if width is lower than height', async () => {
       useNumberAsColors.mockReturnValue({
         colors: ref(['foo', 'bar', 'baz']),
         remainder: ref([1, 2, 3]),
       });
       useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
-      useSomeConfig.mockReturnValue(ref(5));
+      useSomeConfig.mockReturnValue(
+        ref({
+          columnsLimited: false,
+          columnsMax: 3,
+          renderer: RENDERER_STANDARD,
+          params: {},
+        })
+      );
 
-      const { container } = generate();
-      const span = container.querySelector('svg span');
-      expect(span.innerHTML).toEqual('[foo,bar,baz] - horizontal');
+      const { findByText } = generate();
+      const paragraph = await findByText('Direction:', { exact: false });
+      expect(paragraph.innerText).toEqual('Direction: horizontal');
     });
   });
 
@@ -198,7 +275,14 @@ describe('FlagDisplay', () => {
       remainder: ref([1, 2, 3]),
     });
     useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
-    useSomeConfig.mockReturnValue(ref(5));
+    useSomeConfig.mockReturnValue(
+      ref({
+        columnsLimited: false,
+        columnsMax: 3,
+        renderer: RENDERER_STANDARD,
+        params: {},
+      })
+    );
 
     const { findByText } = generate();
     const paragraph = await findByText('Bytes: ', { exact: false });
@@ -212,15 +296,18 @@ describe('FlagDisplay', () => {
       remainder: ref([]),
     });
     useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
-    useSomeConfig.mockReturnValue(ref(5));
+    useSomeConfig.mockReturnValue(
+      ref({
+        columnsLimited: false,
+        columnsMax: 3,
+        renderer: RENDERER_STANDARD,
+        params: {},
+      })
+    );
 
-    const { container } = generate();
-    const paragraph = container.querySelector('svg p');
+    const { queryByText } = generate();
+    const paragraph = queryByText('Bytes:', { exact: false });
 
     expect(paragraph).toBeFalsy();
   });
-
-  /* Remaining to implement + test:
-      - Renderer picking / handling
-   */
 });

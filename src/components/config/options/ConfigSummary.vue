@@ -6,14 +6,13 @@
   import PanelBar from '../shared/PanelBar.vue';
 
   import IconButton from '../../shared/IconButton.vue';
-  import SizingAdjustModal from './modal/SizingAdjustModal.vue';
   import SizingButton from './button/SizingButton.vue';
-  import ColumnLimiter from './ColumnLimiter.vue';
   import { useExportToClipboard } from './export/clipboard';
   import { useDownloadFlag } from './export/download';
   import { useFullStateSize } from '@app/components/render/helper/size';
   import { useI18n } from 'vue-i18n';
   import RemainingBytesModal from './modal/RemainingBytesModal.vue';
+  import RenderingOptions from './RenderingOptions.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -86,6 +85,6 @@
     <ModalCoupler :component="RemainingBytesModal" v-slot="{ clicked }">
       <IconButton @click="clicked" icon="terminal" />
     </ModalCoupler>
-    <ColumnLimiter />
+    <RenderingOptions />
   </div>
 </template>

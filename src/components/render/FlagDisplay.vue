@@ -2,11 +2,11 @@
   import { computed, provide, ref } from 'vue';
   import { useNumberAsColors } from './helper/colors';
   import { useFullStateSize } from './helper/size';
-  import StandardFlagRenderer from './flag/StandardFlagRenderer.vue';
   import { useSomeConfig } from '../config/options/plugin';
-  import { CONFIG_MAX_COLUMNS, DECORATE_SIZE } from '@app/state';
+  import { CONFIG_RENDERING, DECORATE_SIZE } from '@app/state';
   import TinyWatermark from './TinyWatermark.vue';
   import RemainderHandler from './flag/RemainderHandler.vue';
+  import { RENDERERS, RENDERER_STANDARD } from '../shared/constant/rendering';
 
   const { colors, remainder } = useNumberAsColors();
 
@@ -20,24 +20,32 @@
       : 'horizontal'
   );
 
-  const getDirection = () => direction;
+  const renderingConfig = useSomeConfig(
+    CONFIG_RENDERING,
+    ref({
+      columnsLimited: false,
+      columnsMax: 12,
+      renderer: RENDERER_STANDARD,
+      params: {},
+    })
+  );
 
-  const maxColumns = useSomeConfig(CONFIG_MAX_COLUMNS, 12);
+  const component = computed(() => RENDERERS[renderingConfig.value.renderer]);
 
   const portions = computed(() => {
     const length = watchedColors.value.length;
-    const divideBy = maxColumns.value;
+    const { columnsLimited, columnsMax } = renderingConfig.value;
     const hexColors = [...watchedColors.value];
 
-    if (!divideBy || divideBy >= length) {
+    if (!columnsLimited || columnsMax >= length) {
       return [hexColors];
     }
 
-    const numberPortions = Math.ceil(length / divideBy);
+    const numberPortions = Math.ceil(length / columnsMax);
 
     const limits = new Array(numberPortions)
       .fill(2)
-      .map((foo, index) => index * maxColumns.value);
+      .map((foo, index) => index * columnsMax);
 
     return limits.map((limit, index) => {
       const slicer =
@@ -47,7 +55,9 @@
     });
   });
 
-  const getPortions = () => portions;
+  const params = computed(() => {
+    return { portions, direction, ...(renderingConfig.value.params || {}) };
+  });
 </script>
 
 <template>
@@ -57,11 +67,7 @@
     :height="dimensions.height"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <StandardFlagRenderer
-      :portions="getPortions()"
-      :direction="getDirection()"
-    />
-
+    <component :is="component" v-bind="params" />
     <RemainderHandler v-if="remainder.length > 0" :bytes="remainder" />
     <TinyWatermark path="watermark.svg" proportion="0.1" />
   </svg>
