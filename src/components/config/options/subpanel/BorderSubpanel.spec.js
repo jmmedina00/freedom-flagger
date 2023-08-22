@@ -1,15 +1,15 @@
 import { fireEvent, render } from '@testing-library/vue';
 import { describe, expect, test, vi } from 'vitest';
-import CornerTriangleSubpanel from './CornerTriangleSubpanel.vue';
-import { useDefaultedConfig } from '../default';
+import { useDefaultedConfig } from './common/default';
 import { ref } from 'vue';
-import { REM_TRIANGLE } from '@app/components/shared/constant/remainder';
+import { REM_BORDER } from '@app/components/shared/constant/remainder';
+import BorderSubpanel from './BorderSubpanel.vue';
 
-vi.mock('../default');
+vi.mock('./common/default');
 
-describe('CornerTriangleSubpanel', () => {
+describe('BorderSubpanel', () => {
   const generate = () =>
-    render(CornerTriangleSubpanel, {
+    render(BorderSubpanel, {
       global: {
         mocks: { $t: (foo) => foo },
         stubs: {
@@ -29,19 +29,19 @@ describe('CornerTriangleSubpanel', () => {
       },
     });
 
-  test('should initialize with all needed corners', () => {
+  test('should initialize with all needed sides', () => {
     useDefaultedConfig.mockReturnValue(ref({}));
 
     const { container } = generate();
 
     expect(useDefaultedConfig).toHaveBeenCalledWith(
-      REM_TRIANGLE,
+      REM_BORDER,
       {
         size: 20,
-        topLeft: 1,
-        topRight: 0,
-        bottomRight: 0,
-        bottomLeft: 0,
+        top: 1,
+        bottom: 0,
+        left: 0,
+        right: 0,
       },
       expect.anything()
     );
@@ -50,50 +50,49 @@ describe('CornerTriangleSubpanel', () => {
   test('should allow to freely set size', async () => {
     const config = ref({
       size: 20,
-      topLeft: 0,
-      topRight: 0,
-      bottomRight: 0,
-      bottomLeft: 0,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
     });
     useDefaultedConfig.mockReturnValue(config);
 
     const { container } = generate();
     const sizeSlider = container.querySelector('.slider');
-
     await fireEvent.update(sizeSlider, 45);
 
     expect(config.value).toEqual({
       size: 45,
-      topLeft: 0,
-      topRight: 0,
-      bottomRight: 0,
-      bottomLeft: 0,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
     });
   });
 
   test('should allow to set and unset corner remainder bytes', async () => {
     const config = ref({
       size: 20,
-      topLeft: 0,
-      topRight: 0,
-      bottomRight: 0,
-      bottomLeft: 0,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
     });
     useDefaultedConfig.mockReturnValue(config);
 
     const { findByText } = generate();
     const buttons = await Promise.all(
-      ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'].map(findByText)
+      ['top', 'bottom', 'left', 'right'].map(findByText)
     );
 
     await Promise.all(buttons.map((button) => fireEvent.click(button)));
 
     expect(config.value).toEqual({
       size: 20,
-      topLeft: 7,
-      topRight: 8,
-      bottomRight: 11,
-      bottomLeft: 10,
+      top: 3,
+      bottom: 6,
+      left: 4,
+      right: 5,
     });
   });
 });

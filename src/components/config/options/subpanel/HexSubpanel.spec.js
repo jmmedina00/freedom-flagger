@@ -1,18 +1,18 @@
-import { describe, expect, vi } from 'vitest';
-import { useDefaultedConfig } from '../default';
+import { describe, test, vi } from 'vitest';
 import { ref } from 'vue';
+import { useDefaultedConfig } from './common/default';
 import { fireEvent, render } from '@testing-library/vue';
-import MosaicSubpanel from './MosaicSubpanel.vue';
+import HexSubpanel from './HexSubpanel.vue';
 
-vi.mock('../default');
+vi.mock('./common/default');
 
-describe('MosaicSubpanel', () => {
-  test('should allow to modify all 3 parameters', async () => {
-    const config = ref({ squareRows: 30, rows: 3, offset: 2 });
+describe('HexSubpanel', () => {
+  test('should be able to modify both parameters', async () => {
+    const config = ref({ size: 30, margin: 10 });
 
     useDefaultedConfig.mockReturnValue(config);
 
-    const { container } = render(MosaicSubpanel, {
+    const { container } = render(HexSubpanel, {
       global: {
         stubs: {
           LimitedSliderNumber: {
@@ -28,15 +28,15 @@ describe('MosaicSubpanel', () => {
       },
     });
 
-    const newValues = [40, 2, 6];
+    const newValues = [20, 35];
     const inputs = [...container.querySelectorAll('p input')];
 
-    expect(inputs.length).toEqual(3);
+    expect(inputs.length).toEqual(2);
 
     for (const [index, input] of inputs.entries()) {
       await fireEvent.update(input, newValues[index]);
     }
 
-    expect(config.value).toEqual({ squareRows: 40, rows: 2, offset: 6 });
+    expect(config.value).toEqual({ size: 20, margin: 35 });
   });
 });

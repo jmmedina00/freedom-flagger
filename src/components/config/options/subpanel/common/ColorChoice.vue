@@ -1,5 +1,5 @@
 <script setup>
-  import IconOption from '@app/components/config/options/util/icon/IconOption.vue';
+  import IconOption from '../../util/icon/IconOption.vue';
   import { BYTE_ICONS } from './byte';
   import { computed, inject, ref, watch } from 'vue';
   import { HANDLING_CONFIG } from '@app/state';

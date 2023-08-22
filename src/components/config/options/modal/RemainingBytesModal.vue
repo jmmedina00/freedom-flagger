@@ -9,10 +9,10 @@
     MODAL_ACTIVE,
   } from '@app/state';
   import IconOption from '../util/icon/IconOption.vue';
-  import MosaicSubpanel from './subpanel/remainder/MosaicSubpanel.vue';
-  import CornerTriangleSubpanel from './subpanel/remainder/CornerTriangleSubpanel.vue';
-  import BorderSubpanel from './subpanel/remainder/BorderSubpanel.vue';
-  import HexSubpanel from './subpanel/remainder/HexSubpanel.vue';
+  import MosaicSubpanel from '../subpanel/MosaicSubpanel.vue';
+  import CornerTriangleSubpanel from '../subpanel/CornerTriangleSubpanel.vue';
+  import BorderSubpanel from '../subpanel/BorderSubpanel.vue';
+  import HexSubpanel from '../subpanel/HexSubpanel.vue';
   import { placeColorsOnIndexes } from '@app/components/shared/color-index';
   import {
     REMAINDER_COMPONENTS,

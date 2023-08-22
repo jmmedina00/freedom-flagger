@@ -1,7 +1,7 @@
 <script setup>
   import { REM_MOSAIC } from '@app/components/shared/constant/remainder';
-  import { useDefaultedConfig } from '../default';
-  import LimitedSliderNumber from '../../../util/numeric/LimitedSliderNumber.vue';
+  import { useDefaultedConfig } from './common/default';
+  import LimitedSliderNumber from '../util/numeric/LimitedSliderNumber.vue';
 
   const config = useDefaultedConfig(
     REM_MOSAIC,

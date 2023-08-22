@@ -1,7 +1,7 @@
 <script setup>
   import { REM_TRIANGLE } from '@app/components/shared/constant/remainder';
-  import { useDefaultedConfig } from '../default';
-  import LimitedSliderNumber from '../../../util/numeric/LimitedSliderNumber.vue';
+  import { useDefaultedConfig } from './common/default';
+  import LimitedSliderNumber from '../util/numeric/LimitedSliderNumber.vue';
   import ColorChoice from './common/ColorChoice.vue';
 
   const selectableAttrs = ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'];
