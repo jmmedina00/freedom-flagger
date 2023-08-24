@@ -1,16 +1,16 @@
 <script setup>
-  import { ref, watch } from 'vue';
+  import { computed, provide, ref, watch } from 'vue';
   import LimitedSliderNumber from './util/numeric/LimitedSliderNumber.vue';
   import { useSomeConfig } from './plugin';
-  import { CONFIG_RENDERING } from '@app/state';
+  import { CONFIG_RENDERING, HANDLING_CONFIG } from '@app/state';
   import {
-    DECORATE_INFINITE,
     RENDERER_DECORATE,
     RENDERER_DIVIDED,
     RENDERER_STANDARD,
   } from '@app/components/shared/constant/rendering';
   import IconOption from './util/icon/IconOption.vue';
-  import { TOP_RIGHT } from '@app/components/shared/decorate/corner';
+  import DivideLineSubpanel from './subpanel/DivideLineSubpanel.vue';
+  import DecorateSubpanel from './subpanel/DecorateSubpanel.vue';
 
   const DEFAULT_COLUMNS = 12;
 
@@ -19,6 +19,12 @@
     { value: RENDERER_DIVIDED, icon: 'pets' },
     { value: RENDERER_DECORATE, icon: 'explore' },
   ];
+
+  const panels = {
+    [RENDERER_STANDARD]: null,
+    [RENDERER_DIVIDED]: DivideLineSubpanel,
+    [RENDERER_DECORATE]: DecorateSubpanel,
+  };
 
   const renderingConfig = useSomeConfig(CONFIG_RENDERING, {
     columnsLimited: false,
@@ -33,28 +39,40 @@
     renderingConfig.value.renderer || RENDERER_STANDARD
   );
 
-  const testParams = {
-    [RENDERER_STANDARD]: {},
-    [RENDERER_DIVIDED]: {
-      mainFlagPercent: 40,
+  const currentPanel = computed(() => panels[selectedRenderer.value]);
+
+  const handlingConfig = ref({
+    component: selectedRenderer.value,
+    config: renderingConfig.value.params || {},
+  });
+
+  provide(HANDLING_CONFIG, handlingConfig);
+
+  watch(
+    handlingConfig,
+    (handling) => {
+      const current = renderingConfig.value;
+      renderingConfig.value = {
+        ...current,
+        params:
+          current.renderer === RENDERER_STANDARD ? {} : { ...handling.config },
+      };
     },
-    [RENDERER_DECORATE]: {
-      decorate: DECORATE_INFINITE,
-      decorateConfig: {
-        size: 15,
-        corner: TOP_RIGHT,
-      },
-    },
-  };
+    { deep: true }
+  );
 
   watch(
     [enabled, maxColumns, selectedRenderer],
     ([columnsLimited, columnsMax, renderer]) => {
       renderingConfig.value = {
+        ...renderingConfig.value,
         columnsLimited,
         columnsMax: parseInt(columnsMax),
         renderer,
-        params: testParams[renderer],
+        params:
+          renderer === RENDERER_STANDARD
+            ? {}
+            : { ...handlingConfig.value.config },
       };
     }
   );
@@ -82,6 +100,7 @@
           v-model="selectedRenderer"
         />
       </p>
+      <component v-if="currentPanel" :is="currentPanel" />
     </div>
   </div>
 </template>

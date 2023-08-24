@@ -2,12 +2,13 @@ import { fireEvent, render } from '@testing-library/vue';
 import { describe, expect, test, vi } from 'vitest';
 import RenderingOptions from './RenderingOptions.vue';
 import { useSomeConfig } from './plugin';
-import { ref } from 'vue';
-import { CONFIG_RENDERING } from '@app/state';
+import { computed, inject, ref } from 'vue';
+import { CONFIG_RENDERING, HANDLING_CONFIG } from '@app/state';
 import {
   RENDERERS,
   RENDERER_DECORATE,
   RENDERER_DIVIDED,
+  RENDERER_STANDARD,
 } from '@app/components/shared/constant/rendering';
 
 vi.mock('./plugin');
@@ -15,10 +16,45 @@ vi.mock('./plugin');
 describe('RenderingOptions', () => {
   const possibleRenderers = Object.keys(RENDERERS);
 
+  const otherThanStandard = possibleRenderers.filter(
+    (renderer) => renderer !== RENDERER_STANDARD
+  );
+
+  const EXISTING_PANELS = {
+    [RENDERER_DIVIDED]: 'DivideLineSubpanel',
+    [RENDERER_DECORATE]: 'DecorateSubpanel',
+  };
+
+  const autoStubs = Object.fromEntries(
+    Object.entries(EXISTING_PANELS).map(([key, component]) => [
+      component,
+      {
+        setup: (props) => {
+          const handling = inject(HANDLING_CONFIG, ref({}));
+
+          const setValue = () => {
+            handling.value = {
+              ...handling.value,
+              config: { value: key, test: key.length * 3 + 2 },
+              garbage: 'value',
+            };
+          };
+
+          return {
+            config: computed(() => JSON.stringify(handling.value?.config)),
+            setValue,
+          };
+        },
+        template: `<p>Renderer: ${key}</p><p>Config: {{ config }}</p><button @click="setValue">Click</button>`,
+      },
+    ])
+  );
+
   const generate = () =>
     render(RenderingOptions, {
       global: {
         stubs: {
+          ...autoStubs,
           LimitedSliderNumber: {
             emits: ['update:modelValue'],
             props: ['modelValue', 'min', 'max'],
@@ -165,4 +201,62 @@ describe('RenderingOptions', () => {
       expect(config.value.renderer).toEqual(possibleRenderers[index]);
     }
   });
+
+  test('should blank params and render no component for standard renderer', async () => {
+    const config = ref({
+      columnsLimited: true,
+      columnsMax: 5,
+      renderer: RENDERER_DIVIDED,
+      params: { test: 12 },
+    });
+
+    useSomeConfig.mockReturnValue(config);
+
+    const { findByLabelText, queryByText } = generate();
+    const option = await findByLabelText('renderer.' + RENDERER_STANDARD);
+    await fireEvent.click(option);
+
+    expect(queryByText('Renderer: ' + RENDERER_STANDARD)).toBeFalsy();
+    expect(config.value).toEqual({
+      columnsLimited: true,
+      columnsMax: 5,
+      renderer: RENDERER_STANDARD,
+      params: {},
+    });
+  });
+
+  test.each(otherThanStandard)(
+    'should switch to and take parameters from subpanels for non-standard renderers',
+    async (renderer) => {
+      const config = ref({
+        columnsLimited: true,
+        columnsMax: 5,
+        renderer: RENDERER_STANDARD,
+        params: { test: 12 },
+      });
+
+      useSomeConfig.mockReturnValue(config);
+
+      const { findByLabelText, findByText } = generate();
+      const option = await findByLabelText('renderer.' + renderer);
+      await fireEvent.click(option);
+
+      await findByText('Renderer: ' + renderer);
+      const clickButton = await findByText('Click');
+      await fireEvent.click(clickButton);
+
+      const configParagraph = await findByText('Config:', { exact: false });
+      expect(configParagraph.innerText).toEqual(
+        'Config: ' +
+          JSON.stringify({ value: renderer, test: renderer.length * 3 + 2 })
+      );
+
+      expect(config.value).toEqual({
+        columnsLimited: true,
+        columnsMax: 5,
+        renderer,
+        params: { value: renderer, test: renderer.length * 3 + 2 },
+      });
+    }
+  );
 });
