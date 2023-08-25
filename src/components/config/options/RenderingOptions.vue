@@ -1,30 +1,13 @@
 <script setup>
-  import { computed, provide, ref, watch } from 'vue';
+  import { provide, ref, watch } from 'vue';
   import LimitedSliderNumber from './util/numeric/LimitedSliderNumber.vue';
   import { useSomeConfig } from './plugin';
   import { CONFIG_RENDERING, HANDLING_CONFIG } from '@app/state';
-  import {
-    RENDERER_DECORATE,
-    RENDERER_DIVIDED,
-    RENDERER_STANDARD,
-  } from '@app/components/shared/constant/rendering';
-  import IconOption from './util/icon/IconOption.vue';
-  import DivideLineSubpanel from './subpanel/DivideLineSubpanel.vue';
-  import DecorateSubpanel from './subpanel/DecorateSubpanel.vue';
+  import { RENDERER_STANDARD } from '@app/components/shared/constant/rendering';
+  import ModalCoupler from '../shared/modal/ModalCoupler.vue';
+  import RenderingAdjustModal from './modal/RenderingAdjustModal.vue';
 
   const DEFAULT_COLUMNS = 12;
-
-  const renderers = [
-    { value: RENDERER_STANDARD, icon: 'work' },
-    { value: RENDERER_DIVIDED, icon: 'pets' },
-    { value: RENDERER_DECORATE, icon: 'explore' },
-  ];
-
-  const panels = {
-    [RENDERER_STANDARD]: null,
-    [RENDERER_DIVIDED]: DivideLineSubpanel,
-    [RENDERER_DECORATE]: DecorateSubpanel,
-  };
 
   const renderingConfig = useSomeConfig(CONFIG_RENDERING, {
     columnsLimited: false,
@@ -38,8 +21,6 @@
   const selectedRenderer = ref(
     renderingConfig.value.renderer || RENDERER_STANDARD
   );
-
-  const currentPanel = computed(() => panels[selectedRenderer.value]);
 
   const handlingConfig = ref({
     component: selectedRenderer.value,
@@ -89,18 +70,9 @@
         {{ $t('options.columns.max') + ':' }}
       </h5>
       <LimitedSliderNumber v-model="maxColumns" :min="1" :max="32" />
-      <h6 class="mb-1">{{ $t('renderer.title') }}:</h6>
-      <p>
-        <IconOption
-          v-for="{ value, icon } in renderers"
-          :id="'render-' + value"
-          :value="value"
-          :label="'renderer.' + value"
-          :icon="icon"
-          v-model="selectedRenderer"
-        />
-      </p>
-      <component v-if="currentPanel" :is="currentPanel" />
+      <ModalCoupler :component="RenderingAdjustModal" v-slot="{ clicked }">
+        <button @click="clicked">Test</button>
+      </ModalCoupler>
     </div>
   </div>
 </template>
