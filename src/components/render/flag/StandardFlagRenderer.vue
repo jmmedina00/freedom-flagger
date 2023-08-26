@@ -1,11 +1,12 @@
 <script setup>
-  import { ref } from 'vue';
+  import { inject, ref } from 'vue';
   import FlagPortion from '../core/FlagPortion.vue';
+  import { RENDER_BASICS } from '@app/state';
 
-  const props = defineProps(['portions', 'direction']);
-
-  const portions = ref(props.portions);
-  const direction = ref(props.direction);
+  const { portions, direction } = inject(RENDER_BASICS, {
+    portions: ref([]),
+    direction: ref(''),
+  });
 </script>
 
 <template>

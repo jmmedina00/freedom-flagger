@@ -1,7 +1,10 @@
 <script setup>
-  import { DECORATE_COMPONENTS } from '@app/components/shared/constant/rendering';
-  import { DECORATE_CONFIG } from '@app/state';
-  import { computed, provide, ref } from 'vue';
+  import {
+    DECORATE_COMPONENTS,
+    DECORATE_MOSAIC,
+  } from '@app/components/shared/constant/rendering';
+  import { DECORATE_CONFIG, RENDER_BASICS, RENDER_PARAMS } from '@app/state';
+  import { computed, inject, provide, ref } from 'vue';
   import FlagPortion from '../core/FlagPortion.vue';
 
   const props = defineProps([
@@ -11,10 +14,17 @@
     'decorateConfig',
   ]);
 
-  const portions = ref(props.portions);
-  const direction = ref(props.direction);
-  const decorate = ref(props.decorate);
-  const decorateConfig = ref(props.decorateConfig);
+  const { portions, direction } = inject(RENDER_BASICS, {
+    portions: ref([]),
+    direction: ref(''),
+  });
+
+  const params = inject(
+    RENDER_PARAMS,
+    ref({ decorate: DECORATE_MOSAIC, decorateConfig: {} })
+  );
+  const decorate = computed(() => params.value?.decorate);
+  const decorateConfig = computed(() => params.value?.decorateConfig);
 
   const uniqueLengths = computed(
     () => new Set(portions.value.map((x) => x.length)).size

@@ -1,18 +1,19 @@
 import { render } from '@testing-library/vue';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { useDirectionHolds } from '../helper/direction';
-import DividedFlagRenderer from './DividedFlagRenderer.vue';
 import { ref } from 'vue';
+import { RENDER_BASICS, RENDER_PARAMS } from '@app/state';
+import DividedFlagRenderer from './DividedFlagRenderer.vue';
 
 vi.mock('../helper/direction');
 
 describe('DividedFlagRenderer', () => {
   const checkedAttributes = ['size', 'position', 'stretch'];
 
-  const generate = (props) =>
+  const generate = (provide) =>
     render(DividedFlagRenderer, {
-      props,
       global: {
+        provide,
         stubs: {
           FlagPortion: {
             props: ['colors', 'index', 'total', 'direction'],
@@ -48,11 +49,11 @@ describe('DividedFlagRenderer', () => {
         ['wut', 'is'],
       ];
 
-      const { container } = generate({
-        portions,
-        direction,
-        mainFlagPercent: 50,
-      });
+      const provide = {
+        [RENDER_BASICS]: { portions: ref(portions), direction: ref(direction) },
+        [RENDER_PARAMS]: ref({ mainFlagPercent: 50 }),
+      };
+      const { container } = generate(provide);
 
       const divides = [...container.querySelectorAll('svg')];
       expect(divides.length).toEqual(2);
@@ -88,12 +89,14 @@ describe('DividedFlagRenderer', () => {
         ['wut', 'is'],
       ];
 
-      const { container } = generate({
-        portions,
-        direction: 'vertical',
-        mainFlagPercent: percent,
-      });
-
+      const provide = {
+        [RENDER_BASICS]: {
+          portions: ref(portions),
+          direction: ref('vertical'),
+        },
+        [RENDER_PARAMS]: ref({ mainFlagPercent: percent }),
+      };
+      const { container } = generate(provide);
       const divides = [...container.querySelectorAll('svg')];
 
       const expected = [
@@ -127,14 +130,16 @@ describe('DividedFlagRenderer', () => {
       ['wut', 'is', 'this'],
     ];
 
-    const { container } = generate({
-      portions,
-      direction: 'horizontal',
-      mainFlagPercent: 30,
-    });
+    const provide = {
+      [RENDER_BASICS]: {
+        portions: ref(portions),
+        direction: ref('horizontal'),
+      },
+      [RENDER_PARAMS]: ref({ mainFlagPercent: 30 }),
+    };
+    const { container } = generate(provide);
 
     const divides = [...container.querySelectorAll('svg')];
-
     const expectedAttrs = [
       {
         size: '100%',
@@ -168,14 +173,16 @@ describe('DividedFlagRenderer', () => {
   test('should draw full flag as normal if there is only one portion', () => {
     const portions = [['abd', 'cde', 'efg', 'qwe', 'asd', 'tre']];
 
-    const { container } = generate({
-      portions,
-      direction: 'vertical',
-      mainFlagPercent: 60,
-    });
+    const provide = {
+      [RENDER_BASICS]: {
+        portions: ref(portions),
+        direction: ref('vertical'),
+      },
+      [RENDER_PARAMS]: ref({ mainFlagPercent: 60 }),
+    };
+    const { container } = generate(provide);
 
     const divides = [...container.querySelectorAll('svg')];
-
     const expectedFlagPortions = [
       [`abd,cde,efg,qwe,asd,tre - 0 - 1 - vertical`],
     ];

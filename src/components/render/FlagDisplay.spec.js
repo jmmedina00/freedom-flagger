@@ -1,11 +1,16 @@
 import { render } from '@testing-library/vue';
-import { computed, inject, ref, useAttrs } from 'vue';
+import { computed, inject, ref } from 'vue';
 import { describe, expect, test, vi } from 'vitest';
 import FlagDisplay from './FlagDisplay.vue';
 import { useNumberAsColors } from './helper/colors';
 import { useFullStateSize } from './helper/size';
 import { useSomeConfig } from '../config/options/plugin';
-import { CONFIG_RENDERING, DECORATE_SIZE } from '@app/state';
+import {
+  CONFIG_RENDERING,
+  DECORATE_SIZE,
+  RENDER_BASICS,
+  RENDER_PARAMS,
+} from '@app/state';
 import {
   RENDERERS,
   RENDERER_DECORATE,
@@ -83,15 +88,22 @@ describe('FlagDisplay', () => {
     Object.entries(RENDERERS).map(([key, component]) => [
       component.__name,
       {
-        props: ['portions', 'direction'],
         setup: (props) => {
-          const params = computed(() => {
-            const { portions } = props;
-            const attrs = useAttrs();
-            return JSON.stringify({ portions: portions.value, ...attrs });
+          const { portions, direction } = inject(RENDER_BASICS, {
+            portions: ref([]),
+            direction: ref(''),
           });
 
-          return { direction: props.direction, params };
+          const renderParams = inject(RENDER_PARAMS, ref({}));
+          const params = computed(() => ({
+            portions: portions.value,
+            ...renderParams.value,
+          }));
+
+          return {
+            direction,
+            params: computed(() => JSON.stringify(params.value)),
+          };
         },
         template: `<p>Direction: {{ direction }}</p>
         <p>Params: {{ params }}</p>
@@ -124,7 +136,14 @@ describe('FlagDisplay', () => {
       remainder: ref([1, 2, 3]),
     });
     useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
-    useSomeConfig.mockReturnValue(ref(5));
+    useSomeConfig.mockReturnValue(
+      ref({
+        columnsLimited: true,
+        columnsMax: 12,
+        renderer: RENDERER_STANDARD,
+        params: {},
+      })
+    );
 
     const { container, findByText } = generate();
 

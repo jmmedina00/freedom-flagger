@@ -5,8 +5,8 @@ import {
   DECORATE_COMPONENTS,
   DECORATE_MOSAIC,
 } from '@app/components/shared/constant/rendering';
-import { computed, inject } from 'vue';
-import { DECORATE_CONFIG } from '@app/state';
+import { computed, inject, ref } from 'vue';
+import { DECORATE_CONFIG, RENDER_BASICS, RENDER_PARAMS } from '@app/state';
 
 describe('DecoratedFlagRenderer', () => {
   const possibleDecorates = Object.keys(DECORATE_COMPONENTS);
@@ -23,10 +23,10 @@ describe('DecoratedFlagRenderer', () => {
     ])
   );
 
-  const generate = (props) =>
+  const generate = (provide) =>
     render(DecoratedFlagRenderer, {
-      props,
       global: {
+        provide,
         stubs: {
           FlagPortion: {
             props: ['colors', 'index', 'total', 'direction'],
@@ -45,11 +45,18 @@ describe('DecoratedFlagRenderer', () => {
       ['poi', 'lkj', 'mnb'],
       ['wut', 'is'],
     ];
-    const { container } = generate({
-      portions,
-      direction: 'horizontal',
-      decorateConfig: { foo: 'bar' },
-    });
+
+    const provide = {
+      [RENDER_BASICS]: {
+        portions: ref(portions),
+        direction: ref('horizontal'),
+      },
+      [RENDER_PARAMS]: ref({
+        decorate: DECORATE_MOSAIC,
+        decorateConfig: { foo: 'bar' },
+      }),
+    };
+    const { container } = generate(provide);
 
     const rects = container.querySelectorAll('rect');
     const texts = [...rects].map((rect) => rect.innerHTML);
@@ -68,12 +75,18 @@ describe('DecoratedFlagRenderer', () => {
       ['poi', 'lkj', 'mnb'],
       ['wut', 'is', 'this'],
     ];
-    const { container } = generate({
-      portions,
-      direction: 'horizontal',
-      decorate: DECORATE_MOSAIC,
-      decorateConfig: { foo: 'bar' },
-    });
+
+    const provide = {
+      [RENDER_BASICS]: {
+        portions: ref(portions),
+        direction: ref('horizontal'),
+      },
+      [RENDER_PARAMS]: ref({
+        decorate: DECORATE_MOSAIC,
+        decorateConfig: { foo: 'bar' },
+      }),
+    };
+    const { container } = generate(provide);
 
     const rects = container.querySelectorAll('rect');
     const texts = [...rects].map((rect) => rect.innerHTML);
@@ -95,12 +108,18 @@ describe('DecoratedFlagRenderer', () => {
         ['poi', 'lkj', 'mnb'],
         ['wut', 'is'],
       ];
-      const { container, findByText } = generate({
-        portions,
-        decorate,
-        direction: 'vertical',
-        decorateConfig: { foo: 'bar', bar: 'baz' },
-      });
+
+      const provide = {
+        [RENDER_BASICS]: {
+          portions: ref(portions),
+          direction: ref('vertical'),
+        },
+        [RENDER_PARAMS]: ref({
+          decorate,
+          decorateConfig: { foo: 'bar', bar: 'baz' },
+        }),
+      };
+      const { findByText } = generate(provide);
 
       const componentParagraph = await findByText('Component:', {
         exact: false,
@@ -122,12 +141,18 @@ describe('DecoratedFlagRenderer', () => {
       ['poi', 'lkj', 'mnb'],
       ['wut', 'is', 'this'],
     ];
-    const { queryByText } = generate({
-      portions,
-      direction: 'vertical',
-      decorate: DECORATE_MOSAIC,
-      decorateConfig: { foo: 'bar', bar: 'baz' },
-    });
+
+    const provide = {
+      [RENDER_BASICS]: {
+        portions: ref(portions),
+        direction: ref('vertical'),
+      },
+      [RENDER_PARAMS]: ref({
+        decorate: DECORATE_MOSAIC,
+        decorateConfig: { foo: 'bar', bar: 'baz' },
+      }),
+    };
+    const { queryByText } = generate(provide);
 
     const componentParagraph = queryByText('Component:', {
       exact: false,
@@ -139,12 +164,18 @@ describe('DecoratedFlagRenderer', () => {
     const portions = [
       ['abc', 'cde', 'efg', 'qwe', 'asd', 'tre', 'poi', 'lkj', 'mnb'],
     ];
-    const { queryByText } = generate({
-      portions,
-      direction: 'vertical',
-      decorate: DECORATE_MOSAIC,
-      decorateConfig: { foo: 'bar', bar: 'baz' },
-    });
+
+    const provide = {
+      [RENDER_BASICS]: {
+        portions: ref(portions),
+        direction: ref('vertical'),
+      },
+      [RENDER_PARAMS]: ref({
+        decorate: DECORATE_MOSAIC,
+        decorateConfig: { foo: 'bar', bar: 'baz' },
+      }),
+    };
+    const { queryByText } = generate(provide);
 
     const componentParagraph = queryByText('Component:', {
       exact: false,

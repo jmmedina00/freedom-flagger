@@ -2,6 +2,7 @@ import { render } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
 import StandardFlagRenderer from './StandardFlagRenderer.vue';
 import { ref } from 'vue';
+import { RENDER_BASICS } from '@app/state';
 
 describe('StandardFlagRenderer', () => {
   test('should draw all portions at the same provided direction', () => {
@@ -12,8 +13,10 @@ describe('StandardFlagRenderer', () => {
     const direction = ref('horizontal');
 
     const { container } = render(StandardFlagRenderer, {
-      props: { portions, direction },
       global: {
+        provide: {
+          [RENDER_BASICS]: { portions, direction },
+        },
         stubs: {
           FlagPortion: {
             props: ['colors', 'index', 'total', 'direction'],

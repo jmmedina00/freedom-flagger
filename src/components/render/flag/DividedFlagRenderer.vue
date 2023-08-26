@@ -1,14 +1,18 @@
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, inject, ref } from 'vue';
   import { useDirectionHolds } from '../helper/direction';
+  import { RENDER_BASICS, RENDER_PARAMS } from '@app/state';
   import FlagPortion from '../core/FlagPortion.vue';
 
   const props = defineProps(['portions', 'direction', 'mainFlagPercent']);
 
-  const portions = ref(props.portions);
-  const mainFlagPercent = ref(props.mainFlagPercent);
+  const { portions, direction } = inject(RENDER_BASICS, {
+    portions: ref([]),
+    direction: ref(''),
+  });
 
-  const direction = ref(props.direction);
+  const params = inject(RENDER_PARAMS, ref({ mainFlagPercent: 50 }));
+  const mainFlagPercent = computed(() => params.value?.mainFlagPercent);
   const oppositeDirection = computed(
     () => ['vertical', 'horizontal'].filter((a) => a !== direction.value)[0]
   );

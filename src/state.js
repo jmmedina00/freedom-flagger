@@ -13,3 +13,6 @@ export const NUMBER_DEFAULT = 'dis is a lot of freedom';
 export const CONFIG_SIZING = 'sizing';
 export const CONFIG_REMAINDER = 'remainder';
 export const CONFIG_RENDERING = 'rendering';
+
+export const RENDER_BASICS = 'renderBasics';
+export const RENDER_PARAMS = 'renderParams';

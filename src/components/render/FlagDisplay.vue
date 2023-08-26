@@ -3,7 +3,12 @@
   import { useNumberAsColors } from './helper/colors';
   import { useFullStateSize } from './helper/size';
   import { useSomeConfig } from '../config/options/plugin';
-  import { CONFIG_RENDERING, DECORATE_SIZE } from '@app/state';
+  import {
+    CONFIG_RENDERING,
+    DECORATE_SIZE,
+    RENDER_BASICS,
+    RENDER_PARAMS,
+  } from '@app/state';
   import TinyWatermark from './TinyWatermark.vue';
   import RemainderHandler from './flag/RemainderHandler.vue';
   import { RENDERERS, RENDERER_STANDARD } from '../shared/constant/rendering';
@@ -55,9 +60,11 @@
     });
   });
 
-  const params = computed(() => {
-    return { portions, direction, ...(renderingConfig.value.params || {}) };
-  });
+  provide(RENDER_BASICS, { direction, portions });
+  provide(
+    RENDER_PARAMS,
+    computed(() => ({ ...renderingConfig.value.params }))
+  );
 </script>
 
 <template>
@@ -67,7 +74,7 @@
     :height="dimensions.height"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <component :is="component" v-bind="params" />
+    <component :is="component" />
     <RemainderHandler v-if="remainder.length > 0" :bytes="remainder" />
     <TinyWatermark path="watermark.svg" proportion="0.1" />
   </svg>
