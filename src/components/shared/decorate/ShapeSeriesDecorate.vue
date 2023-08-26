@@ -2,6 +2,7 @@
   import { DECORATE_CONFIG, DECORATE_SIZE } from '@app/state';
   import { computed, inject, ref } from 'vue';
   import { getViewboxForSizing } from './viewbox';
+  import { SHAPE_COMPONENTS } from '../constant/rendering';
 
   const config = inject(DECORATE_CONFIG, ref({}));
   const sizing = inject(DECORATE_SIZE, ref({ width: 0, height: 0 }));
@@ -14,6 +15,11 @@
     component: '',
     ...config.value,
   }));
+
+  const component = computed(() => {
+    const compString = completedConfig.value.component;
+    return SHAPE_COMPONENTS[compString] || compString;
+  });
 
   const stats = computed(() => {
     const { width, height } = sizing.value;
@@ -45,7 +51,7 @@
 <template>
   <svg v-bind="viewBox">
     <component
-      :is="completedConfig.component"
+      :is="component"
       v-for="attrs in shapeAttributes"
       v-bind="attrs"
     />
