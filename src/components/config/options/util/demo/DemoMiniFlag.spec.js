@@ -1,11 +1,13 @@
 import { render } from '@testing-library/vue';
 import { describe, expect, test, vi } from 'vitest';
-import DemoMiniFlag from './DemoMiniFlag.vue';
 import { inject, ref } from 'vue';
 import { DECORATE_SIZE } from '@app/state';
 import { useFullStateSize } from '@app/components/render/helper/size';
+import { useAppropriateDemoSize } from './size';
+import DemoMiniFlag from './DemoMiniFlag.vue';
 
 vi.mock('@app/components/render/helper/size');
+vi.mock('./size');
 
 describe('DemoMiniFlag', () => {
   const generate = () =>
@@ -26,8 +28,9 @@ describe('DemoMiniFlag', () => {
       },
     });
 
-  test('should render an svg with size scaled down to 200 by (Y < 200)', () => {
+  test('should render an svg with size provided by demo scaling', () => {
     useFullStateSize.mockReturnValue(ref({ width: 500, height: 300 }));
+    useAppropriateDemoSize.mockReturnValue(ref({ width: 3, height: 2 }));
 
     const { container } = generate();
     const svg = container.querySelector('svg');
@@ -35,29 +38,22 @@ describe('DemoMiniFlag', () => {
     const width = svg.getAttribute('width');
     const height = svg.getAttribute('height');
 
-    expect(width).toEqual('200');
-    expect(height).toEqual('120');
-  });
+    expect(width).toEqual('3');
+    expect(height).toEqual('2');
 
-  test('should render an svg with size scaled down to (X < 200) by 200', () => {
-    useFullStateSize.mockReturnValue(ref({ width: 400, height: 1000 }));
-
-    const { container } = generate();
-    const svg = container.querySelector('svg');
-
-    const width = svg.getAttribute('width');
-    const height = svg.getAttribute('height');
-
-    expect(width).toEqual('80');
-    expect(height).toEqual('200');
+    expect(useAppropriateDemoSize.mock.calls[0][0].value).toEqual({
+      width: 500,
+      height: 300,
+    });
   });
 
   test('should provide dimensions in "canvas" to slotted component', () => {
     useFullStateSize.mockReturnValue(ref({ width: 500, height: 350 }));
+    useAppropriateDemoSize.mockReturnValue(ref({ width: 4, height: 1 }));
 
     const { container } = generate();
     const paragraph = container.querySelector('svg p');
 
-    expect(paragraph.innerText).toEqual('200 - 140');
+    expect(paragraph.innerText).toEqual('4 - 1');
   });
 });

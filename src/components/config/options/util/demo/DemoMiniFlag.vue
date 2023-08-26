@@ -1,22 +1,12 @@
 <script setup>
   import { useFullStateSize } from '@app/components/render/helper/size';
   import { DECORATE_SIZE } from '@app/state';
-  import { computed, provide } from 'vue';
-
-  const MAX_DIMENSION = 200;
-  const getProportion = (a1 = 1, b1 = 0) => (b1 * MAX_DIMENSION) / a1;
+  import { provide } from 'vue';
+  import { useAppropriateDemoSize } from './size';
 
   const props = defineProps(['component']);
   const sizing = useFullStateSize();
-
-  const dimensions = computed(() => {
-    const { width, height } = sizing.value;
-
-    return {
-      width: Math.min(MAX_DIMENSION, getProportion(height, width)),
-      height: Math.min(MAX_DIMENSION, getProportion(width, height)),
-    };
-  });
+  const dimensions = useAppropriateDemoSize(sizing);
 
   provide(DECORATE_SIZE, dimensions);
 </script>

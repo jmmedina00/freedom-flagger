@@ -1,5 +1,5 @@
 <script setup>
-  import DemoMiniFlag from '../util/DemoMiniFlag.vue';
+  import DemoMiniFlag from '../util/demo/DemoMiniFlag.vue';
   import ModalTitle from '../../shared/modal/ModalTitle.vue';
   import { computed, inject, provide, ref } from 'vue';
   import {

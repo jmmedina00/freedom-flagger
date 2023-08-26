@@ -32,6 +32,7 @@ describe('DecorateSubpanel', () => {
               ...handling.value,
               config: { value: key, test: key.length * 3 + 2 },
               garbage: 'value',
+              proportional: ['test'],
             };
           };
 
@@ -117,6 +118,7 @@ describe('DecorateSubpanel', () => {
       expect(config.value).toEqual({
         decorate,
         decorateConfig: { value: decorate, test: decorate.length * 3 + 2 },
+        scale: ['test'],
       });
     }
   );

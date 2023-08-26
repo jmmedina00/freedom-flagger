@@ -4,14 +4,23 @@ import { useSomeConfig } from '../plugin';
 import { fireEvent, render } from '@testing-library/vue';
 import RenderingAdjustModal from './RenderingAdjustModal.vue';
 import {
+  DECORATE_INFINITE,
   RENDERERS,
   RENDERER_DECORATE,
   RENDERER_DIVIDED,
   RENDERER_STANDARD,
 } from '@app/components/shared/constant/rendering';
-import { CONFIG_RENDERING, HANDLING_CONFIG, MODAL_ACTIVE } from '@app/state';
+import {
+  CONFIG_RENDERING,
+  DECORATE_CONFIG,
+  HANDLING_CONFIG,
+  MODAL_ACTIVE,
+} from '@app/state';
+import { placeColorsOnIndexes } from '@app/components/shared/color-index';
+import InfiniteDecorate from '@app/components/shared/decorate/InfiniteDecorate.vue';
 
 vi.mock('../plugin');
+vi.mock('@app/components/shared/color-index');
 
 describe('RenderingAdjustModal', () => {
   const possibleRenderers = Object.keys(RENDERERS);
@@ -35,7 +44,15 @@ describe('RenderingAdjustModal', () => {
           const setValue = () => {
             handling.value = {
               ...handling.value,
-              config: { value: key, test: key.length * 3 + 2 },
+              config: {
+                value: key,
+                test: key.length * 3 + 2,
+                // Test data for the demo displays
+                mainFlagPercent: 45,
+                decorate: DECORATE_INFINITE,
+                decorateConfig: { foo: 'bar' },
+                scale: ['test'],
+              },
               garbage: 'value',
             };
           };
@@ -64,6 +81,28 @@ describe('RenderingAdjustModal', () => {
               '<label :for="id">{{ label }}</label>' +
               '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
               '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
+          },
+          DemoFlat: {
+            template: '<p>Test</p>',
+          },
+          DemoSplit: {
+            props: ['percent'],
+            template: '<p>Info: "{{ percent }}"</p>',
+          },
+          DemoMiniFlag: {
+            props: ['component'],
+            setup: () => {
+              const config = inject(DECORATE_CONFIG, ref({}));
+              return { config: computed(() => JSON.stringify(config.value)) };
+            },
+            template:
+              '<p>Info: {{ JSON.stringify(component) }}</p><p>Decorate: {{ config }}</p>',
+          },
+          LimitedSliderNumber: {
+            emits: ['update:modelValue'],
+            props: ['modelValue', 'min', 'max'],
+            template: `<label for="number">slider</label>
+            <input id="number" type="text" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">`,
           },
           ...autoStubs,
         },
@@ -157,12 +196,77 @@ describe('RenderingAdjustModal', () => {
       const configParagraph = await findByText('Config:', { exact: false });
       expect(configParagraph.innerText).toEqual(
         'Config: ' +
-          JSON.stringify({ value: renderer, test: renderer.length * 3 + 2 })
+          JSON.stringify({
+            value: renderer,
+            test: renderer.length * 3 + 2,
+            mainFlagPercent: 45,
+            decorate: DECORATE_INFINITE,
+            decorateConfig: { foo: 'bar' },
+            scale: ['test'],
+          })
       );
     }
   );
 
-  test('should apply all changes to state and close modal', async () => {
+  test.each([
+    [RENDERER_DIVIDED, '45'],
+    [RENDERER_DECORATE, InfiniteDecorate],
+  ])(
+    'should provide %s demo component with relevant information',
+    async (summonedBy, expectedInformation) => {
+      const config = ref({
+        columnsLimited: true,
+        columnsMax: 5,
+        renderer: RENDERER_STANDARD,
+        params: { test: 12 },
+      });
+
+      useSomeConfig.mockReturnValue(config);
+
+      const { findByLabelText, findByText } = generate();
+      const option = await findByLabelText('renderer.' + summonedBy);
+      await fireEvent.click(option);
+
+      const clickButton = await findByText('Click');
+      await fireEvent.click(clickButton);
+
+      const info = await findByText('Info:', { exact: false });
+      expect(info.innerText).toEqual(
+        'Info: ' + JSON.stringify(expectedInformation)
+      );
+    }
+  );
+
+  test('should provide mini flag on decorate renderer with prepared decorate config with test colors as well', async () => {
+    const config = ref({
+      columnsLimited: true,
+      columnsMax: 5,
+      renderer: RENDERER_STANDARD,
+      params: { test: 12 },
+    });
+
+    useSomeConfig.mockReturnValue(config);
+    placeColorsOnIndexes.mockReturnValue({ re: 'la', shi: 'baz' });
+
+    const { findByLabelText, findByText } = generate();
+    const option = await findByLabelText('renderer.' + RENDERER_DECORATE);
+    await fireEvent.click(option);
+
+    const clickButton = await findByText('Click');
+    await fireEvent.click(clickButton);
+
+    const info = await findByText('Decorate:', { exact: false });
+    expect(info.innerText).toEqual(
+      'Decorate: ' + JSON.stringify({ re: 'la', shi: 'baz' })
+    );
+
+    expect(placeColorsOnIndexes).toHaveBeenCalledWith(
+      { foo: 'bar' },
+      { scaled: ['test'], fields: [], colors: expect.anything() }
+    );
+  });
+
+  test('should apply all changes to state and close modal WITHOUT scaling info', async () => {
     const config = ref({
       columnsLimited: true,
       columnsMax: 5,
@@ -187,7 +291,13 @@ describe('RenderingAdjustModal', () => {
       columnsLimited: true,
       columnsMax: 5,
       renderer: RENDERER_DIVIDED,
-      params: { value: RENDERER_DIVIDED, test: 23 },
+      params: {
+        value: RENDERER_DIVIDED,
+        test: 23,
+        mainFlagPercent: 45,
+        decorate: DECORATE_INFINITE,
+        decorateConfig: { foo: 'bar' },
+      },
     });
     expect(active.value).toBeFalsy();
   });

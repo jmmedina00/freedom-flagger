@@ -46,8 +46,12 @@
 
   watch(
     handlingConfig,
-    ({ config }) => {
-      state.value = { ...state.value, decorateConfig: { ...config } };
+    ({ config, proportional }) => {
+      state.value = {
+        ...state.value,
+        decorateConfig: { ...config },
+        scale: proportional,
+      };
     },
     { deep: true }
   );
