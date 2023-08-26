@@ -1,9 +1,9 @@
 <script setup>
-  import { provide, ref, watch } from 'vue';
-  import LimitedSliderNumber from './util/numeric/LimitedSliderNumber.vue';
+  import { computed } from 'vue';
   import { useSomeConfig } from './plugin';
-  import { CONFIG_RENDERING, HANDLING_CONFIG } from '@app/state';
+  import { CONFIG_RENDERING } from '@app/state';
   import { RENDERER_STANDARD } from '@app/components/shared/constant/rendering';
+  import LimitedSliderNumber from './util/numeric/LimitedSliderNumber.vue';
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
   import RenderingAdjustModal from './modal/RenderingAdjustModal.vue';
 
@@ -16,47 +16,25 @@
     params: {},
   });
 
-  const maxColumns = ref(renderingConfig.value.columnsMax || DEFAULT_COLUMNS);
-  const enabled = ref(renderingConfig.value.columnsLimited || false);
-  const selectedRenderer = ref(
-    renderingConfig.value.renderer || RENDERER_STANDARD
-  );
-
-  const handlingConfig = ref({
-    component: selectedRenderer.value,
-    config: renderingConfig.value.params || {},
-  });
-
-  provide(HANDLING_CONFIG, handlingConfig);
-
-  watch(
-    handlingConfig,
-    (handling) => {
-      const current = renderingConfig.value;
-      renderingConfig.value = {
-        ...current,
-        params:
-          current.renderer === RENDERER_STANDARD ? {} : { ...handling.config },
-      };
-    },
-    { deep: true }
-  );
-
-  watch(
-    [enabled, maxColumns, selectedRenderer],
-    ([columnsLimited, columnsMax, renderer]) => {
+  const maxColumns = computed({
+    get: () => renderingConfig.value?.columnsMax,
+    set: (value) => {
       renderingConfig.value = {
         ...renderingConfig.value,
-        columnsLimited,
-        columnsMax: parseInt(columnsMax),
-        renderer,
-        params:
-          renderer === RENDERER_STANDARD
-            ? {}
-            : { ...handlingConfig.value.config },
+        columnsMax: parseInt(value),
       };
-    }
-  );
+    },
+  });
+
+  const enabled = computed({
+    get: () => renderingConfig.value?.columnsLimited,
+    set: (value) => {
+      renderingConfig.value = {
+        ...renderingConfig.value,
+        columnsLimited: !!value,
+      };
+    },
+  });
 </script>
 
 <template>

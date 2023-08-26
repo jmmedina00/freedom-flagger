@@ -118,4 +118,34 @@ describe('RenderingOptions', () => {
       params: expect.anything(),
     });
   });
+
+  test('should respect changes anywhere else in state when max columns are changed', async () => {
+    const config = ref({
+      columnsLimited: true,
+      columnsMax: 5,
+      renderer: RENDERER_DIVIDED,
+      params: { test: 12 },
+    });
+
+    useSomeConfig.mockReturnValue(config);
+
+    const { queryByLabelText } = generate();
+    const slider = queryByLabelText('slider');
+
+    config.value = {
+      columnsLimited: true,
+      columnsMax: 5,
+      renderer: RENDERER_DECORATE,
+      params: { bar: 'baz' },
+    };
+
+    await fireEvent.update(slider, 13);
+
+    expect(config.value).toEqual({
+      columnsLimited: true,
+      columnsMax: 13,
+      renderer: RENDERER_DECORATE,
+      params: { bar: 'baz' },
+    });
+  });
 });
