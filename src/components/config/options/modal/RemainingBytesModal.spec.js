@@ -219,7 +219,7 @@ describe('RemainingBytesModal', () => {
     const handling = {
       config: { foo: 'bar' },
       adapted: ['foo'],
-      proportional: [],
+      proportional: ['re', 'la'],
     };
 
     placeColorsOnIndexes.mockReturnValue({ bar: 'baz' });
@@ -238,41 +238,12 @@ describe('RemainingBytesModal', () => {
 
     expect(placeColorsOnIndexes).toHaveBeenCalledWith(
       { foo: 'bar' },
-      { colors: expect.anything(), fields: ['foo'] }
-    );
-  });
-
-  test('should provide decorate config from scaled handling', async () => {
-    const handling = {
-      config: { foo: 'bar' },
-      adapted: ['foo'],
-      proportional: ['re', 'la'],
-    };
-
-    placeColorsOnIndexes.mockReturnValue({
-      re: 200,
-      la: 350,
-      shi: 23,
-      car: 'qwe',
-    });
-
-    const { findByLabelText, findByText } = generate({ corner: handling });
-    const option = await findByLabelText('config.decorate.' + REM_TRIANGLE);
-    await fireEvent.click(option);
-
-    const paragraph = await findByText('Config:', { exact: false });
-    const subButton = paragraph.parentElement.querySelector('button');
-    await fireEvent.click(subButton);
-
-    expect(paragraph.innerText).toEqual(
-      'Config: ' +
-        JSON.stringify({
-          re: 80,
-          la: 140,
-          shi: 23,
-          car: 'qwe',
-          bytes: [0, 0xff],
-        })
+      {
+        colors: expect.anything(),
+        fields: ['foo'],
+        scaled: ['re', 'la'],
+        scaleRatio: 2 / 5,
+      }
     );
   });
 

@@ -143,4 +143,60 @@ describe('Color on index placing', () => {
     });
     expect(actual).toEqual(props);
   });
+
+  test('should scale fields by given ratio, assuming they have not been adapted', () => {
+    const props = {
+      size: 35,
+      foo: 120,
+      topLeft: 4,
+      topRight: '5',
+      bottomRight: '3',
+      bottomLeft: '1',
+    };
+
+    const expected = {
+      size: 17.5,
+      foo: 60,
+      topLeft: '#111',
+      topRight: '#444',
+      bottomRight: '#000',
+      bottomLeft: '#fff',
+    };
+
+    const actual = placeColorsOnIndexes(props, {
+      fields: ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'],
+      colors: ['#fff', '#aaa', '#000', '#111', '#444'],
+      scaled: ['topLeft', 'size', 'foo'],
+      scaleRatio: 0.5,
+    });
+
+    expect(actual).toEqual(expected);
+  });
+
+  test('should not proceed with scaling if ratio is missing', () => {
+    const props = {
+      size: 35,
+      foo: 120,
+      topLeft: 4,
+      topRight: '5',
+      bottomRight: '3',
+      bottomLeft: '1',
+    };
+
+    const expected = {
+      size: 35,
+      foo: 120,
+      topLeft: '#111',
+      topRight: '#444',
+      bottomRight: '#000',
+      bottomLeft: '#fff',
+    };
+
+    const actual = placeColorsOnIndexes(props, {
+      fields: ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'],
+      colors: ['#fff', '#aaa', '#000', '#111', '#444'],
+      scaled: ['size', 'foo'],
+    });
+    expect(actual).toEqual(expected);
+  });
 });

@@ -1,6 +1,6 @@
 export const placeColorsOnIndexes = (
   data = {},
-  { fields = [''], colors = [''] }
+  { fields = [''], colors = [''], scaled = [''], scaleRatio = 0 }
 ) => {
   const entries = Object.entries(data);
 
@@ -10,13 +10,17 @@ export const placeColorsOnIndexes = (
       : fields.length === 0
       ? [...entries, ['colors', colors]]
       : entries.map(([key, value]) => {
-          if (!fields.includes(key)) return [key, value];
+          if (!fields.includes(key) && !scaled.includes(key))
+            return [key, value];
 
-          const index = parseInt(value);
-          const color =
-            index > 0 && index <= colors.length ? colors[index - 1] : undefined;
+          const parsed = parseInt(value);
+          const converted = fields.includes(key)
+            ? parsed > 0 && parsed <= colors.length
+              ? colors[parsed - 1]
+              : undefined
+            : parsed * scaleRatio || parsed;
 
-          return [key, color];
+          return [key, converted];
         });
 
   return Object.fromEntries(transformed);
