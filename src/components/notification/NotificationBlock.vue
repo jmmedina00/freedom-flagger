@@ -33,8 +33,9 @@
 
 <style>
   .wrapper {
-    width: 100%;
     position: absolute;
     top: 0;
+    left: 50%;
+    right: 50%;
   }
 </style>
