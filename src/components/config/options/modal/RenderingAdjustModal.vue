@@ -22,7 +22,9 @@
   import DemoMiniFlag from '../util/demo/DemoMiniFlag.vue';
   import LimitedSliderNumber from '../util/numeric/LimitedSliderNumber.vue';
   import { placeColorsOnIndexes } from '@app/components/shared/color-index';
+  import { useFullStateSize } from '@app/components/render/helper/size';
 
+  const MAX_SCALED_DIMENSION = 200;
   const SAMPLE_COLORS = [
     '#99b433',
     '#00a300',
@@ -67,6 +69,7 @@
     renderer: RENDERER_STANDARD,
     params: {},
   });
+  const sizing = useFullStateSize();
 
   const selectedRenderer = ref(
     renderingConfig.value.renderer || RENDERER_STANDARD
@@ -99,8 +102,12 @@
     const scaled = handlingConfig.value?.config?.scale || [];
     const colors = SAMPLE_COLORS.slice(0, demoColorAmount.value);
 
+    const { width, height } = sizing.value;
+    const scaleRatio = MAX_SCALED_DIMENSION / Math.max(width, height);
+
     return placeColorsOnIndexes(workingConfig, {
       scaled,
+      scaleRatio,
       colors,
       fields: [],
     });

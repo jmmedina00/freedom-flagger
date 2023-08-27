@@ -1,27 +1,30 @@
 export const placeColorsOnIndexes = (
   data = {},
-  { fields = [''], colors = [''], scaled = [''], scaleRatio = 0 }
+  { fields = [], colors = [], scaled = [], scaleRatio = 0 }
 ) => {
   const entries = Object.entries(data);
 
-  const transformed =
-    colors.length === 0
-      ? [...entries]
-      : fields.length === 0
-      ? [...entries, ['colors', colors]]
-      : entries.map(([key, value]) => {
-          if (!fields.includes(key) && !scaled.includes(key))
-            return [key, value];
+  const transformed = entries.map(([key, value]) => {
+    if (!fields.includes(key) && !scaled.includes(key)) return [key, value];
 
-          const parsed = parseInt(value);
-          const converted = fields.includes(key)
-            ? parsed > 0 && parsed <= colors.length
-              ? colors[parsed - 1]
-              : undefined
-            : parsed * scaleRatio || parsed;
+    const parsed = parseInt(value);
+    const scaledValue = scaled.includes(key)
+      ? parsed * scaleRatio || value
+      : value;
 
-          return [key, converted];
-        });
+    const shouldAdapt =
+      fields.length > 0 && fields.includes(key) && colors.length > 0;
+    const hasValidAdaptIndex = parsed > 0 && parsed <= colors.length;
 
-  return Object.fromEntries(transformed);
+    const converted = shouldAdapt
+      ? hasValidAdaptIndex
+        ? colors[parsed - 1]
+        : undefined
+      : scaledValue;
+    return [key, converted];
+  });
+
+  const allEntries =
+    fields.length > 0 ? transformed : [...transformed, ['colors', colors]];
+  return Object.fromEntries(allEntries);
 };

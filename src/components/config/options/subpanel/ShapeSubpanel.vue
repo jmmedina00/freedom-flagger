@@ -21,7 +21,7 @@
       size: 10,
       component: SHAPE_CIRCLE,
     },
-    { proportional: [], adapted: [] }
+    { proportional: ['size'], adapted: [] }
   );
 </script>
 

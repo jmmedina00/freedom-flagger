@@ -199,4 +199,93 @@ describe('Color on index placing', () => {
     });
     expect(actual).toEqual(expected);
   });
+
+  test('should scale given data, even when there are no adaptable fields', () => {
+    const props = {
+      size: 35,
+      foo: 120,
+      topLeft: 4,
+      topRight: '5',
+      bottomRight: '3',
+      bottomLeft: '1',
+    };
+
+    const expected = {
+      size: 17.5,
+      foo: 60,
+      topLeft: 2,
+      topRight: '5',
+      bottomRight: '3',
+      bottomLeft: '1',
+      colors: ['#fff', '#aaa', '#000', '#111', '#444'],
+    };
+
+    const actual = placeColorsOnIndexes(props, {
+      fields: [],
+      colors: ['#fff', '#aaa', '#000', '#111', '#444'],
+      scaled: ['topLeft', 'size', 'foo'],
+      scaleRatio: 0.5,
+    });
+
+    expect(actual).toEqual(expected);
+  });
+
+  test('should scale given data, even when there are no colors', () => {
+    const props = {
+      size: 35,
+      foo: 120,
+      topLeft: 4,
+      topRight: '5',
+      bottomRight: '3',
+      bottomLeft: '1',
+    };
+
+    const expected = {
+      size: 17.5,
+      foo: 60,
+      topLeft: 2,
+      topRight: '5',
+      bottomRight: '3',
+      bottomLeft: '1',
+    };
+
+    const actual = placeColorsOnIndexes(props, {
+      fields: ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'],
+      colors: [],
+      scaled: ['topLeft', 'size', 'foo'],
+      scaleRatio: 0.5,
+    });
+
+    expect(actual).toEqual(expected);
+  });
+
+  test('should scale given data, even when there are no colors nor adapted fields', () => {
+    const props = {
+      size: 35,
+      foo: 120,
+      topLeft: 4,
+      topRight: '5',
+      bottomRight: '3',
+      bottomLeft: '1',
+    };
+
+    const expected = {
+      size: 17.5,
+      foo: 60,
+      topLeft: 2,
+      topRight: '5',
+      bottomRight: '3',
+      bottomLeft: '1',
+      colors: [],
+    };
+
+    const actual = placeColorsOnIndexes(props, {
+      fields: [],
+      colors: [],
+      scaled: ['topLeft', 'size', 'foo'],
+      scaleRatio: 0.5,
+    });
+
+    expect(actual).toEqual(expected);
+  });
 });

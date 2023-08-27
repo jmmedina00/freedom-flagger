@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 import { computed, inject, ref } from 'vue';
 import { useSomeConfig } from '../plugin';
 import { fireEvent, render } from '@testing-library/vue';
@@ -17,10 +17,12 @@ import {
   MODAL_ACTIVE,
 } from '@app/state';
 import { placeColorsOnIndexes } from '@app/components/shared/color-index';
+import { useFullStateSize } from '@app/components/render/helper/size';
 import InfiniteDecorate from '@app/components/shared/decorate/InfiniteDecorate.vue';
 
 vi.mock('../plugin');
 vi.mock('@app/components/shared/color-index');
+vi.mock('@app/components/render/helper/size');
 
 describe('RenderingAdjustModal', () => {
   const possibleRenderers = Object.keys(RENDERERS);
@@ -112,6 +114,12 @@ describe('RenderingAdjustModal', () => {
       },
     });
 
+  afterEach(() => {
+    placeColorsOnIndexes.mockReset();
+    useSomeConfig.mockReset();
+    useFullStateSize.mockReset();
+  });
+
   test('should load current state as initial values', async () => {
     const config = ref({
       columnsLimited: true,
@@ -120,6 +128,7 @@ describe('RenderingAdjustModal', () => {
       params: { test: 12 },
     });
     useSomeConfig.mockReturnValue(config);
+    useFullStateSize.mockReturnValue(ref({ width: 800, height: 500 }));
 
     const { findByLabelText } = generate();
 
@@ -151,6 +160,7 @@ describe('RenderingAdjustModal', () => {
     });
 
     useSomeConfig.mockReturnValue(config);
+    useFullStateSize.mockReturnValue(ref({ width: 800, height: 500 }));
 
     const { findByLabelText, queryByText } = generate();
 
@@ -184,6 +194,7 @@ describe('RenderingAdjustModal', () => {
       });
 
       useSomeConfig.mockReturnValue(config);
+      useFullStateSize.mockReturnValue(ref({ width: 800, height: 500 }));
 
       const { findByLabelText, findByText } = generate();
       const option = await findByLabelText('renderer.' + renderer);
@@ -222,6 +233,7 @@ describe('RenderingAdjustModal', () => {
       });
 
       useSomeConfig.mockReturnValue(config);
+      useFullStateSize.mockReturnValue(ref({ width: 800, height: 500 }));
 
       const { findByLabelText, findByText } = generate();
       const option = await findByLabelText('renderer.' + summonedBy);
@@ -247,6 +259,7 @@ describe('RenderingAdjustModal', () => {
 
     useSomeConfig.mockReturnValue(config);
     placeColorsOnIndexes.mockReturnValue({ re: 'la', shi: 'baz' });
+    useFullStateSize.mockReturnValue(ref({ width: 800, height: 500 }));
 
     const { findByLabelText, findByText } = generate();
     const option = await findByLabelText('renderer.' + RENDERER_DECORATE);
@@ -262,7 +275,12 @@ describe('RenderingAdjustModal', () => {
 
     expect(placeColorsOnIndexes).toHaveBeenCalledWith(
       { foo: 'bar' },
-      { scaled: ['test'], fields: [], colors: expect.anything() }
+      {
+        scaled: ['test'],
+        scaleRatio: 1 / 4,
+        fields: [],
+        colors: expect.anything(),
+      }
     );
   });
 
@@ -274,6 +292,7 @@ describe('RenderingAdjustModal', () => {
       params: { test: 12 },
     });
     useSomeConfig.mockReturnValue(config);
+    useFullStateSize.mockReturnValue(ref({ width: 800, height: 500 }));
     const active = ref(true);
 
     const { findByLabelText, findByText } = generate(active);
