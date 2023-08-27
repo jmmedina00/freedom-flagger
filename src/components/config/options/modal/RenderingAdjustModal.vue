@@ -11,6 +11,7 @@
     DECORATE_COMPONENTS,
     RENDERER_DECORATE,
     RENDERER_DIVIDED,
+    RENDERER_ICONS,
     RENDERER_STANDARD,
   } from '@app/components/shared/constant/rendering';
   import IconOption from '../util/icon/IconOption.vue';
@@ -41,21 +42,18 @@
   const renderers = [
     {
       value: RENDERER_STANDARD,
-      icon: 'work',
       panel: null,
       demo: DemoFlat,
       params: () => ({}),
     },
     {
       value: RENDERER_DIVIDED,
-      icon: 'pets',
       panel: DivideLineSubpanel,
       demo: DemoSplit,
       params: ({ mainFlagPercent }) => ({ percent: mainFlagPercent }),
     },
     {
       value: RENDERER_DECORATE,
-      icon: 'explore',
       panel: DecorateSubpanel,
       demo: DemoMiniFlag,
       params: ({ decorate }) => ({ component: DECORATE_COMPONENTS[decorate] }),
@@ -138,11 +136,11 @@
       <component v-if="current.demo" :is="current.demo" v-bind="demoParams" />
       <p>
         <IconOption
-          v-for="{ value, icon } in renderers"
+          v-for="{ value } in renderers"
           :id="'render-' + value"
           :value="value"
           :label="'renderer.' + value"
-          :icon="icon"
+          :icon="RENDERER_ICONS[value]"
           v-model="selectedRenderer"
         />
       </p>

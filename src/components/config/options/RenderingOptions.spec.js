@@ -5,8 +5,11 @@ import { useSomeConfig } from './plugin';
 import { ref } from 'vue';
 import { CONFIG_RENDERING } from '@app/state';
 import {
+  DECORATE_INFINITE,
   RENDERER_DECORATE,
   RENDERER_DIVIDED,
+  RENDERER_ICONS,
+  RENDERER_STANDARD,
 } from '@app/components/shared/constant/rendering';
 
 vi.mock('./plugin');
@@ -16,11 +19,25 @@ describe('RenderingOptions', () => {
     render(RenderingOptions, {
       global: {
         stubs: {
+          ModalCoupler: {
+            template: '<nav><slot></slot></nav>',
+          },
+          RenderingAdjustModal: {
+            template: '<span>Modal</span>',
+          },
           LimitedSliderNumber: {
             emits: ['update:modelValue'],
             props: ['modelValue', 'min', 'max'],
             template: `<label for="number">slider</label>
             <input id="number" type="text" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">`,
+          },
+          OptionButton: {
+            props: ['primary', 'secondary', 'icon'],
+            template:
+              '<button>' +
+              '<span class="icon">{{ icon }}</span>' +
+              '<span class="primary">{{ primary }}</span>' +
+              '<span class="secondary">{{ secondary }}</span></button>',
           },
         },
         mocks: {
@@ -148,4 +165,32 @@ describe('RenderingOptions', () => {
       params: { bar: 'baz' },
     });
   });
+
+  test.each([
+    [RENDERER_STANDARD, 'std', {}],
+    [RENDERER_DIVIDED, '45%', { mainFlagPercent: 45 }],
+    [RENDERER_DECORATE, DECORATE_INFINITE, { decorate: DECORATE_INFINITE }],
+  ])(
+    'should display that %s renderer is active along with most relevant information',
+    (renderer, expected, params) => {
+      const config = ref({
+        columnsLimited: true,
+        columnsMax: 5,
+        renderer,
+        params,
+      });
+      useSomeConfig.mockReturnValue(config);
+
+      const { container } = generate();
+
+      const icon = container.querySelector('button .icon');
+      expect(icon.innerText).toEqual(RENDERER_ICONS[renderer]);
+
+      const primary = container.querySelector('button .primary');
+      expect(primary.innerText).toEqual('renderer.' + renderer);
+
+      const secondary = container.querySelector('button .secondary');
+      expect(secondary.innerText).toEqual(expected);
+    }
+  );
 });

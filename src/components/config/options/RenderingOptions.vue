@@ -2,12 +2,24 @@
   import { computed } from 'vue';
   import { useSomeConfig } from './plugin';
   import { CONFIG_RENDERING } from '@app/state';
-  import { RENDERER_STANDARD } from '@app/components/shared/constant/rendering';
+  import {
+    RENDERER_DECORATE,
+    RENDERER_DIVIDED,
+    RENDERER_ICONS,
+    RENDERER_STANDARD,
+  } from '@app/components/shared/constant/rendering';
   import LimitedSliderNumber from './util/numeric/LimitedSliderNumber.vue';
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
   import RenderingAdjustModal from './modal/RenderingAdjustModal.vue';
+  import OptionButton from './OptionButton.vue';
 
   const DEFAULT_COLUMNS = 12;
+
+  const significantGetters = {
+    [RENDERER_STANDARD]: () => 'std',
+    [RENDERER_DIVIDED]: (params) => params.mainFlagPercent + '%',
+    [RENDERER_DECORATE]: (params) => params.decorate,
+  };
 
   const renderingConfig = useSomeConfig(CONFIG_RENDERING, {
     columnsLimited: false,
@@ -15,6 +27,7 @@
     renderer: RENDERER_STANDARD,
     params: {},
   });
+  const renderer = computed(() => renderingConfig.value.renderer);
 
   const maxColumns = computed({
     get: () => renderingConfig.value?.columnsMax,
@@ -49,7 +62,12 @@
       </h5>
       <LimitedSliderNumber v-model="maxColumns" :min="1" :max="32" />
       <ModalCoupler :component="RenderingAdjustModal" v-slot="{ clicked }">
-        <button @click="clicked">Test</button>
+        <OptionButton
+          @click="clicked"
+          :icon="RENDERER_ICONS[renderer]"
+          :primary="$t('renderer.' + renderer)"
+          :secondary="significantGetters[renderer](renderingConfig.params)"
+        />
       </ModalCoupler>
     </div>
   </div>

@@ -24,6 +24,12 @@ export const RENDERERS = {
   [RENDERER_DECORATE]: DecoratedFlagRenderer,
 };
 
+export const RENDERER_ICONS = {
+  [RENDERER_STANDARD]: 'work',
+  [RENDERER_DIVIDED]: 'pets',
+  [RENDERER_DECORATE]: 'explore',
+};
+
 export const DECORATE_COMPONENTS = {
   [DECORATE_MOSAIC]: MosaicDecorate,
   [DECORATE_INFINITE]: InfiniteDecorate,
