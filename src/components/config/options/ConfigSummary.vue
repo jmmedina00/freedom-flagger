@@ -13,6 +13,7 @@
   import { useI18n } from 'vue-i18n';
   import RemainingBytesModal from './modal/RemainingBytesModal.vue';
   import RenderingOptions from './RenderingOptions.vue';
+  import RemainderButton from './button/RemainderButton.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -78,6 +79,7 @@
       </template>
     </ModalCoupler>
     <SizingButton />
+    <RemainderButton />
 
     <OptionButton @click="testClipboard" icon="icons/flag-stripes.svg">
       <template v-slot:primary> 300 x <i>200</i> </template>
