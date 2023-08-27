@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, inject, ref } from 'vue';
   import PanelBar from '../shared/PanelBar.vue';
   import NumberSummary from './write/NumberSummary.vue';
   import NumberCarousel from './read/NumberCarousel.vue';
@@ -7,8 +7,12 @@
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
   import NumberFromTextModal from './modal/NumberFromTextModal.vue';
   import NumberFromFileModal from './modal/NumberFromFileModal.vue';
+  import { NUMBER_BYTES } from '@app/state';
+  import { useLinkToCurrentNumber } from './link';
 
   const expanded = ref(false);
+  const number = inject(NUMBER_BYTES, ref([0]));
+  const link = useLinkToCurrentNumber(number);
 
   const toggleExpanded = () => {
     expanded.value = !expanded.value;
@@ -18,6 +22,15 @@
   const buttonIcon = computed(
     () => 'keyboard_double_arrow_' + buttonLocale.value
   );
+
+  const shareLink = async () => {
+    /* window.navigator.canShare(link.value);
+    window.navigator.share(link.value); */
+
+    await navigator.clipboard.writeText(link.value);
+
+    /* share({ url:  }); */
+  };
 </script>
 
 <template>
@@ -29,6 +42,7 @@
       <ModalCoupler :component="NumberFromFileModal" v-slot="{ clicked }">
         <IconButton icon="file_upload" @click="clicked" />
       </ModalCoupler>
+      <IconButton icon="share" @click="shareLink" />
       <IconButton :icon="buttonIcon" @click="toggleExpanded" />
     </PanelBar>
     <NumberSummary v-if="expanded" />
