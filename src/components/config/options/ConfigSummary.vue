@@ -49,7 +49,12 @@
 <template>
   <div>
     <PanelBar :name="$t('test')" color="primary">
-      <IconButton @click="toggleFlag" :icon="flagIcon" />
+      <IconButton
+        @click="toggleFlag"
+        :icon="flagIcon"
+        :data-tooltip="$t('number.hex')"
+        class="has-tooltip-bottom"
+      />
       <IconButton @click="enterFlagDisplay" icon="icons/flag-stripes.svg" />
     </PanelBar>
     <ModalCoupler label="khe" :enabled="flagged()">
@@ -57,6 +62,8 @@
         <OptionButton
           @click="clicked"
           icon="icons/flag-stripes.svg"
+          class="has-tooltip-arrow"
+          :data-tooltip="$t('options.sizing')"
           :secondary="$t('test')"
         >
           <template v-slot:primary> 300 x <i>200</i> </template>
