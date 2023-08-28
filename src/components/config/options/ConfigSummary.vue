@@ -31,7 +31,7 @@
 
 <template>
   <div>
-    <PanelBar :name="$t('test')" color="primary">
+    <PanelBar :name="$t('test')" color="primary" class="px-4 py-3">
       <IconButton
         icon="close"
         :data-tooltip="$t('number.hex')"

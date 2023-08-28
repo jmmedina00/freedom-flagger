@@ -12,7 +12,7 @@
   };
 </script>
 <template>
-  <PanelBar :name="name">
+  <PanelBar :name="name" class="mb-4">
     <IconButton icon="close" @click="closeModal" />
   </PanelBar>
 </template>

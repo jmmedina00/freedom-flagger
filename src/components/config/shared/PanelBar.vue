@@ -9,12 +9,7 @@
   const isColorAvailable = computed(() => !!props.color);
 
   const mainClasses = computed(() => {
-    const baseClasses = [
-      'is-flex',
-      'is-justify-content-space-between',
-      'px-4',
-      'py-3',
-    ];
+    const baseClasses = ['is-flex', 'is-justify-content-space-between'];
 
     const additionalClasses = isColorAvailable.value
       ? [`has-background-${props.color}`, `has-text-${props.color}-dark`]
