@@ -34,21 +34,19 @@
 </script>
 
 <template>
-  <div class="bottom-pad">
-    <PanelBar :name="$t('tabs')" color="info" class="px-4 py-3">
-      <ModalCoupler :component="NumberFromTextModal" v-slot="{ clicked }">
-        <IconButton icon="text_fields" @click="clicked" />
-      </ModalCoupler>
-      <ModalCoupler :component="NumberFromFileModal" v-slot="{ clicked }">
-        <IconButton icon="file_upload" @click="clicked" />
-      </ModalCoupler>
-      <IconButton icon="share" @click="shareLink" />
-      <IconButton :icon="buttonIcon" @click="toggleExpanded" />
-    </PanelBar>
-    <div class="px-4 py-3">
-      <NumberSummary v-if="expanded" />
-      <NumberCarousel v-else />
-    </div>
+  <PanelBar :name="$t('tabs')" color="info" class="px-4 py-3">
+    <ModalCoupler :component="NumberFromTextModal" v-slot="{ clicked }">
+      <IconButton icon="text_fields" @click="clicked" />
+    </ModalCoupler>
+    <ModalCoupler :component="NumberFromFileModal" v-slot="{ clicked }">
+      <IconButton icon="file_upload" @click="clicked" />
+    </ModalCoupler>
+    <IconButton icon="share" @click="shareLink" />
+    <IconButton :icon="buttonIcon" @click="toggleExpanded" />
+  </PanelBar>
+  <div class="px-4 py-3" v-bind="$attrs">
+    <NumberSummary v-if="expanded" />
+    <NumberCarousel v-else />
   </div>
 </template>
 

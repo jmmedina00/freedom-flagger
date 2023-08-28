@@ -15,7 +15,7 @@
   </nav>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
   @import '../../style/bulma';
 
   nav {
