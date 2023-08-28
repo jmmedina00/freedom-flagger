@@ -28,7 +28,9 @@ describe('NotificationBlock', () => {
     const notification = container.querySelector('.notification');
     const classes = [...notification.classList.values()];
 
-    expect(classes).toEqual(['notification', 'is-primary']);
+    expect(classes).toEqual(
+      expect.arrayContaining(['notification', 'is-primary'])
+    );
     expect(notification.innerText.trim()).toEqual('This is a test');
   });
 
@@ -38,7 +40,9 @@ describe('NotificationBlock', () => {
     const notification = container.querySelector('.notification');
     const classes = [...notification.classList.values()];
 
-    expect(classes).toEqual(['notification', 'is-link']);
+    expect(classes).toEqual(
+      expect.arrayContaining(['notification', 'is-link'])
+    );
     expect(notification.innerText.trim()).toEqual('Test me');
   });
 
@@ -47,7 +51,9 @@ describe('NotificationBlock', () => {
 
     const notification = container.querySelector('.notification');
     const classes = [...notification.classList.values()];
-    expect(classes).toEqual(['notification', 'is-link', 'is-dark']);
+    expect(classes).toEqual(
+      expect.arrayContaining(['notification', 'is-link', 'is-dark'])
+    );
   });
 
   test('should be able to be "closed" by clicking the "delete" button', async () => {

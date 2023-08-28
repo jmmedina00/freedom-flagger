@@ -20,29 +20,68 @@
     fullFlagDisplay.value = true;
   };
 
-  const testClipboard = () => {
-    useExportToClipboard(document, sizing.value);
+  const copyToClipboard = async () => {
+    try {
+      await useExportToClipboard(document, sizing.value);
+      notification.value = {
+        message: 'actions.copy.success',
+        color: 'success',
+      };
+    } catch (e) {
+      console.error(e);
+      notification.value = {
+        message: 'actions.copy.error',
+        color: 'danger',
+      };
+    }
   };
 
-  const testDownload = () => {
-    useDownloadFlag(document, t('config.export.flag'), sizing.value);
+  const downloadFlag = async () => {
+    try {
+      await useDownloadFlag(
+        document,
+        t('actions.download.filename'),
+        sizing.value
+      );
+    } catch (e) {
+      console.error(e);
+      notification.value = {
+        message: 'actions.download.error',
+        color: 'danger',
+      };
+    }
   };
 </script>
 
 <template>
-  <div>
-    <PanelBar :name="$t('test')" color="primary" class="px-4 py-3">
-      <IconButton
-        icon="close"
-        :data-tooltip="$t('number.hex')"
-        class="has-tooltip-bottom"
-      />
-      <IconButton @click="enterFlagDisplay" icon="icons/flag-stripes.svg" />
-    </PanelBar>
-    <div class="px-4 py-3">
-      <SizingButton class="mb-2" />
-      <RemainderButton class="mb-3" />
-      <RenderingOptions />
-    </div>
+  <PanelBar name="title.short" color="primary" class="px-4 py-3">
+    <IconButton
+      @click="enterFlagDisplay"
+      icon="fullscreen"
+      :data-tooltip="$t('actions.fullScreen')"
+      class="has-tooltip-bottom is-hidden-tablet"
+    />
+    <IconButton
+      @click="copyToClipboard"
+      icon="content_copy"
+      :data-tooltip="$t('actions.copy.title')"
+      class="has-tooltip-bottom"
+    />
+    <IconButton
+      @click="downloadFlag"
+      icon="file_download"
+      :data-tooltip="$t('actions.download.title')"
+      class="has-tooltip-bottom"
+    />
+    <IconButton
+      icon="language"
+      :data-tooltip="$t('actions.language.title')"
+      class="has-tooltip-left"
+    />
+  </PanelBar>
+  <div class="px-4 py-3" v-bind="$attrs">
+    <SizingButton class="mb-2" />
+    <RemainderButton class="mb-3" />
+    <RenderingOptions />
   </div>
 </template>

@@ -14,6 +14,7 @@
 
   const notificationClasses = computed(() => [
     'notification',
+    'is-flex-shrink-0',
     ...display.value.color.split('-').map((value) => 'is-' + value),
   ]);
 

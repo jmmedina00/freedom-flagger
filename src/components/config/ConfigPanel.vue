@@ -40,6 +40,6 @@
   }
 
   .smaller {
-    max-height: 25%;
+    max-height: 45%;
   }
 </style>
