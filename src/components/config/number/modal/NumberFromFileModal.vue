@@ -38,29 +38,35 @@
 <template>
   <div class="modal-content">
     <div class="box">
-      <ModalTitle name="number.provide.file.title" />
+      <ModalTitle name="actions.provide.file.title" />
       <div class="file is-boxed">
-        <label class="file-label" :aria-label="$t('number.provide.file.title')">
+        <label
+          class="file-label"
+          :aria-label="$t('actions.provide.file.title')"
+        >
           <input class="file-input" type="file" @change="updateContents" />
           <span class="file-cta">
             <DiscreteIcon icon="file_upload" />
             <span class="file-label">
-              {{ $t('number.provide.file.uploaded.' + isValid) }}
+              {{ $t('actions.provide.file.isValid.' + isValid) }}
             </span>
           </span>
         </label>
       </div>
 
+      <h5 class="my-2" v-if="contentBytes.length > 0">
+        {{ $t('actions.provide.preview') }}
+      </h5>
       <NumberDisplay class="preview" :number="getContent()" />
       <p class="has-text-danger" v-if="displayError">
-        {{ $t('number.provide.file.tooLarge') }}
+        {{ $t('actions.provide.file.tooLarge') }}
       </p>
       <button
         class="button is-success"
         @click="applyNumber"
         :disabled="!isValid"
       >
-        {{ $t('apply') }}
+        {{ $t('common.apply') }}
       </button>
     </div>
   </div>

@@ -32,6 +32,9 @@
   const orientation = computed(() =>
     verticallyOriented.value ? 'swap_vert' : 'swap_horiz'
   );
+  const tooltip = computed(() =>
+    verticallyOriented.value ? 'vertical' : 'horizontal'
+  );
 
   const toggleOrientation = () => {
     verticallyOriented.value = !verticallyOriented.value;
@@ -98,8 +101,9 @@
 <template>
   <div class="modal-content">
     <div class="box">
-      <ModalTitle name="config.sizing" />
-      <div class="is-flex">
+      <ModalTitle name="options.sizing" />
+      <h5>{{ $t('options.aspectRatio') }}</h5>
+      <div class="is-flex mb-4">
         <IconOption
           v-for="{ ratio, icon } in ratioLists"
           :id="getRatioLabel(ratio)"
@@ -108,6 +112,7 @@
           :icon="icon"
           v-model="aspectRatio"
           :disabled="bothPopulated"
+          class="mr-2"
         />
 
         <IconOption
@@ -118,7 +123,9 @@
           v-model="aspectRatio"
         />
       </div>
-      <div>
+
+      <h5>{{ $t('options.dimensions') }}</h5>
+      <div class="mb-4 is-flex">
         <StrictNumberInput
           id="width"
           class="input numeric"
@@ -126,7 +133,7 @@
           :placeholder="fullDimensions.width"
           v-model="width"
         />
-        <span>x</span>
+        <span class="px-3 separator">x</span>
         <StrictNumberInput
           id="height"
           class="input numeric"
@@ -134,20 +141,30 @@
           :placeholder="fullDimensions.height"
           v-model="height"
         />
-        <IconButton :icon="orientation" @click="toggleOrientation" />
+        <IconButton
+          :icon="orientation"
+          :data-tooltip="tooltip"
+          @click="toggleOrientation"
+          class="ml-2"
+        />
       </div>
       <button
         class="button is-success"
         :disabled="!isEverythingValid"
         @click="applyConfig"
       >
-        {{ $t('apply') }}
+        {{ $t('common.apply') }}
       </button>
     </div>
   </div>
 </template>
 
 <style scoped>
+  .separator {
+    line-height: 1;
+    height: 1em;
+    align-self: center;
+  }
   .numeric {
     width: 4rem;
   }

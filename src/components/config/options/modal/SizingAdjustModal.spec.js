@@ -27,7 +27,7 @@ describe('SizingAdjustModal', () => {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
             template:
-              '<label :for="id">{{ label }}</label>' +
+              '<label :for="id" v-bind="$attrs">{{ label }}</label>' +
               '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
               '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
           },
@@ -258,7 +258,7 @@ describe('SizingAdjustModal', () => {
     const interestingOption = queryByLabelText('16:9');
     await fireEvent.click(interestingOption);
 
-    const applyButton = queryByText('apply');
+    const applyButton = queryByText('common.apply');
     expect(applyButton.disabled).toBeFalsy();
 
     expect(startingPoint.value).toEqual({
@@ -285,7 +285,7 @@ describe('SizingAdjustModal', () => {
     const emptyInput = queryByPlaceholderText('400');
     await fireEvent.update(emptyInput, 300);
 
-    const applyButton = queryByText('apply');
+    const applyButton = queryByText('common.apply');
     expect(applyButton.disabled).toBeFalsy();
   });
 
@@ -314,7 +314,7 @@ describe('SizingAdjustModal', () => {
     const interestingOption = queryByLabelText('custom');
     await fireEvent.click(interestingOption);
 
-    const applyButton = queryByText('apply');
+    const applyButton = queryByText('common.apply');
     expect(applyButton.disabled).toBeTruthy();
   });
 
@@ -339,7 +339,7 @@ describe('SizingAdjustModal', () => {
     const interestingOption = queryByLabelText('16:9');
     await fireEvent.click(interestingOption);
 
-    const applyButton = queryByText('apply');
+    const applyButton = queryByText('common.apply');
     await fireEvent.click(applyButton);
 
     expect(startingPoint.value).toEqual({

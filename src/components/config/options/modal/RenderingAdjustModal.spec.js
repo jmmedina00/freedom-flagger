@@ -80,7 +80,7 @@ describe('RenderingAdjustModal', () => {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
             template:
-              '<label :for="id">{{ label }}</label>' +
+              '<label :for="id" v-bind="$attrs">{{ label }}</label>' +
               '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
               '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
           },
@@ -303,7 +303,7 @@ describe('RenderingAdjustModal', () => {
     const clickButton = await findByText('Click');
     await fireEvent.click(clickButton);
 
-    const applyButton = await findByText('apply');
+    const applyButton = await findByText('common.apply');
     await fireEvent.click(applyButton);
 
     expect(config.value).toEqual({

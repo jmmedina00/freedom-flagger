@@ -29,15 +29,19 @@
 <template>
   <div class="modal-content">
     <div class="box">
-      <ModalTitle name="number.provide.text.title" />
-      <textarea class="textarea" v-model="text"></textarea>
+      <ModalTitle name="actions.provide.text.title" />
+      <textarea class="textarea is-primary" v-model="text"></textarea>
+
+      <h5 class="my-2" v-if="number.length > 0">
+        {{ $t('actions.provide.preview') }}
+      </h5>
       <NumberDisplay class="preview" :number="getNumber()" />
       <button
         class="button is-success"
         @click="applyNumber"
         :disabled="!isValid"
       >
-        {{ $t('apply') }}
+        {{ $t('common.apply') }}
       </button>
     </div>
   </div>

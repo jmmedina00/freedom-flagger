@@ -99,18 +99,19 @@
 <template>
   <div class="modal-content">
     <div class="box">
-      <ModalTitle name="config.remainder" />
+      <ModalTitle name="options.remainder" />
       <DemoMiniFlag :component="activeComponent" />
 
-      <h5>{{ $t('config.decorate') }}</h5>
+      <h5 class="my-3">{{ $t('decorate.title') }}</h5>
       <p>
         <IconOption
           v-for="decorate in DECORATES"
           :id="decorate"
           :value="decorate"
-          :label="'config.decorate.' + decorate"
+          :label="'decorate.' + decorate"
           :icon="REMAINDER_ICONS[decorate]"
           v-model="activeSubpanel"
+          class="mr-3"
         />
       </p>
       <p>
@@ -120,13 +121,13 @@
           class="switch"
           v-model="complexColorsEnabled"
         />
-        <label for="enabled">{{ $t('config.remainder.complexColors') }}</label>
+        <label for="enabled">{{ $t('options.color.mode.title') }}</label>
       </p>
 
-      <h5>{{ $t('config.decorate.options') }}</h5>
+      <h5>{{ $t('decorate.options') }}</h5>
       <component :is="SUBPANELS[activeSubpanel]"></component>
       <button class="button is-success" @click="applyConfig">
-        {{ $t('apply') }}
+        {{ $t('common.apply') }}
       </button>
     </div>
   </div>

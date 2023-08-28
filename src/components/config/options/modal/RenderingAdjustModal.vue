@@ -134,7 +134,7 @@
       <ModalTitle name="renderer.title" />
 
       <component v-if="current.demo" :is="current.demo" v-bind="demoParams" />
-      <p>
+      <p class="mt-3">
         <IconOption
           v-for="{ value } in renderers"
           :id="'render-' + value"
@@ -142,15 +142,19 @@
           :label="'renderer.' + value"
           :icon="RENDERER_ICONS[value]"
           v-model="selectedRenderer"
+          class="mr-3"
         />
       </p>
-      <p v-if="selectedRenderer === RENDERER_DECORATE">
-        <span>{{ $t('options.color.demo') }}</span>
+      <p
+        v-if="selectedRenderer === RENDERER_DECORATE"
+        class="is-flex is-align-items-center"
+      >
+        <span class="mr-2">{{ $t('options.color.demo') }}</span>
         <LimitedSliderNumber :min="1" :max="10" v-model="demoColorAmount" />
       </p>
       <component v-if="current.panel" :is="current.panel" />
       <button class="button is-success" @click="applyConfig">
-        {{ $t('apply') }}
+        {{ $t('common.apply') }}
       </button>
     </div>
   </div>

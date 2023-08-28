@@ -59,7 +59,7 @@ describe('NumberFromFileModal', () => {
     const preview = container.querySelector('.preview');
     expect(preview.innerText).toEqual('');
 
-    const applyButton = await findByText('apply');
+    const applyButton = await findByText('common.apply');
     expect(applyButton.disabled).toBeTruthy();
   });
 
@@ -79,7 +79,7 @@ describe('NumberFromFileModal', () => {
     const errorParagraph = container.querySelector('.has-text-danger');
     expect(errorParagraph).toBeNull();
 
-    const applyButton = await findByText('apply');
+    const applyButton = await findByText('common.apply');
     expect(applyButton.disabled).toBeFalsy();
 
     expect(isActive.value).toBeTruthy();
@@ -101,7 +101,7 @@ describe('NumberFromFileModal', () => {
     const errorParagraph = container.querySelector('.has-text-danger');
     expect(errorParagraph).not.toBeNull();
 
-    const applyButton = await findByText('apply');
+    const applyButton = await findByText('common.apply');
     expect(applyButton.disabled).toBeTruthy();
   });
 
@@ -119,7 +119,7 @@ describe('NumberFromFileModal', () => {
     const preview = container.querySelector('.preview');
     expect(preview.innerText).toEqual('');
 
-    const applyButton = await findByText('apply');
+    const applyButton = await findByText('common.apply');
     expect(applyButton.disabled).toBeTruthy();
   });
 
@@ -133,7 +133,7 @@ describe('NumberFromFileModal', () => {
     const uploadInput = container.querySelector('.file-input');
     await fireEvent.change(uploadInput, getFileEvent([2, 4, 6, 8, 10]));
 
-    const applyButton = await findByText('apply');
+    const applyButton = await findByText('common.apply');
     await fireEvent.click(applyButton);
 
     expect(isActive.value).toBeFalsy();

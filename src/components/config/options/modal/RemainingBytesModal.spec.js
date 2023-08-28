@@ -87,7 +87,7 @@ describe('RemainingBytesModal', () => {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
             template:
-              '<label :for="id">{{ label }}</label>' +
+              '<label :for="id" v-bind="$attrs">{{ label }}</label>' +
               '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
               '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
           },
@@ -123,7 +123,7 @@ describe('RemainingBytesModal', () => {
 
     const { findByLabelText, findByText } = defaultGenerate();
 
-    const option = await findByLabelText('config.decorate.' + REM_BORDER);
+    const option = await findByLabelText('decorate.' + REM_BORDER);
     expect(option.checked).toBeTruthy();
 
     const subSpan = await findByText('Border:', { exact: false });
@@ -140,7 +140,7 @@ describe('RemainingBytesModal', () => {
   test('should feed handling to mosaic subpanel and handle its changes', async () => {
     const { findByLabelText, findByText } = defaultGenerate();
 
-    const option = await findByLabelText('config.decorate.' + REM_MOSAIC);
+    const option = await findByLabelText('decorate.' + REM_MOSAIC);
     await fireEvent.click(option);
 
     const subSpan = await findByText('Mosaic:', { exact: false });
@@ -155,7 +155,7 @@ describe('RemainingBytesModal', () => {
   test('should feed handling to corner subpanel and handle its changes', async () => {
     const { findByLabelText, findByText } = defaultGenerate();
 
-    const option = await findByLabelText('config.decorate.' + REM_TRIANGLE);
+    const option = await findByLabelText('decorate.' + REM_TRIANGLE);
     await fireEvent.click(option);
 
     const subSpan = await findByText('Triangle:', { exact: false });
@@ -170,7 +170,7 @@ describe('RemainingBytesModal', () => {
   test('should feed handling to border subpanel and handle its changes', async () => {
     const { findByLabelText, findByText } = defaultGenerate();
 
-    const option = await findByLabelText('config.decorate.' + REM_BORDER);
+    const option = await findByLabelText('decorate.' + REM_BORDER);
     await fireEvent.click(option);
 
     const subSpan = await findByText('Border:', { exact: false });
@@ -185,7 +185,7 @@ describe('RemainingBytesModal', () => {
   test('should feed handling to border subpanel and handle its changes', async () => {
     const { findByLabelText, findByText } = defaultGenerate();
 
-    const option = await findByLabelText('config.decorate.' + REM_HEX);
+    const option = await findByLabelText('decorate.' + REM_HEX);
     await fireEvent.click(option);
 
     const subSpan = await findByText('Hex:', { exact: false });
@@ -198,11 +198,9 @@ describe('RemainingBytesModal', () => {
   test('should feed mini flag with currently selected decorate', async () => {
     const { findByLabelText, findByText } = defaultGenerate();
 
-    const mosaicOption = await findByLabelText('config.decorate.' + REM_MOSAIC);
-    const cornerOption = await findByLabelText(
-      'config.decorate.' + REM_TRIANGLE
-    );
-    const borderOption = await findByLabelText('config.decorate.' + REM_BORDER);
+    const mosaicOption = await findByLabelText('decorate.' + REM_MOSAIC);
+    const cornerOption = await findByLabelText('decorate.' + REM_TRIANGLE);
+    const borderOption = await findByLabelText('decorate.' + REM_BORDER);
 
     await fireEvent.click(mosaicOption);
     const paragraph = await findByText('Component:', { exact: false });
@@ -225,7 +223,7 @@ describe('RemainingBytesModal', () => {
     placeColorsOnIndexes.mockReturnValue({ bar: 'baz' });
 
     const { findByLabelText, findByText } = generate({ corner: handling });
-    const option = await findByLabelText('config.decorate.' + REM_TRIANGLE);
+    const option = await findByLabelText('decorate.' + REM_TRIANGLE);
     await fireEvent.click(option);
 
     const paragraph = await findByText('Config:', { exact: false });
@@ -266,7 +264,7 @@ describe('RemainingBytesModal', () => {
     useSomeConfig.mockReturnValue(state);
 
     const { findByLabelText, findByText, findByRole } = defaultGenerate(active);
-    const option = await findByLabelText('config.decorate.' + REM_TRIANGLE);
+    const option = await findByLabelText('decorate.' + REM_TRIANGLE);
     await fireEvent.click(option);
 
     const checkbox = await findByRole('checkbox');
@@ -277,7 +275,7 @@ describe('RemainingBytesModal', () => {
     const subButton = subSpan.parentElement.querySelector('button');
     await fireEvent.click(subButton);
 
-    const applyButton = await findByText('apply');
+    const applyButton = await findByText('common.apply');
     await fireEvent.click(applyButton);
 
     expect(state.value).toEqual({

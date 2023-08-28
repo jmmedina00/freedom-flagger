@@ -39,6 +39,7 @@
   />
   <label
     class="option-display is-inline-flex is-flex-direction-column"
+    v-bind="$attrs"
     role="button"
     :for="id"
     tabindex="0"
