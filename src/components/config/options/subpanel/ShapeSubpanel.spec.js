@@ -23,7 +23,7 @@ describe('ShapeSubpanel', () => {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
             template:
-              '<label :for="id">{{ label }}</label>' +
+              '<label :for="id" v-bind="$attrs">{{ label }}</label>' +
               '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
               '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
           },

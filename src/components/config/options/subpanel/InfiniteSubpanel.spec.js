@@ -27,7 +27,7 @@ describe('InfiniteSubpanel', () => {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
             template:
-              '<label :for="id">{{ label }}</label>' +
+              '<label :for="id" v-bind="$attrs">{{ label }}</label>' +
               '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
               '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
           },
@@ -67,10 +67,10 @@ describe('InfiniteSubpanel', () => {
     useDefaultedConfig.mockReturnValue(config);
 
     const cornerLabels = {
-      [TOP_LEFT]: 'common.direction.top common.direction.left',
-      [TOP_RIGHT]: 'common.direction.top common.direction.right',
-      [BOTTOM_RIGHT]: 'common.direction.bottom common.direction.right',
-      [BOTTOM_LEFT]: 'common.direction.bottom common.direction.left',
+      [TOP_LEFT]: 'Common.direction.top common.direction.left',
+      [TOP_RIGHT]: 'Common.direction.top common.direction.right',
+      [BOTTOM_RIGHT]: 'Common.direction.bottom common.direction.right',
+      [BOTTOM_LEFT]: 'Common.direction.bottom common.direction.left',
     };
 
     const { findByLabelText } = generate();

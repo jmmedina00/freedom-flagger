@@ -55,7 +55,7 @@ describe('DecorateSubpanel', () => {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
             template:
-              '<label :for="id">{{ label }}</label>' +
+              '<label :for="id" v-bind="$attrs">{{ label }}</label>' +
               '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
               '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
           },
@@ -74,7 +74,7 @@ describe('DecorateSubpanel', () => {
     const { findByText, findByLabelText } = generate();
 
     const expectedOption = await findByLabelText(
-      'config.decorate.' + DECORATE_INFINITE
+      'decorate.' + DECORATE_INFINITE
     );
     expect(expectedOption.checked).toBeTruthy();
 
@@ -101,7 +101,7 @@ describe('DecorateSubpanel', () => {
 
       const { findByText, findByLabelText } = generate();
 
-      const option = await findByLabelText('config.decorate.' + decorate);
+      const option = await findByLabelText('decorate.' + decorate);
       await fireEvent.click(option);
 
       const clickButton = await findByText('Click');

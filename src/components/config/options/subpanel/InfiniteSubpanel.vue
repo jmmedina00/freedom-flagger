@@ -25,7 +25,10 @@
   const getFullLocale = (locales = []) =>
     locales
       .map((locale) => t(['common', 'direction', locale].join('.')))
-      .join(' ');
+      .join(' ')
+      .split('')
+      .map((x, index) => (index === 0 ? x.toUpperCase() : x))
+      .join('');
 
   const config = useDefaultedConfig(
     DECORATE_INFINITE,
@@ -38,8 +41,8 @@
 </script>
 
 <template>
-  <p>
-    <span>{{ $t('common.size') }}</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('common.size') }}</span>
     <LimitedSliderNumber :min="1" :max="50" v-model="config.size" />
   </p>
   <h6>{{ $t('options.corner') }}</h6>
@@ -51,6 +54,7 @@
       :label="getFullLocale(locales)"
       :icon="ICONS[direction]"
       v-model="config.corner"
+      class="mr-3"
     />
   </p>
 </template>

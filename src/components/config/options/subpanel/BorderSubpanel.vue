@@ -20,8 +20,8 @@
 </script>
 
 <template>
-  <p>
-    <span>{{ $t('config.remainder.size') }}</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('common.size') }}</span>
     <LimitedSliderNumber :min="5" :max="50" v-model="config.size" />
   </p>
   <ColorChoice

@@ -15,16 +15,16 @@
 </script>
 
 <template>
-  <p>
-    <span>{{ $t('config.remainder.squares') }}</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('options.squares') }}</span>
     <LimitedSliderNumber :min="10" :max="50" v-model="config.squareRows" />
   </p>
-  <p>
-    <span>{{ $t('config.remainder.rows') }}</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('options.rows') }}</span>
     <LimitedSliderNumber :min="1" :max="5" v-model="config.rows" />
   </p>
-  <p>
-    <span>{{ $t('config.remainder.offset') }}</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('options.offset') }}</span>
     <LimitedSliderNumber :min="1" :max="3" v-model="config.offset" />
   </p>
 </template>

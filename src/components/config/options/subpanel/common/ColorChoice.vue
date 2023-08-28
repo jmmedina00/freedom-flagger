@@ -27,15 +27,24 @@
   });
 </script>
 <template>
-  <p>
-    <span>{{ $t('config.remainder.' + title) }}</span>
+  <p class="is-flex">
+    <span class="mr-3 not-quite-aligned">
+      {{ $t('config.remainder.' + title) }}
+    </span>
     <IconOption
       v-for="n in choices"
       :id="title + '-' + n"
       :value="(n - 1).toString()"
-      :label="'config.remainder.byte.' + (n - 1)"
+      :label="'options.byte.' + (n - 1)"
       :icon="BYTE_ICONS[n - 1] || ''"
       v-model="model"
+      class="mr-2"
     />
   </p>
 </template>
+
+<style scoped>
+  .not-quite-aligned {
+    line-height: 4.5;
+  }
+</style>

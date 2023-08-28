@@ -58,17 +58,19 @@
 </script>
 
 <template>
+  <h5>{{ $t('decorate.title') }}</h5>
   <p>
     <IconOption
       v-for="decorate in DECORATES"
       :id="decorate"
       :value="decorate"
-      :label="'config.decorate.' + decorate"
+      :label="'decorate.' + decorate"
       :icon="REMAINDER_ICONS[decorate]"
       v-model="activeSubpanel"
+      class="mr-3"
     />
   </p>
 
-  <h5>{{ $t('config.decorate.options') }}</h5>
+  <h5>{{ $t('decorate.options') }}</h5>
   <component v-if="activeSubpanel" :is="SUBPANELS[activeSubpanel]"></component>
 </template>

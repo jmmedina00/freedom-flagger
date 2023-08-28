@@ -26,8 +26,8 @@
 </script>
 
 <template>
-  <p>
-    <span>{{ $t('common.size') }}</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('common.size') }}</span>
     <LimitedSliderNumber :min="1" :max="50" v-model="config.size" />
   </p>
   <h6>{{ $t('options.corner') }}</h6>
@@ -39,6 +39,7 @@
       :label="'shape.' + shape"
       :icon="SHAPE_ICONS[shape]"
       v-model="config.component"
+      class="mr-3"
     />
   </p>
 </template>

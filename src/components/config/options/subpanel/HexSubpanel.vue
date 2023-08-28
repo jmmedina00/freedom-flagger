@@ -14,12 +14,12 @@
 </script>
 
 <template>
-  <p>
-    <span>{{ $t('config.remainder.size') }}</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('common.size') }}</span>
     <LimitedSliderNumber :min="30" :max="70" v-model="config.size" />
   </p>
-  <p>
-    <span>{{ $t('config.remainder.margin') }}</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('common.margin') }}</span>
     <LimitedSliderNumber :min="5" :max="100" v-model="config.margin" />
   </p>
 </template>

@@ -8,8 +8,8 @@
 </script>
 
 <template>
-  <p>
-    <span>{{ $t('options.percent') }} (%)</span>
+  <p class="is-flex is-align-items-center">
+    <span class="mr-2">{{ $t('options.percent') }} (%)</span>
     <LimitedSliderNumber :min="1" :max="100" v-model="config.mainFlagPercent" />
   </p>
 </template>

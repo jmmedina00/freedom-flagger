@@ -21,7 +21,7 @@ describe('ColorChoice', () => {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
             template:
-              '<label :for="id">{{ label }}</label>' +
+              '<label :for="id" v-bind="$attrs">{{ label }}</label>' +
               '<input name="test" type="radio" :id="id" :value="value" :checked="value === modelValue" ' +
               '@change="$emit(\'update:modelValue\', value)" :disabled="disabled"/>',
           },
@@ -47,7 +47,7 @@ describe('ColorChoice', () => {
         handling
       );
 
-      const inputs = queryAllByLabelText('config.remainder.byte', {
+      const inputs = queryAllByLabelText('options.byte', {
         exact: false,
       });
       expect(inputs.length).toEqual(colorChoices + 1);
@@ -60,13 +60,13 @@ describe('ColorChoice', () => {
 
     const { findByLabelText } = generate(props, handling);
 
-    const input0 = await findByLabelText('config.remainder.byte.0');
+    const input0 = await findByLabelText('options.byte.0');
     expect(input0.checked).toBeTruthy();
-    const input1 = await findByLabelText('config.remainder.byte.1');
+    const input1 = await findByLabelText('options.byte.1');
     await fireEvent.click(input1);
     expect(reference.value).toEqual(1);
 
-    const input2 = await findByLabelText('config.remainder.byte.2');
+    const input2 = await findByLabelText('options.byte.2');
     await fireEvent.click(input2);
     expect(reference.value).toEqual(2);
 
@@ -80,7 +80,7 @@ describe('ColorChoice', () => {
 
     const { findByLabelText } = generate(props, handling);
 
-    const input2 = await findByLabelText('config.remainder.byte.3');
+    const input2 = await findByLabelText('options.byte.3');
     await fireEvent.click(input2);
     expect(reference.value).toEqual(3);
 
@@ -96,7 +96,7 @@ describe('ColorChoice', () => {
 
     const { findByLabelText } = generate(props, handling);
 
-    const input2 = await findByLabelText('config.remainder.byte.2');
+    const input2 = await findByLabelText('options.byte.2');
     await fireEvent.click(input2);
     expect(reference.value).toEqual(2);
     await Promise.resolve();
