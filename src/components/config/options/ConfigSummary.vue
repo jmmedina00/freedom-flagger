@@ -40,8 +40,8 @@
       <IconButton @click="enterFlagDisplay" icon="icons/flag-stripes.svg" />
     </PanelBar>
     <div class="px-4 py-3">
-      <SizingButton />
-      <RemainderButton />
+      <SizingButton class="mb-2" />
+      <RemainderButton class="mb-3" />
       <RenderingOptions />
     </div>
   </div>

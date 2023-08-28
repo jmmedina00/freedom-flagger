@@ -16,7 +16,7 @@
 </script>
 
 <template>
-  <ModalCoupler :component="RemainingBytesModal" v-slot="{ clicked }">
+  <ModalCoupler :component="RemainingBytesModal" v-slot="{ clicked, ...other }">
     <OptionButton
       @click="clicked"
       :icon="REMAINDER_ICONS[component]"
@@ -24,6 +24,7 @@
       :secondary="$t('options.color.mode.' + complexColors)"
       class="has-tooltip-arrow"
       :data-tooltip="$t('options.remainder')"
+      v-bind="other"
     />
   </ModalCoupler>
 </template>

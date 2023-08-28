@@ -52,15 +52,18 @@
 
 <template>
   <div>
-    <div class="mb-1">
+    <div class="mb-3">
       <input id="enabled" type="checkbox" class="switch" v-model="enabled" />
       <label for="enabled">{{ $t('options.columns.limit') }}</label>
     </div>
     <div v-if="enabled">
-      <h5 class="mb-1">
+      <h5 class="mb-2">
         {{ $t('options.columns.max') + ':' }}
       </h5>
-      <LimitedSliderNumber v-model="maxColumns" :min="1" :max="32" />
+      <p class="mb-1">
+        <LimitedSliderNumber v-model="maxColumns" :min="1" :max="32" />
+      </p>
+
       <ModalCoupler :component="RenderingAdjustModal" v-slot="{ clicked }">
         <OptionButton
           @click="clicked"

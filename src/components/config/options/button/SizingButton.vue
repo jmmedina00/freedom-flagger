@@ -35,11 +35,12 @@
 </script>
 
 <template>
-  <ModalCoupler :component="SizingAdjustModal" v-slot="{ clicked }">
+  <ModalCoupler :component="SizingAdjustModal" v-slot="{ clicked, ...other }">
     <OptionButton
       @click="clicked"
       :icon="orientation"
       :secondary="$t(aspectRatio)"
+      v-bind="other"
     >
       <template v-slot:primary>
         <span :class="widthClasses">{{ fullDimensions.width }}</span>

@@ -15,7 +15,7 @@
 </script>
 
 <template>
-  <slot :clicked="launchModal">
+  <slot :clicked="launchModal" v-bind="$attrs">
     <button class="button" @click="launchModal">
       {{ $t(label || 'missingModal') }}
     </button>
