@@ -52,10 +52,10 @@
 </script>
 
 <template>
-  <span>
+  <span class="is-flex is-align-items-center">
     <!-- <input class="nibble" type="number" min="0" max="255" v-model="byte" /> -->
     <ByteModifier :base="base" v-model="byte" />
-    <button class="delete" @click="$emit('delete')"></button>
+    <button class="delete mx-1" @click="$emit('delete')"></button>
   </span>
 </template>
 

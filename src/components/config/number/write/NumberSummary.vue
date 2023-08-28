@@ -36,6 +36,7 @@
       v-for="index in positions"
       :position="index"
       @delete="deleteNumber(index)"
+      class="mr-1"
     />
     <IconButton class="is-align-self-center" icon="add" @click="addNumber" />
   </div>

@@ -87,9 +87,16 @@
 </script>
 
 <template>
-  <div class="is-inline-flex">
-    <div class="nibble" v-for="n in byteLength">
-      <IconButton icon="keyboard_arrow_up" @click="addToNibble(n - 1, 1)" />
+  <div class="is-inline-flex mb-1">
+    <div
+      class="nibble is-flex is-flex-direction-column"
+      v-for="n in byteLength"
+    >
+      <IconButton
+        icon="keyboard_arrow_up"
+        class="highlight"
+        @click="addToNibble(n - 1, 1)"
+      />
       <NibbleHolder
         :model-value="converted[n - 1]"
         @update:model-value="(v) => updateNibble(n - 1, v)"
@@ -97,7 +104,11 @@
         :position="n - 1"
         :current-nibble="getCurrentNibble()"
       />
-      <IconButton icon="keyboard_arrow_down" @click="addToNibble(n - 1, -1)" />
+      <IconButton
+        icon="keyboard_arrow_down"
+        class="highlight"
+        @click="addToNibble(n - 1, -1)"
+      />
     </div>
   </div>
 </template>
@@ -108,5 +119,13 @@
     width: 24px;
     max-width: 24px;
     text-align: center;
+  }
+
+  .highlight {
+    border-radius: 100%;
+  }
+
+  .highlight:hover {
+    background-color: #eef6fc; /* Copied straight from Bulma */
   }
 </style>
