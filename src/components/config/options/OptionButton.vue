@@ -9,7 +9,9 @@
 </script>
 
 <template>
-  <button class="button is-flex is-justify-content-space-between">
+  <button
+    class="button is-flex is-justify-content-space-between has-background-primary-light"
+  >
     <DiscreteIcon :icon="icon" />
 
     <span class="primary" v-if="primary || $slots.primary">

@@ -35,7 +35,7 @@
 
 <template>
   <div
-    class="has-background-link is-flex is-flex-grow-1 is-align-items-center is-justify-content-center anchor"
+    class="is-flex is-flex-grow-1 is-align-items-center is-justify-content-center has-background-grey-lighter anchor"
     ref="el"
   >
     <FlagDisplay :class="displayClass" />

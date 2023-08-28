@@ -45,8 +45,10 @@
       <IconButton icon="share" @click="shareLink" />
       <IconButton :icon="buttonIcon" @click="toggleExpanded" />
     </PanelBar>
-    <NumberSummary v-if="expanded" />
-    <NumberCarousel v-else />
+    <div class="px-4 py-3">
+      <NumberSummary v-if="expanded" />
+      <NumberCarousel v-else />
+    </div>
   </div>
 </template>
 
