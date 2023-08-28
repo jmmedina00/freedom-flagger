@@ -27,7 +27,7 @@
   });
 </script>
 <template>
-  <p class="is-flex">
+  <p class="is-flex is-flex-wrap-wrap">
     <span class="mr-3 not-quite-aligned">
       {{ $t('config.remainder.' + title) }}
     </span>

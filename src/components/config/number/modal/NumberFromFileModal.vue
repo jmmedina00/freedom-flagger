@@ -39,7 +39,7 @@
   <div class="modal-content">
     <div class="box">
       <ModalTitle name="actions.provide.file.title" />
-      <div class="file is-boxed">
+      <div class="file is-boxed is-justify-content-center">
         <label
           class="file-label"
           :aria-label="$t('actions.provide.file.title')"
@@ -58,7 +58,7 @@
         {{ $t('actions.provide.preview') }}
       </h5>
       <NumberDisplay class="preview" :number="getContent()" />
-      <p class="has-text-danger" v-if="displayError">
+      <p class="has-text-danger has-text-centered" v-if="displayError">
         {{ $t('actions.provide.file.tooLarge') }}
       </p>
       <button

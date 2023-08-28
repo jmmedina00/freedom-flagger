@@ -103,7 +103,7 @@
     <div class="box">
       <ModalTitle name="options.sizing" />
       <h5>{{ $t('options.aspectRatio') }}</h5>
-      <div class="is-flex mb-4">
+      <div class="is-flex is-flex-wrap-wrap mb-4">
         <IconOption
           v-for="{ ratio, icon } in ratioLists"
           :id="getRatioLabel(ratio)"
