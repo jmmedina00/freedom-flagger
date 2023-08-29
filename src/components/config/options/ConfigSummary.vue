@@ -1,5 +1,5 @@
 <script setup>
-  import { inject } from 'vue';
+  import { inject, watch } from 'vue';
   import { FULL_FLAG_DISPLAY, NOTIFICATION } from '@app/state';
   import PanelBar from '../shared/PanelBar.vue';
   import IconButton from '../../shared/IconButton.vue';
@@ -10,14 +10,34 @@
   import { useI18n } from 'vue-i18n';
   import RenderingOptions from './RenderingOptions.vue';
   import RemainderButton from './button/RemainderButton.vue';
+  import { useStorage } from '@vueuse/core';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
   const sizing = useFullStateSize();
-  const { t } = useI18n();
+
+  const { t, locale, availableLocales } = useI18n();
+  const lang = useStorage('lang');
 
   const enterFlagDisplay = () => {
     fullFlagDisplay.value = true;
+  };
+
+  watch(locale, (value) => {
+    notification.value = {
+      message: 'actions.language.current',
+      color: 'info',
+    };
+    lang.value = value;
+  });
+
+  const cycleLanguage = () => {
+    const currentIndex = availableLocales.indexOf(locale.value);
+    const newLocale = availableLocales.at(
+      (currentIndex + 1) % availableLocales.length
+    );
+
+    locale.value = newLocale;
   };
 
   const copyToClipboard = async () => {
@@ -81,6 +101,7 @@
       :data-tooltip="$t('actions.language.title')"
       :aria-label="$t('actions.language.title')"
       class="has-tooltip-left"
+      @click.prevent.left="cycleLanguage"
     />
   </PanelBar>
   <div class="px-4 py-3" v-bind="$attrs">

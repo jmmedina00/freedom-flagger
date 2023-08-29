@@ -2,8 +2,9 @@ import { SUPPORTED_LOCALES } from './i18n';
 
 export const getLocaleFromLocalStorage = () => {
   if (!localStorage) return null;
+  const stored = localStorage.getItem('lang');
 
-  return localStorage.getItem('lang');
+  return SUPPORTED_LOCALES.includes(stored) ? stored : null;
 };
 
 export const getLocaleFromQuery = () => {

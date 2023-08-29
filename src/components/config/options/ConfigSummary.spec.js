@@ -7,13 +7,17 @@ import { useDownloadFlag } from './export/download';
 import { fireEvent, render } from '@testing-library/vue';
 import ConfigSummary from './ConfigSummary.vue';
 import { FULL_FLAG_DISPLAY, NOTIFICATION } from '@app/state';
+import { useStorage } from '@vueuse/core';
 
 vi.mock('vue-i18n');
+vi.mock('@vueuse/core');
 vi.mock('./export/clipboard');
 vi.mock('./export/download');
 vi.mock('@app/components/render/helper/size');
 
 describe('ConfigSummary', () => {
+  const locale = ref(null);
+
   beforeAll(() => {
     vi.stubGlobal('console', {
       log: console.log,
@@ -56,7 +60,12 @@ describe('ConfigSummary', () => {
     });
 
   beforeEach(() => {
-    useI18n.mockReturnValue({ t: (foo) => foo });
+    locale.value = 'pl';
+    useI18n.mockReturnValue({
+      t: (foo) => foo,
+      availableLocales: ['ru', 'pl', 'de', 'dk', 'no'],
+      locale,
+    });
     useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
   });
 
@@ -184,9 +193,14 @@ describe('ConfigSummary', () => {
     );
   });
 
-  test.skip('should allow to change language', async () => {
+  test('should allow to change language infinitely and update everything accordingly', async () => {
+    const stored = ref(null);
+    const notification = ref(null);
+
+    useStorage.mockReturnValue(stored);
+
     const provide = {
-      [NOTIFICATION]: ref(null),
+      [NOTIFICATION]: notification,
       [FULL_FLAG_DISPLAY]: ref(false),
     };
 
@@ -195,6 +209,20 @@ describe('ConfigSummary', () => {
 
     await fireEvent.click(button);
 
-    // Write assertions
+    expect(notification.value).toEqual({
+      message: 'actions.language.current',
+      color: 'info',
+    });
+    expect(locale.value).toEqual('de');
+    expect(stored.value).toEqual('de');
+    expect(useStorage).toHaveBeenCalledWith('lang');
+
+    const nextExpected = ['dk', 'no', 'ru', 'pl', 'de', 'dk'];
+
+    for (const expected of nextExpected) {
+      await fireEvent.click(button);
+      expect(locale.value).toEqual(expected);
+      expect(stored.value).toEqual(expected);
+    }
   });
 });

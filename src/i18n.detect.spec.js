@@ -28,6 +28,17 @@ describe('i18n locale fetching', () => {
       expect(storage.getItem).toHaveBeenCalledWith('lang');
     });
 
+    test('should return undefined if stored locale is gibberish', () => {
+      const storage = {
+        getItem: vi.fn().mockReturnValue('undefined'),
+      };
+
+      vi.stubGlobal('localStorage', storage);
+      const locale = getLocaleFromLocalStorage();
+
+      expect(locale).toBeFalsy();
+    });
+
     test('should return undefined gracefully if locale is missing', () => {
       const storage = {
         getItem: vi.fn().mockReturnValue(null),

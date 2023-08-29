@@ -22,6 +22,9 @@ describe('ModalTitle', () => {
             template: '<button>btn</button>',
           },
         },
+        mocks: {
+          $t: (foo) => foo,
+        },
       },
     });
 
