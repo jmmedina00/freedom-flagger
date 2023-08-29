@@ -59,23 +59,27 @@
       @click="enterFlagDisplay"
       icon="fullscreen"
       :data-tooltip="$t('actions.fullScreen')"
+      :aria-label="$t('actions.fullScreen')"
       class="has-tooltip-bottom is-hidden-tablet"
     />
     <IconButton
       @click="copyToClipboard"
       icon="content_copy"
       :data-tooltip="$t('actions.copy.title')"
+      :aria-label="$t('actions.copy.title')"
       class="has-tooltip-bottom"
     />
     <IconButton
       @click="downloadFlag"
       icon="file_download"
       :data-tooltip="$t('actions.download.title')"
+      :aria-label="$t('actions.download.title')"
       class="has-tooltip-bottom"
     />
     <IconButton
       icon="language"
       :data-tooltip="$t('actions.language.title')"
+      :aria-label="$t('actions.language.title')"
       class="has-tooltip-left"
     />
   </PanelBar>

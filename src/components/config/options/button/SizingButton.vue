@@ -41,6 +41,7 @@
       :icon="orientation"
       :secondary="$t(aspectRatio)"
       :data-tooltip="$t('options.sizing')"
+      :aria-label="$t('options.sizing')"
       class="has-tooltip-arrow has-tooltip-bottom"
       v-bind="other"
     >

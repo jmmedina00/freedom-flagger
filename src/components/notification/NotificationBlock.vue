@@ -25,8 +25,17 @@
 
 <template>
   <div class="wrapper is-flex is-justify-content-center">
-    <div :class="notificationClasses" v-if="display">
-      <button class="delete" @click="closeNotification"></button>
+    <div
+      :class="notificationClasses"
+      v-if="display"
+      role="alert"
+      :aria-label="$t(display.message)"
+    >
+      <button
+        class="delete"
+        @click="closeNotification"
+        :aria-label="$t('options.close')"
+      ></button>
       {{ $t(display.message) }}
     </div>
   </div>

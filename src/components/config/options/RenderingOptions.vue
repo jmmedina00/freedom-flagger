@@ -71,6 +71,7 @@
           :primary="$t('renderer.' + renderer)"
           :secondary="significantGetters[renderer](renderingConfig.params)"
           :data-tooltip="$t('renderer.title')"
+          :aria-label="$t('renderer.title')"
           class="has-tooltip-arrow"
         />
       </ModalCoupler>

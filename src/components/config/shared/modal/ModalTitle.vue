@@ -13,6 +13,10 @@
 </script>
 <template>
   <PanelBar :name="name" class="mb-4">
-    <IconButton icon="close" @click="closeModal" />
+    <IconButton
+      icon="close"
+      @click="closeModal"
+      :aria-label="$t('options.close')"
+    />
   </PanelBar>
 </template>

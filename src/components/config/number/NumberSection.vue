@@ -48,6 +48,7 @@
         icon="text_fields"
         @click="clicked"
         :data-tooltip="$t('actions.provide.text.title')"
+        :aria-label="$t('actions.provide.text.title')"
       />
     </ModalCoupler>
     <ModalCoupler :component="NumberFromFileModal" v-slot="{ clicked }">
@@ -55,17 +56,20 @@
         icon="file_upload"
         @click="clicked"
         :data-tooltip="$t('actions.provide.file.title')"
+        :aria-label="$t('actions.provide.file.title')"
       />
     </ModalCoupler>
     <IconButton
       icon="link"
       @click="provideLink"
       :data-tooltip="$t('actions.link.title')"
+      :aria-label="$t('actions.link.title')"
     />
     <IconButton
       :icon="buttonIcon"
       @click="toggleExpanded"
       :data-tooltip="$t(expanded ? 'actions.read' : 'actions.edit')"
+      :aria-label="$t(expanded ? 'actions.read' : 'actions.edit')"
       class="has-tooltip-left"
     />
   </PanelBar>
