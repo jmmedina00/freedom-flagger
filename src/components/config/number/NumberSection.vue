@@ -42,7 +42,7 @@
 </script>
 
 <template>
-  <PanelBar name="number.title" color="info" class="px-4 py-3">
+  <PanelBar name="number.title" color="link" class="px-4 py-3">
     <ModalCoupler :component="NumberFromTextModal" v-slot="{ clicked }">
       <IconButton
         icon="text_fields"

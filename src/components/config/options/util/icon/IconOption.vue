@@ -61,7 +61,7 @@
   }
 
   .icon-holder {
-    background: #80ffec;
+    background: #bac5f8; // color.change($primary, $lightness: 85%);
     border-radius: 16px;
     padding: 8px;
   }
@@ -79,7 +79,7 @@
     &:checked + .option-display {
       font-weight: bold;
       .icon-holder {
-        background: #485fc7; // Copied straight from Bulma
+        background: #881798 !important; // Bulma: $link
 
         .icon {
           color: white;

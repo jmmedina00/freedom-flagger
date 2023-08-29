@@ -1,4 +1,9 @@
 $tablet: 660px;
+$primary: #4f6bed; // Fluent UI Blue10
+$link: #881798; // Fluent UI Magenta10
+$info: #004e8c; // Fluent UI CyanBlue20
+$danger: #a4262c; // Fluent UI Red20
+$success: #00ad56; // Fluent UI GreenCyan10
 
 @import 'node_modules/bulma/bulma';
 @import 'node_modules/bulma-slider/src/sass';

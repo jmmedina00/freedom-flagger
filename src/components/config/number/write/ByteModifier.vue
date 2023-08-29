@@ -126,6 +126,6 @@
   }
 
   .highlight:hover {
-    background-color: #eef6fc; /* Copied straight from Bulma */
+    background-color: #faedfc; /*Bulma: has-background-link-light */
   }
 </style>
