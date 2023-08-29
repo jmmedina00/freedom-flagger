@@ -17,6 +17,15 @@ describe('NumberCarousel', () => {
             template:
               '<span>Base {{ base }}, number {{ number.value.toString() }}</span>',
           },
+          TabPicker: {
+            props: ['values', 'modelValue'],
+            emits: ['update:modelValue'],
+            template: `<p v-for="[value, label] in values">
+            <label :for="value" v-bind="$attrs">{{ label }}</label>
+            <input name="test" type="radio" :id="value" :value="value" :checked="value === modelValue"
+            @change="$emit(\'update:modelValue\', value)"/>
+            </p>`,
+          },
         },
         provide: {
           [NUMBER_BYTES]: number,
@@ -24,27 +33,27 @@ describe('NumberCarousel', () => {
       },
     });
 
-    const hex = await findByLabelText('bytes.hex');
-    const dec = await findByLabelText('bytes.dec');
-    const bin = await findByLabelText('bytes.bin');
+    const hex = await findByLabelText('number.hex');
+    const oct = await findByLabelText('number.oct');
+    const dec = await findByLabelText('number.dec');
     expect(hex.checked).toBeTruthy();
+    expect(oct.checked).toBeFalsy();
     expect(dec.checked).toBeFalsy();
-    expect(bin.checked).toBeFalsy();
 
     expect(await findByText('Base 16, number 0,1,2')).toBeTruthy();
 
-    await fireEvent.click(dec);
-    expect(hex.checked).toBeFalsy();
-    expect(bin.checked).toBeFalsy();
-
-    number.value = [1, 2, 3];
-    expect(await findByText('Base 10, number 1,2,3')).toBeTruthy();
-
-    await fireEvent.click(bin);
+    await fireEvent.click(oct);
     expect(hex.checked).toBeFalsy();
     expect(dec.checked).toBeFalsy();
 
+    number.value = [1, 2, 3];
+    expect(await findByText('Base 8, number 1,2,3')).toBeTruthy();
+
+    await fireEvent.click(dec);
+    expect(hex.checked).toBeFalsy();
+    expect(oct.checked).toBeFalsy();
+
     number.value = [2, 4, 6];
-    expect(await findByText('Base 2, number 2,4,6')).toBeTruthy();
+    expect(await findByText('Base 10, number 2,4,6')).toBeTruthy();
   });
 });

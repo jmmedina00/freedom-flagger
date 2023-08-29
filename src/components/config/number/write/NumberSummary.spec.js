@@ -14,7 +14,7 @@ describe('NumberSummary', () => {
         provide: { [NUMBER_BYTES]: number },
         stubs: {
           NumberEditor: {
-            props: ['position'],
+            props: ['position', 'base'],
             setup: () => {
               position = inject(CURRENT_POSITION);
             },
@@ -23,6 +23,15 @@ describe('NumberSummary', () => {
           },
           IconButton: {
             template: '<button>Icon</button>',
+          },
+          TabPicker: {
+            props: ['values', 'modelValue'],
+            emits: ['update:modelValue'],
+            template: `<span>Base: {{ modelValue }}</span><p v-for="[value, label] in values">
+            <label :for="value" v-bind="$attrs">{{ label }}</label>
+            <input name="test" type="radio" :id="value" :value="value" :checked="value === modelValue"
+            @change="$emit(\'update:modelValue\', value)"/>
+            </p>`,
           },
         },
       },
@@ -121,5 +130,23 @@ describe('NumberSummary', () => {
     await findByText('Position: 2'); // Delay assertion just long enough
 
     expect(number.value).toEqual([145, 200, 56, 99, 11, 22, 0]);
+  });
+
+  test('should allow to change display base', async () => {
+    const number = ref([145, 200, 56, 99, 11, 22]);
+
+    const {
+      rendered: { findByText, findByLabelText },
+    } = generate(number);
+
+    const baseText = await findByText('Base: 16');
+
+    const binButton = await findByLabelText('number.bin');
+    await fireEvent.click(binButton);
+    expect(baseText.innerText).toEqual('Base: 2');
+
+    const decButton = await findByLabelText('number.dec');
+    await fireEvent.click(decButton);
+    expect(baseText.innerText).toEqual('Base: 10');
   });
 });
