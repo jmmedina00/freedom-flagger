@@ -9,12 +9,10 @@
 </script>
 
 <template>
-  <button
-    class="button is-flex is-justify-content-space-between has-background-primary-light"
-  >
+  <button class="button has-background-primary-light">
     <DiscreteIcon :icon="icon" />
 
-    <span class="primary" v-if="primary || $slots.primary">
+    <span class="primary ml-6 has-text-left" v-if="primary || $slots.primary">
       <slot name="primary" v-if="$slots.primary"></slot>
       <template v-else>{{ primary }}</template>
     </span>
@@ -40,7 +38,7 @@
   }
 
   .primary {
-    text-align: center;
+    margin-right: auto;
   }
 
   .secondary {
