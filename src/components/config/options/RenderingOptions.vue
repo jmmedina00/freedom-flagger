@@ -8,17 +8,19 @@
     RENDERER_ICONS,
     RENDERER_STANDARD,
   } from '@app/components/shared/constant/rendering';
+  import { useI18n } from 'vue-i18n';
   import LimitedSliderNumber from './util/numeric/LimitedSliderNumber.vue';
   import ModalCoupler from '../shared/modal/ModalCoupler.vue';
   import RenderingAdjustModal from './modal/RenderingAdjustModal.vue';
   import OptionButton from './OptionButton.vue';
 
   const DEFAULT_COLUMNS = 12;
+  const { t } = useI18n();
 
   const significantGetters = {
     [RENDERER_STANDARD]: () => 'std',
     [RENDERER_DIVIDED]: (params) => params.mainFlagPercent + '%',
-    [RENDERER_DECORATE]: (params) => params.decorate,
+    [RENDERER_DECORATE]: (params) => t('decorate.' + params.decorate),
   };
 
   const renderingConfig = useSomeConfig(CONFIG_RENDERING, {

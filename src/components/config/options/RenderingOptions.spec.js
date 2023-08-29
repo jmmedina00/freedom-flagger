@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/vue';
-import { describe, expect, test, vi } from 'vitest';
+import { beforeAll, describe, expect, test, vi } from 'vitest';
 import RenderingOptions from './RenderingOptions.vue';
 import { useSomeConfig } from './plugin';
 import { ref } from 'vue';
@@ -11,8 +11,10 @@ import {
   RENDERER_ICONS,
   RENDERER_STANDARD,
 } from '@app/components/shared/constant/rendering';
+import { useI18n } from 'vue-i18n';
 
 vi.mock('./plugin');
+vi.mock('vue-i18n');
 
 describe('RenderingOptions', () => {
   const generate = () =>
@@ -45,6 +47,10 @@ describe('RenderingOptions', () => {
         },
       },
     });
+
+  beforeAll(() => {
+    useI18n.mockReturnValue({ t: (foo) => foo });
+  });
 
   test('should have toggle enabled and display current config properly when columnsLimited set to true', async () => {
     useSomeConfig.mockReturnValue(
@@ -169,7 +175,11 @@ describe('RenderingOptions', () => {
   test.each([
     [RENDERER_STANDARD, 'std', {}],
     [RENDERER_DIVIDED, '45%', { mainFlagPercent: 45 }],
-    [RENDERER_DECORATE, DECORATE_INFINITE, { decorate: DECORATE_INFINITE }],
+    [
+      RENDERER_DECORATE,
+      'decorate.' + DECORATE_INFINITE,
+      { decorate: DECORATE_INFINITE },
+    ],
   ])(
     'should display that %s renderer is active along with most relevant information',
     (renderer, expected, params) => {
