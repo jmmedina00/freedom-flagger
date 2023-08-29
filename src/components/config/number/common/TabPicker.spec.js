@@ -88,4 +88,44 @@ describe('TabPicker', () => {
 
     expect(reference.value).toEqual('test');
   });
+
+  test('should be able to be checked by pressing the Space key', async () => {
+    const { props, reference } = useUpdatableModel('test');
+
+    const { findByText } = generate({
+      ...props,
+      values: [
+        ['test', 'action.test'],
+        ['foo', 'foo.bar'],
+        ['bar', 'bar.baz'],
+        ['nothing', 'do.nothing'],
+        ['greet', 'hello.person'],
+      ],
+    });
+
+    const item = await findByText('hello.person');
+    await fireEvent.keyDown(item, { code: 'Space' });
+
+    expect(reference.value).toEqual('greet');
+  });
+
+  test('should be able to checked by pressing the Enter key', async () => {
+    const { props, reference } = useUpdatableModel('test');
+
+    const { findByText } = generate({
+      ...props,
+      values: [
+        ['test', 'action.test'],
+        ['foo', 'foo.bar'],
+        ['bar', 'bar.baz'],
+        ['nothing', 'do.nothing'],
+        ['greet', 'hello.person'],
+      ],
+    });
+
+    const item = await findByText('hello.person');
+    await fireEvent.keyDown(item, { code: 'Enter' });
+
+    expect(reference.value).toEqual('greet');
+  });
 });

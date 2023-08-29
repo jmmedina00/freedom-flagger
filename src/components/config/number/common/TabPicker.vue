@@ -21,6 +21,12 @@
   if (!valuesForModel.includes(currentValue.value)) {
     model.value = valuesForModel[0];
   }
+
+  const setIfRelevantKeyPressed = ({ code = '' }, value) => {
+    if (['Space', 'Enter'].includes(code)) {
+      model.value = value;
+    }
+  };
 </script>
 
 <template>
@@ -30,6 +36,8 @@
         v-for="[realValue, displayValue] in values"
         :class="{ 'is-active': currentValue === realValue }"
         @click="model = realValue"
+        @keydown="setIfRelevantKeyPressed($event, realValue)"
+        tabindex="0"
       >
         <a>{{ $t(displayValue) }}</a>
       </li>
