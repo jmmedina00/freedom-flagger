@@ -70,6 +70,8 @@
           :icon="RENDERER_ICONS[renderer]"
           :primary="$t('renderer.' + renderer)"
           :secondary="significantGetters[renderer](renderingConfig.params)"
+          :data-tooltip="$t('renderer.title')"
+          class="has-tooltip-arrow"
         />
       </ModalCoupler>
     </div>
