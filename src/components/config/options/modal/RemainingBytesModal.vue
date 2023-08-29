@@ -24,6 +24,7 @@
   } from '@app/components/shared/constant/remainder';
   import { useFullStateSize } from '@app/components/render/helper/size';
   import { useSomeConfig } from '../plugin';
+  import { COLOR_FG_SEQUENCE } from '../util/demo/color';
 
   const SUBPANELS = {
     [REM_MOSAIC]: MosaicSubpanel,
@@ -32,7 +33,7 @@
     [REM_HEX]: HexSubpanel,
   };
   const MAX_SCALED_DIMENSION = 200;
-  const SAMPLE_COLORS = ['#fff', '#aaa', '#777'];
+  const SAMPLE_COLORS = COLOR_FG_SEQUENCE.slice(0, 3);
   const DECORATES = Object.keys(SUBPANELS);
 
   const state = useSomeConfig(CONFIG_REMAINDER, {

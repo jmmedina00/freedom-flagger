@@ -3,6 +3,7 @@
   import { DECORATE_SIZE } from '@app/state';
   import { provide } from 'vue';
   import { useAppropriateDemoSize } from './size';
+  import { COLOR_BG_PRIMARY } from './color';
 
   const props = defineProps(['component']);
   const sizing = useFullStateSize();
@@ -13,7 +14,7 @@
 
 <template>
   <svg :width="dimensions.width" :height="dimensions.height">
-    <rect width="100%" height="100%" fill="#808080"></rect>
+    <rect width="100%" height="100%" :fill="COLOR_BG_PRIMARY"></rect>
     <component v-if="component" :is="component"></component>
   </svg>
 </template>

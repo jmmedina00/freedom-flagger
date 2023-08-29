@@ -3,8 +3,9 @@
   import { computed, ref } from 'vue';
   import { useAppropriateDemoSize } from './size';
   import { useDirectionHolds } from '@app/components/render/helper/direction';
+  import { COLOR_BG_PRIMARY, COLOR_BG_SECONDARY } from './color';
 
-  const COLORS = ['#808080', '#404040'];
+  const COLORS = [COLOR_BG_PRIMARY, COLOR_BG_SECONDARY];
 
   const props = defineProps(['percent']);
   const percent = computed(() => props.percent);

@@ -24,20 +24,10 @@
   import LimitedSliderNumber from '../util/numeric/LimitedSliderNumber.vue';
   import { placeColorsOnIndexes } from '@app/components/shared/color-index';
   import { useFullStateSize } from '@app/components/render/helper/size';
+  import { COLOR_FG_SEQUENCE } from '../util/demo/color';
 
   const MAX_SCALED_DIMENSION = 200;
-  const SAMPLE_COLORS = [
-    '#99b433',
-    '#00a300',
-    '#1e7145',
-    '#ff0097',
-    '#9f00a7',
-    '#7e3878',
-    '#603cba',
-    '#1d1d1d',
-    '#00aba9',
-    '#2d89ef',
-  ];
+  const SAMPLE_COLORS = [...COLOR_FG_SEQUENCE];
 
   const renderers = [
     {
