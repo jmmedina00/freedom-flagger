@@ -26,21 +26,18 @@
     const { width, height } = sizing.value;
     const maxes = [width, height];
 
-    const corners = directions.map((pointers) => {
-      const params = pointers.map((p, index) => (p > 0 ? 0 : maxes[index]));
-      return makePoint(...params);
-    });
+    const corners = directions.map((pointers) =>
+      pointers.map((p, index) => (p > 0 ? 0 : maxes[index]))
+    );
 
-    const primes = directions.map((pointers) => {
-      const params = pointers.map((p, index) =>
-        p > 0 ? size : maxes[index] - size
-      );
-      return makePoint(...params);
-    });
+    const primes = directions.map((pointers) =>
+      pointers.map((p, index) => (p > 0 ? size : maxes[index] - size))
+    );
 
     return borderDirections
       .map((direction, corner) => {
         const secondCorner = (corner + 1) % corners.length;
+        const stretchedCoord = corner % 2; // 0 -> X, 1 -> Y
 
         const verts = [
           corners[corner],
@@ -49,7 +46,27 @@
           primes[corner],
         ];
 
-        return { points: verts.join(' '), fill: colors[direction] };
+        return {
+          points: verts
+            .map((coords, pointIndex) => {
+              const stretchDirection = [0, verts.length - 1].includes(
+                pointIndex
+              )
+                ? -1
+                : 1;
+
+              const finalized = coords.map((c, dimensionIndex) =>
+                dimensionIndex !== stretchedCoord
+                  ? c
+                  : c +
+                    0.5 *
+                      (directions[corner][dimensionIndex] * stretchDirection)
+              );
+              return makePoint(...finalized);
+            })
+            .join(' '),
+          fill: colors[direction],
+        };
       })
       .filter(({ fill }) => !!fill);
   });
