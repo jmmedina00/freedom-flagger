@@ -12,6 +12,7 @@
   import TinyWatermark from './TinyWatermark.vue';
   import RemainderHandler from './flag/RemainderHandler.vue';
   import { RENDERERS, RENDERER_STANDARD } from '../shared/constant/rendering';
+  import { getViewboxForSizing } from '../shared/decorate/viewbox';
 
   const { colors, remainder } = useNumberAsColors();
 
@@ -60,6 +61,8 @@
     });
   });
 
+  const viewBox = computed(() => getViewboxForSizing(dimensions.value).viewBox);
+
   provide(RENDER_BASICS, { direction, portions });
   provide(
     RENDER_PARAMS,
@@ -72,6 +75,7 @@
     version="1.1"
     :width="dimensions.width"
     :height="dimensions.height"
+    :viewBox="viewBox"
     xmlns="http://www.w3.org/2000/svg"
   >
     <component :is="component" />

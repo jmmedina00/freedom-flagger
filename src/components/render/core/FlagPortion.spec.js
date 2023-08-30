@@ -4,7 +4,9 @@ import { describe, expect, test, vi } from 'vitest';
 import FlagPortion from './FlagPortion.vue';
 import { usePortionSizeAndPosition } from '../helper/portion';
 import { useDirectionHolds } from '../helper/direction';
+import { useFullStateSize } from '../helper/size';
 
+vi.mock('../helper/size');
 vi.mock('../helper/portion');
 vi.mock('../helper/direction');
 
@@ -24,6 +26,7 @@ describe('FlagPortion', () => {
     });
 
   test('should display colors inside a brand new SVG element', () => {
+    useFullStateSize.mockReturnValue(ref({ size: 500 }));
     usePortionSizeAndPosition.mockReturnValue({
       size: ref('12%'),
       position: ref('34%'),
@@ -54,7 +57,8 @@ describe('FlagPortion', () => {
     ]);
   });
 
-  test('should place size and direction according to opposite direction holds', () => {
+  test('should place size and direction according to opposite direction holds - backconverted from %', () => {
+    useFullStateSize.mockReturnValue(ref({ size: 500 }));
     usePortionSizeAndPosition.mockReturnValue({
       size: ref('12%'),
       position: ref('34%'),
@@ -73,8 +77,8 @@ describe('FlagPortion', () => {
     });
 
     const wrapper = container.querySelector('svg');
-    expect(wrapper.getAttribute('position')).toEqual('34%');
-    expect(wrapper.getAttribute('size')).toEqual('12%');
+    expect(wrapper.getAttribute('position')).toEqual((500 * 0.34).toString());
+    expect(wrapper.getAttribute('size')).toEqual((500 * 0.12).toString());
     expect(wrapper.getAttribute('stretch')).toEqual('100%');
 
     expect(usePortionSizeAndPosition.mock.lastCall[0].value).toEqual({

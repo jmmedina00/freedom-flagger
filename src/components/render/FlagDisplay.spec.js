@@ -17,10 +17,12 @@ import {
   RENDERER_DIVIDED,
   RENDERER_STANDARD,
 } from '../shared/constant/rendering';
+import { getViewboxForSizing } from '../shared/decorate/viewbox';
 
 vi.mock('./helper/colors');
 vi.mock('./helper/size');
 vi.mock('../config/options/plugin');
+vi.mock('../shared/decorate/viewbox');
 
 describe('FlagDisplay', () => {
   const infiniteColors = [
@@ -131,6 +133,7 @@ describe('FlagDisplay', () => {
     });
 
   test('should provide dimensions from state to both SVG and decorates', async () => {
+    getViewboxForSizing.mockReturnValue({ viewBox: 'boxyboxed' });
     useNumberAsColors.mockReturnValue({
       colors: ref(['foo', 'bar', 'baz']),
       remainder: ref([1, 2, 3]),
@@ -150,6 +153,7 @@ describe('FlagDisplay', () => {
     const svg = container.querySelector('svg');
     expect(svg.getAttribute('width')).toEqual('200');
     expect(svg.getAttribute('height')).toEqual('300');
+    expect(svg.getAttribute('viewBox')).toEqual('boxyboxed');
 
     const sizeParagraph = await findByText('Size: ', { exact: false });
     expect(sizeParagraph.innerText).toEqual('Size: 200 x 300');
