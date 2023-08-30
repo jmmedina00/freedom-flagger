@@ -56,13 +56,18 @@
   });
 
   const rectParameters = computed(() =>
-    rowOffsets.value.flatMap(({ position, offset }) => {
+    rowOffsets.value.flatMap(({ position, offset }, rowIndex, list) => {
       const [dynamic, fixed] =
         direction.value === 'horizontal' ? ['x', 'y'] : ['y', 'x'];
+      const [row, column] =
+        direction.value === 'horizontal'
+          ? ['width', 'height']
+          : ['height', 'width'];
+      const keepAsIs = [list.length - 1, list.length / 2 - 1];
 
       return new Array(squaresPerRow.value).fill('0').map((_, index) => ({
-        width: squareSize.value,
-        height: squareSize.value,
+        [row]: squareSize.value + (index < squaresPerRow.value - 1),
+        [column]: squareSize.value + !keepAsIs.includes(rowIndex),
         [dynamic]: index * squareSize.value,
         [fixed]: position,
         fill: getColor(index + offset),

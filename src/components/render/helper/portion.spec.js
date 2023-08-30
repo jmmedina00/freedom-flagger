@@ -3,9 +3,13 @@ import { usePortionSizeAndPosition } from './portion';
 import { ref } from 'vue';
 
 describe('Portion sizing composable', () => {
-  test('should provide size as 1 divided by "total" percent', () => {
-    const { size } = usePortionSizeAndPosition(ref({ index: 3, total: 7 }));
+  test('should provide size as 1 divided by "total" percent when on last index', () => {
+    const { size } = usePortionSizeAndPosition(ref({ index: 6, total: 7 }));
     expect(size.value).toEqual(((1 / 7) * 100).toString() + '%');
+  });
+  test('should provide size as 1 divided by "total" percent plus a tad when on other index', () => {
+    const { size } = usePortionSizeAndPosition(ref({ index: 3, total: 7 }));
+    expect(size.value).toEqual(((1 / 7) * 100 + 1).toString() + '%');
   });
 
   test('should provide position as "index" by "total" percent', () => {
