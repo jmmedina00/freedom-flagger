@@ -1,7 +1,7 @@
 export const FULL_FLAG_DISPLAY = 'fullFlagDisplay';
 export const MODAL_ACTIVE = 'modalActive';
 export const NOTIFICATION = 'notification';
-export const CONFIG = 'config';
+export const CONFIG = 'freedomflagger_config';
 
 export const HANDLING_CONFIG = 'handling';
 export const DECORATE_CONFIG = 'decorateConfig';
