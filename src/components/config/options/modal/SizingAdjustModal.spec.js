@@ -226,7 +226,7 @@ describe('SizingAdjustModal', () => {
     } = generate();
 
     const emptyInput = queryByPlaceholderText('200');
-    const customOption = queryByLabelText('custom');
+    const customOption = queryByLabelText('options.custom.long');
 
     await fireEvent.update(emptyInput, 100);
     expect(customOption.checked).toBeTruthy();
@@ -311,7 +311,7 @@ describe('SizingAdjustModal', () => {
     const populatedInput = queryByPlaceholderText('200');
     await fireEvent.update(populatedInput, '');
 
-    const interestingOption = queryByLabelText('custom');
+    const interestingOption = queryByLabelText('options.custom.long');
     await fireEvent.click(interestingOption);
 
     const applyButton = queryByText('common.apply');

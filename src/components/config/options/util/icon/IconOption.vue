@@ -38,7 +38,8 @@
     :disabled="disabled"
   />
   <label
-    class="option-display is-inline-flex is-flex-direction-column"
+    class="option-display has-tooltip-arrow is-inline-flex is-flex-direction-column is-align-items-center"
+    :data-tooltip="$t(label)"
     v-bind="$attrs"
     role="button"
     :for="id"
@@ -50,7 +51,7 @@
       <DiscreteIcon :icon="icon" :size="48" />
     </div>
 
-    <span>{{ $t(label) }}</span>
+    <span class="is-hidden">{{ $t(label) }}</span>
   </label>
 </template>
 
@@ -65,6 +66,12 @@
     border-radius: 16px;
     padding: 8px;
   }
+
+  /* label {
+    max-width: 64px;
+    text-overflow: ellipsis;
+    //font-size: 0.8rem;
+  } */
 
   input[type='radio'],
   input[type='checkbox'] {

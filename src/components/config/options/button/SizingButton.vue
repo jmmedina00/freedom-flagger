@@ -6,14 +6,16 @@
   import SizingAdjustModal from '../modal/SizingAdjustModal.vue';
   import OptionButton from '../OptionButton.vue';
   import { computed } from 'vue';
+  import { useI18n } from 'vue-i18n';
 
+  const { t } = useI18n();
   const sizing = useSomeConfig(CONFIG_SIZING);
   const fullDimensions = useCalculatedSizes(sizing);
 
   const ratioDefined = computed(() => !!sizing.value.aspectRatio);
 
   const aspectRatio = computed(() => {
-    if (!ratioDefined.value) return 'custom';
+    if (!ratioDefined.value) return t('options.custom.short');
 
     return sizing.value.aspectRatio.x + ':' + sizing.value.aspectRatio.y;
   });

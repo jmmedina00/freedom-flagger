@@ -46,7 +46,7 @@
     <LimitedSliderNumber :min="1" :max="50" v-model="config.size" />
   </p>
   <h6>{{ $t('options.corner') }}</h6>
-  <p>
+  <p class="is-flex">
     <IconOption
       v-for="(locales, direction) in DIRECTION_LOCALES"
       :id="direction"
@@ -56,5 +56,8 @@
       v-model="config.corner"
       class="mr-3"
     />
+    <span class="ml-3 is-align-self-center has-text-weight-bold">
+      {{ getFullLocale(DIRECTION_LOCALES[config.corner]) }}
+    </span>
   </p>
 </template>

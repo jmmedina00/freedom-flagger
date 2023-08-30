@@ -59,7 +59,7 @@
 
 <template>
   <h5>{{ $t('decorate.title') }}</h5>
-  <p>
+  <p class="is-flex">
     <IconOption
       v-for="decorate in DECORATES"
       :id="decorate"
@@ -69,6 +69,9 @@
       v-model="activeSubpanel"
       class="mr-3"
     />
+    <span class="ml-3 is-align-self-center has-text-weight-bold">
+      {{ $t('decorate.' + activeSubpanel) }}
+    </span>
   </p>
 
   <h5>{{ $t('decorate.options') }}</h5>

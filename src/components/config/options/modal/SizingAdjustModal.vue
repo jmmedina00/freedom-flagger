@@ -118,10 +118,13 @@
         <IconOption
           id="custom"
           :value="null"
-          label="custom"
+          label="options.custom.long"
           icon="logout"
           v-model="aspectRatio"
         />
+        <span class="ml-3 is-align-self-center has-text-weight-bold">
+          {{ aspectRatio || $t('options.custom.long') }}
+        </span>
       </div>
 
       <h5>{{ $t('options.dimensions') }}</h5>

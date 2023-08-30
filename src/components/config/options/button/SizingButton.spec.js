@@ -1,12 +1,14 @@
 import { render } from '@testing-library/vue';
-import { describe, expect, test, vi } from 'vitest';
+import { beforeAll, describe, expect, test, vi } from 'vitest';
 import SizingButton from './SizingButton.vue';
 import { ref } from 'vue';
 import { useSomeConfig } from '../plugin';
 import { useCalculatedSizes } from '../../../shared/sizing';
+import { useI18n } from 'vue-i18n';
 
 vi.mock('../plugin');
 vi.mock('../../../shared/sizing');
+vi.mock('vue-i18n');
 
 describe('SizingButton', () => {
   const generate = () =>
@@ -40,6 +42,10 @@ describe('SizingButton', () => {
 
   const getSpan = (content, classes = []) =>
     `<span class="${classes.join(' ')}">${content}</span>`;
+
+  beforeAll(() => {
+    useI18n.mockReturnValue({ t: (foo) => foo });
+  });
 
   test('should display size in primary display with no styles when it is fully defined', () => {
     const size = ref({ width: 200, height: 300, aspectRatio: null });
@@ -120,7 +126,7 @@ describe('SizingButton', () => {
     const { container } = generate();
     const span = container.querySelector('.secondary');
 
-    expect(span.innerHTML).toEqual('custom');
+    expect(span.innerHTML).toEqual('options.custom.short');
   });
 
   test('should use landscape icon according to aspect ratio', () => {

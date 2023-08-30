@@ -124,7 +124,7 @@
       <ModalTitle name="renderer.title" />
 
       <component v-if="current.demo" :is="current.demo" v-bind="demoParams" />
-      <p class="mt-3">
+      <p class="mt-3 is-flex">
         <IconOption
           v-for="{ value } in renderers"
           :id="'render-' + value"
@@ -134,6 +134,9 @@
           v-model="selectedRenderer"
           class="mr-3"
         />
+        <span class="ml-3 is-align-self-center has-text-weight-bold">
+          {{ $t('renderer.' + selectedRenderer) }}
+        </span>
       </p>
       <p
         v-if="selectedRenderer === RENDERER_DECORATE"

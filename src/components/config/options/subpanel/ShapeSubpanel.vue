@@ -31,7 +31,7 @@
     <LimitedSliderNumber :min="1" :max="50" v-model="config.size" />
   </p>
   <h6>{{ $t('options.corner') }}</h6>
-  <p>
+  <p class="is-flex">
     <IconOption
       v-for="shape in SHAPES"
       :id="shape"
@@ -41,5 +41,8 @@
       v-model="config.component"
       class="mr-3"
     />
+    <span class="ml-3 is-align-self-center has-text-weight-bold">
+      {{ $t('shape.' + config.component) }}
+    </span>
   </p>
 </template>
