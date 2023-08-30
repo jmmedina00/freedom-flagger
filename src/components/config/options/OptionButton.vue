@@ -1,15 +1,21 @@
 <script setup>
   import DiscreteIcon from '@app/components/shared/DiscreteIcon.vue';
+  import { useDarkAlternate } from '@app/util/dark';
 
   const props = defineProps({
     icon: String,
     primary: String,
     secondary: String,
   });
+
+  const alternatedClasses = useDarkAlternate(
+    ['has-background-primary-light'],
+    ['has-background-primary', 'has-text-light']
+  );
 </script>
 
 <template>
-  <button class="button has-background-primary-light">
+  <button class="button" :class="alternatedClasses">
     <DiscreteIcon :icon="icon" />
 
     <span class="primary ml-6 has-text-left" v-if="primary || $slots.primary">

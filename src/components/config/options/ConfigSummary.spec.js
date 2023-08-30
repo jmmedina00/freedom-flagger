@@ -7,7 +7,7 @@ import { useDownloadFlag } from './export/download';
 import { fireEvent, render } from '@testing-library/vue';
 import ConfigSummary from './ConfigSummary.vue';
 import { FULL_FLAG_DISPLAY, NOTIFICATION } from '@app/state';
-import { useStorage } from '@vueuse/core';
+import { useDark, useStorage } from '@vueuse/core';
 
 vi.mock('vue-i18n');
 vi.mock('@vueuse/core');
@@ -61,6 +61,7 @@ describe('ConfigSummary', () => {
 
   beforeEach(() => {
     locale.value = 'pl';
+    useDark.mockReturnValue(ref(false));
     useI18n.mockReturnValue({
       t: (foo) => foo,
       availableLocales: ['ru', 'pl', 'de', 'dk', 'no'],
@@ -224,5 +225,23 @@ describe('ConfigSummary', () => {
       expect(locale.value).toEqual(expected);
       expect(stored.value).toEqual(expected);
     }
+  });
+
+  test('should allow to toggle dark mode on and off', async () => {
+    const dark = ref(false);
+    useDark.mockReturnValue(dark);
+
+    const provide = {
+      [NOTIFICATION]: ref(null),
+      [FULL_FLAG_DISPLAY]: ref(false),
+    };
+
+    const { findByText } = generate(provide);
+    const button = await findByText('dark_mode');
+
+    await fireEvent.click(button);
+    expect(dark.value).toBeTruthy();
+    await fireEvent.click(button);
+    expect(dark.value).toBeFalsy();
   });
 });

@@ -6,6 +6,11 @@ body {
   height: 100vh;
   overflow-x: hidden;
   font-family: 'Roboto', sans-serif !important;
+
+  .dark & {
+    background-color: $dark !important;
+    color: $light !important;
+  }
 }
 
 #app {

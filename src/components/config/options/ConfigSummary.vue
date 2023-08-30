@@ -1,5 +1,5 @@
 <script setup>
-  import { inject, watch } from 'vue';
+  import { computed, inject, watch } from 'vue';
   import { FULL_FLAG_DISPLAY, NOTIFICATION } from '@app/state';
   import PanelBar from '../shared/PanelBar.vue';
   import IconButton from '../../shared/IconButton.vue';
@@ -10,11 +10,14 @@
   import { useI18n } from 'vue-i18n';
   import RenderingOptions from './RenderingOptions.vue';
   import RemainderButton from './button/RemainderButton.vue';
-  import { useStorage } from '@vueuse/core';
+  import { useDark, useStorage } from '@vueuse/core';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
   const sizing = useFullStateSize();
+
+  const isDark = useDark();
+  const darkChangeText = computed(() => (isDark.value ? 'light' : 'dark'));
 
   const { t, locale, availableLocales } = useI18n();
   const lang = useStorage('lang');
@@ -102,6 +105,13 @@
       :aria-label="$t('actions.language.title')"
       class="has-tooltip-left"
       @click.prevent.left="cycleLanguage"
+    />
+    <IconButton
+      :icon="darkChangeText + '_mode'"
+      :data-tooltip="$t('options.mode.' + darkChangeText)"
+      :aria-label="$t('options.mode.' + darkChangeText)"
+      class="has-tooltip-left"
+      @click="isDark = !isDark"
     />
   </PanelBar>
   <div class="px-4 py-3" v-bind="$attrs">
