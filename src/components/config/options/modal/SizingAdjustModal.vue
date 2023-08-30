@@ -103,7 +103,7 @@
     <div class="box">
       <ModalTitle name="options.sizing" />
       <h5>{{ $t('options.aspectRatio') }}</h5>
-      <div class="is-flex is-flex-wrap-wrap mb-4">
+      <p class="flexi-paragraph mb-4">
         <IconOption
           v-for="{ ratio, icon } in ratioLists"
           :id="getRatioLabel(ratio)"
@@ -125,7 +125,7 @@
         <span class="ml-3 is-align-self-center has-text-weight-bold">
           {{ aspectRatio || $t('options.custom.long') }}
         </span>
-      </div>
+      </p>
 
       <h5>{{ $t('options.dimensions') }}</h5>
       <div class="mb-4 is-flex">

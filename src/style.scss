@@ -4,6 +4,7 @@
 
 body {
   height: 100vh;
+  overflow-x: hidden;
   font-family: 'Roboto', sans-serif !important;
 }
 
@@ -12,4 +13,10 @@ body {
 
   height: 100%;
   margin-bottom: 0 !important;
+
+  p.flexi-paragraph {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1em;
+  }
 }

@@ -124,7 +124,7 @@
       <ModalTitle name="renderer.title" />
 
       <component v-if="current.demo" :is="current.demo" v-bind="demoParams" />
-      <p class="mt-3 is-flex">
+      <p class="mt-3 flexi-paragraph">
         <IconOption
           v-for="{ value } in renderers"
           :id="'render-' + value"

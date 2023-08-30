@@ -104,7 +104,7 @@
       <DemoMiniFlag :component="activeComponent" />
 
       <h5 class="my-3">{{ $t('decorate.title') }}</h5>
-      <p class="is-flex">
+      <p class="flexi-paragraph">
         <IconOption
           v-for="decorate in DECORATES"
           :id="decorate"
@@ -114,7 +114,7 @@
           v-model="activeSubpanel"
           class="mr-3"
         />
-        <span class="ml-3 is-align-self-center has-text-weight-bold">
+        <span class="is-align-self-center has-text-weight-bold">
           {{ $t('decorate.' + activeSubpanel) }}
         </span>
       </p>
