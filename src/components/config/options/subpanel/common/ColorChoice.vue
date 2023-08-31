@@ -43,6 +43,9 @@
 </template>
 
 <style scoped>
+  .icon {
+    border-bottom: none;
+  }
   .not-quite-aligned {
     line-height: 4.5;
   }

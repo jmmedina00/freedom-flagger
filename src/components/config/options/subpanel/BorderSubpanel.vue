@@ -48,7 +48,7 @@
   </p>
   <ColorChoice
     v-for="{ attr, title, icon } in selectableAttrs"
-    :title="title"
+    :title="$t(title)"
     :icon="icon"
     v-model="config[attr]"
   />
