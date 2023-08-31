@@ -22,7 +22,7 @@
         <div class="box">
           <div class="is-flex is-justify-content-center">
             <figure class="image is-128x128 has-text-centered">
-              <img src="logo192.png" />
+              <img src="/logo192.png" />
             </figure>
           </div>
 

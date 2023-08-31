@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <nav class="flex-column is-flex-grow-1">
+  <nav class="is-flex is-flex-direction-column is-flex-grow-1">
     <ConfigSummary
       v-bind="testConfig"
       class="combined-subpanel is-flex-grow-1"
@@ -15,24 +15,11 @@
   </nav>
 </template>
 
-<style lang="scss">
-  @import '../../style/bulma';
-
+<style>
   nav {
-    $width: 360px;
-    width: $width;
+    width: 360px;
     min-width: 360px;
-    max-width: $width;
-
-    @include mobile {
-      width: 100%;
-      max-width: none;
-    }
-  }
-
-  .flex-column {
-    @extend .is-flex;
-    @extend .is-flex-direction-column;
+    max-width: 360px;
   }
 
   .combined-subpanel {

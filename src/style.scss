@@ -75,4 +75,11 @@ body {
     flex-wrap: wrap;
     row-gap: 1em;
   }
+
+  nav {
+    @include mobile {
+      width: 100%;
+      max-width: none;
+    }
+  }
 }
