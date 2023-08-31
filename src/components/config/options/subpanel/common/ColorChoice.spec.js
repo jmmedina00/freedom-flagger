@@ -17,6 +17,9 @@ describe('ColorChoice', () => {
           $t: (foo) => foo,
         },
         stubs: {
+          DiscreteIcon: {
+            template: '<p>{{ $attrs["data-tooltip"] }}</p>',
+          },
           IconOption: {
             props: ['id', 'icon', 'label', 'value', 'modelValue', 'disabled'],
             emits: ['update:modelValue'],
@@ -33,7 +36,7 @@ describe('ColorChoice', () => {
     const { props } = useUpdatableModel(0);
 
     const { findByText } = generate({ ...props, title: 'test' });
-    expect(await findByText('config.remainder.test')).toBeTruthy();
+    expect(await findByText('test')).toBeTruthy();
   });
 
   test.each([2, 3, 4, 5, 6])(

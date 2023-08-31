@@ -82,17 +82,19 @@ describe('BorderSubpanel', () => {
 
     const { findByText } = generate();
     const buttons = await Promise.all(
-      ['top', 'bottom', 'left', 'right'].map(findByText)
+      ['top', 'bottom', 'left', 'right']
+        .map((x) => 'common.direction.' + x)
+        .map(findByText)
     );
 
     await Promise.all(buttons.map((button) => fireEvent.click(button)));
 
     expect(config.value).toEqual({
       size: 20,
-      top: 3,
-      bottom: 6,
-      left: 4,
-      right: 5,
+      top: 3 + 17,
+      bottom: 6 + 17,
+      left: 4 + 17,
+      right: 5 + 17,
     });
   });
 });

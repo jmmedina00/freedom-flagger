@@ -3,8 +3,9 @@
   import { BYTE_ICONS } from './byte';
   import { computed, inject, ref, watch } from 'vue';
   import { HANDLING_CONFIG } from '@app/state';
+  import DiscreteIcon from '@app/components/shared/DiscreteIcon.vue';
 
-  const props = defineProps(['title', 'modelValue']);
+  const props = defineProps(['icon', 'title', 'modelValue']);
   const emit = defineEmits(['update:modelValue']);
 
   const handling = inject(HANDLING_CONFIG);
@@ -27,10 +28,8 @@
   });
 </script>
 <template>
-  <p class="is-flex is-flex-wrap-wrap">
-    <span class="mr-3 not-quite-aligned">
-      {{ $t('config.remainder.' + title) }}
-    </span>
+  <p class="is-flex is-flex-wrap-wrap is-align-items-center">
+    <DiscreteIcon class="mr-3" :icon="icon" :data-tooltip="title" :size="48" />
     <IconOption
       v-for="n in choices"
       :id="title + '-' + n"

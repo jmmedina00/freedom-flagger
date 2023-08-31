@@ -1,10 +1,12 @@
 import { fireEvent, render } from '@testing-library/vue';
-import { describe, expect, test, vi } from 'vitest';
+import { beforeAll, describe, expect, test, vi } from 'vitest';
 import CornerTriangleSubpanel from './CornerTriangleSubpanel.vue';
 import { useDefaultedConfig } from './common/default';
 import { ref } from 'vue';
 import { REM_TRIANGLE } from '@app/components/shared/constant/remainder';
+import { useI18n } from 'vue-i18n';
 
+vi.mock('vue-i18n');
 vi.mock('./common/default');
 
 describe('CornerTriangleSubpanel', () => {
@@ -28,6 +30,10 @@ describe('CornerTriangleSubpanel', () => {
         },
       },
     });
+
+  beforeAll(() => {
+    useI18n.mockReturnValue({ t: (foo) => foo });
+  });
 
   test('should initialize with all needed corners', () => {
     useDefaultedConfig.mockReturnValue(ref({}));
@@ -83,17 +89,22 @@ describe('CornerTriangleSubpanel', () => {
 
     const { findByText } = generate();
     const buttons = await Promise.all(
-      ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'].map(findByText)
+      [
+        'Common.direction.top common.direction.left',
+        'Common.direction.top common.direction.right',
+        'Common.direction.bottom common.direction.right',
+        'Common.direction.bottom common.direction.left',
+      ].map(findByText)
     );
 
     await Promise.all(buttons.map((button) => fireEvent.click(button)));
 
     expect(config.value).toEqual({
       size: 20,
-      topLeft: 7,
-      topRight: 8,
-      bottomRight: 11,
-      bottomLeft: 10,
+      topLeft: 7 + 1 + 17 * 2,
+      topRight: 8 + 1 + 17 * 2,
+      bottomRight: 11 + 1 + 17 * 2,
+      bottomLeft: 10 + 1 + 17 * 2,
     });
   });
 });
