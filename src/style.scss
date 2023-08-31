@@ -1,15 +1,66 @@
+@use 'sass:map';
+@use 'sass:list';
+@use 'sass:color';
 @import './style/bulma';
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap');
+
+$colors: list.append(map.keys($colors), 'grey');
 
 body {
   height: 100vh;
   overflow-x: hidden;
   font-family: 'Roboto', sans-serif !important;
+}
 
-  .dark & {
+.inherited {
+  color: inherit;
+}
+
+.dark {
+  & body {
     background-color: $dark !important;
     color: $light !important;
+  }
+
+  & a {
+    color: color.change($link, $lightness: 70%);
+
+    &:hover {
+      color: color.change($link, $lightness: 85%);
+    }
+  }
+
+  & li a {
+    color: $light;
+  }
+
+  & li.is-active a {
+    color: color.change($link, $lightness: 70%) !important;
+    border-bottom-color: color.change($link, $lightness: 70%) !important;
+  }
+
+  & li:not(.is-active) a:hover {
+    color: $grey-light !important;
+    border-bottom-color: $grey-light !important;
+  }
+
+  @each $color in $colors {
+    & .content :not(a, [class^='has-text-#{$color}']),
+    & .content :not(a, [class^='has-background-#{$color}']) {
+      @extend .inherited;
+    }
+  }
+
+  & .modal-content .box,
+  & input,
+  & textarea {
+    background-color: $dark;
+    color: $light !important;
+
+    &::placeholder {
+      color: inherit;
+    }
   }
 }
 

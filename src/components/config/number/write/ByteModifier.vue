@@ -128,4 +128,8 @@
   .highlight:hover {
     background-color: #faedfc; /*Bulma: has-background-link-light */
   }
+
+  .dark .highlight:hover {
+    background-color: #881798; /*Bulma: has-background-link */
+  }
 </style>

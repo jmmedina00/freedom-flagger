@@ -51,7 +51,7 @@
   }
 
   .icon.clickable:hover {
-    color: gray;
+    color: gray !important;
     cursor: pointer;
   }
 </style>

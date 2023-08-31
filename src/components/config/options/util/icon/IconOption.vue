@@ -1,6 +1,7 @@
 <script setup>
   import { computed } from 'vue';
   import DiscreteIcon from '@app/components/shared/DiscreteIcon.vue';
+  import { useDarkAlternate } from '@app/util/dark';
 
   const props = defineProps({
     id: { type: String, default: 'temp' },
@@ -26,7 +27,9 @@
     if (['Space', 'Enter'].includes(code)) {
       currentValue.value = props.value;
     }
-  }; // TODO - refactor into checkbox, derive radio option from this
+  };
+
+  const alternateClasses = useDarkAlternate([], ['has-background-primary']);
 </script>
 
 <template>
@@ -47,7 +50,7 @@
     :aria-label="$t(label)"
     @keydown="explicitlySet"
   >
-    <div class="icon-holder is-flex">
+    <div class="icon-holder is-flex" :class="alternateClasses">
       <DiscreteIcon :icon="icon" :size="48" />
     </div>
 
@@ -56,22 +59,17 @@
 </template>
 
 <style scoped lang="scss">
+  @use 'sass:color';
   .option-display {
     text-align: center;
     cursor: pointer;
   }
 
   .icon-holder {
-    background: #bac5f8; // color.change($primary, $lightness: 85%);
+    background: color.change(#4f6bed, $lightness: 85%); // Bulma: $primary
     border-radius: 16px;
     padding: 8px;
   }
-
-  /* label {
-    max-width: 64px;
-    text-overflow: ellipsis;
-    //font-size: 0.8rem;
-  } */
 
   input[type='radio'],
   input[type='checkbox'] {
@@ -87,9 +85,16 @@
       font-weight: bold;
       .icon-holder {
         background: #881798 !important; // Bulma: $link
-
         .icon {
           color: white;
+        }
+
+        .dark & {
+          background: color.change(#881798, $lightness: 60%) !important;
+
+          .icon {
+            color: #881798 !important;
+          }
         }
       }
     }

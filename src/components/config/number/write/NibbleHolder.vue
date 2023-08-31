@@ -85,6 +85,7 @@
 <template>
   <input
     type="text"
+    class="input p-0"
     readonly
     :value="currentValue"
     @keydown="handleKeyStroke"

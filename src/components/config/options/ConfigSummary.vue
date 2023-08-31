@@ -12,6 +12,7 @@
   import RemainderButton from './button/RemainderButton.vue';
   import { useDark, useStorage } from '@vueuse/core';
   import About from './button/About.vue';
+  import { useDarkAlternate } from '@app/util/dark';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -22,6 +23,8 @@
 
   const { t, locale, availableLocales } = useI18n();
   const lang = useStorage('lang');
+
+  const panelColor = useDarkAlternate('primary');
 
   const enterFlagDisplay = () => {
     fullFlagDisplay.value = true;
@@ -78,7 +81,7 @@
 </script>
 
 <template>
-  <PanelBar name="title.short" color="primary" class="px-4 py-3">
+  <PanelBar name="title.short" :color="panelColor" class="px-4 py-3">
     <IconButton
       @click="enterFlagDisplay"
       icon="fullscreen"

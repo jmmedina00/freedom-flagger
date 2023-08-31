@@ -71,3 +71,13 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+  .dark .file-cta {
+    background-color: hsl(0, 0%, 21%); /* Bulma $grey-dark */
+    border: 1px solid hsl(0, 0%, 48%);
+  }
+  .dark .file-cta:hover {
+    background-color: hsl(0, 0%, 29%) /* Bulma $grey */;
+  }
+</style>

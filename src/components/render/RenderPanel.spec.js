@@ -5,10 +5,12 @@ import { useFullStateSize } from './helper/size';
 import { ref } from 'vue';
 import { useElementSize } from '@vueuse/core';
 import { useCalculatedSizes } from '../shared/sizing';
+import { useDarkAlternate } from '@app/util/dark';
 
 vi.mock('@vueuse/core');
 vi.mock('./helper/size');
 vi.mock('../shared/sizing');
+vi.mock('@app/util/dark');
 
 describe('RenderPanel', () => {
   const generate = () =>
@@ -22,6 +24,7 @@ describe('RenderPanel', () => {
     });
 
   test("should apply horizontal class if flag isn't too tall for panel", () => {
+    useDarkAlternate.mockReturnValue('');
     useFullStateSize.mockReturnValue(ref({ width: 300, height: 200 }));
     useElementSize.mockReturnValue({ width: ref(500), height: ref(400) });
     useCalculatedSizes.mockReturnValue(ref({ width: 500, height: 350 }));
@@ -34,6 +37,7 @@ describe('RenderPanel', () => {
   });
 
   test('should apply vertical class if flag is too tall for panel', () => {
+    useDarkAlternate.mockReturnValue('');
     useFullStateSize.mockReturnValue(ref({ width: 200, height: 300 }));
     useElementSize.mockReturnValue({ width: ref(500), height: ref(400) });
     useCalculatedSizes.mockReturnValue(ref({ width: 500, height: 800 }));

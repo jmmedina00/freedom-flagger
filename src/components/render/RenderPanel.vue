@@ -5,6 +5,7 @@
   import FlagDisplay from './FlagDisplay.vue';
   import { useFullStateSize } from './helper/size';
   import { useCalculatedSizes } from '../shared/sizing';
+  import { useDarkAlternate } from '@app/util/dark';
 
   const dimensions = useFullStateSize();
 
@@ -31,11 +32,17 @@
       vertical: !isHorizontalAdequate.value,
     };
   });
+
+  const alternateClass = useDarkAlternate(
+    'has-background-grey-lighter',
+    'has-background-black-ter'
+  );
 </script>
 
 <template>
   <div
-    class="is-flex is-flex-grow-1 is-align-items-center is-justify-content-center has-background-grey-lighter anchor"
+    class="is-flex is-flex-grow-1 is-align-items-center is-justify-content-center anchor"
+    :class="alternateClass"
     ref="el"
   >
     <FlagDisplay :class="displayClass" />
