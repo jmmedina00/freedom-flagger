@@ -1,4 +1,122 @@
 {
-  "expand": "Expand",
-  "collapse": "Collapse"
+  "title": {
+    "main": "Freedom Flagger",
+    "short": "Flagger"
+  },
+  "common": {
+    "apply": "Apply",
+    "size": "Size",
+    "width": "Width",
+    "height": "Height",
+    "vertical": "Vertical",
+    "horizontal": "Horizontal",
+    "margin": "Margin",
+    "direction": {
+      "top": "top",
+      "bottom": "bottom",
+      "left": "left",
+      "right": "right"
+    }
+  },
+  "actions": {
+    "copy": {
+      "title": "Copy flag",
+      "success": "Flag has been copied to your clipboard",
+      "error": "Unable to copy the flag"
+    },
+    "download": {
+      "title": "Download flag",
+      "filename": "flag",
+      "error": "Unable to download the flag"
+    },
+    "language": {
+      "title": "Change language",
+      "current": "Language has been changed to English"
+    },
+    "link": {
+      "title": "Share current flag",
+      "success": "Flag's link has been copied to your clipboard",
+      "error": "Unable to copy the link"
+    },
+    "provide": {
+      "text": {
+        "title": "Provide from text"
+      },
+      "file": {
+        "title": "Provide from file",
+        "tooLarge": "File is too large",
+        "isValid": {
+          "true": "File is valid",
+          "false": "Please provide a file no larger than 1KB"
+        }
+      },
+      "preview": "To be processed as the following:"
+    },
+    "fullScreen": "Display flag",
+    "edit": "Edit number",
+    "read": "Read number",
+    "about": {
+      "title": "About",
+      "main": "Created by {author} and distributed under the terms of the {license}",
+      "license": "MIT license"
+    }
+  },
+  "renderer": {
+    "title": "Flag renderer",
+    "standard": "Standard",
+    "divided": "Divided",
+    "decorated": "Decorated"
+  },
+  "decorate": {
+    "title": "Decorates",
+    "options": "Decorate options",
+    "hex": "Hex bytes",
+    "mosaic": "Mosaic",
+    "triangle": "Triangles",
+    "border": "Borders",
+    "infinite": "Infinite",
+    "shape": "Shapes"
+  },
+  "shape": {
+    "circle": "Circle",
+    "square": "Square"
+  },
+  "options": {
+    "mode": {
+      "dark": "Dark mode",
+      "light": "Light mode"
+    },
+    "close": "Close",
+    "sizing": "Sizing adjustments",
+    "remainder": "Remainder handling",
+    "decorate": "Decorate configuration",
+    "custom": { "long": "Custom", "short": "Custom" },
+    "columns": {
+      "max": "Max columns per row",
+      "limit": "Limit columns"
+    },
+    "aspectRatio": "Aspect ratio",
+    "dimensions": "Dimensions",
+    "rows": "Number of rows",
+    "squares": "Number of squares",
+    "offset": "Offset",
+    "percent": "Percentage",
+    "corner": "Corner",
+    "color": {
+      "mode": {
+        "title": "Enable color range",
+        "true": "Complex",
+        "false": "Grey"
+      },
+      "demo": "Demo colors"
+    },
+    "byte": ["None", "Primary", "Secondary", "Tertiary"]
+  },
+  "number": {
+    "title": "Number",
+    "hex": "Hexadecimal",
+    "oct": "Octal",
+    "bin": "Binary",
+    "dec": "Decimal"
+  }
 }

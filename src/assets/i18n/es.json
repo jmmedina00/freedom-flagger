@@ -1,4 +1,122 @@
 {
-  "expand": "Expandir",
-  "collapse": "Plegar"
+  "title": {
+    "main": "Freedom Flagger",
+    "short": "Flagger"
+  },
+  "common": {
+    "apply": "Aplicar",
+    "size": "Tamaño",
+    "width": "Ancho",
+    "height": "Alto",
+    "vertical": "Vertical",
+    "horizontal": "Horizontal",
+    "margin": "Margen",
+    "direction": {
+      "top": "superior",
+      "bottom": "inferior",
+      "left": "izquierdo",
+      "right": "derecho"
+    }
+  },
+  "actions": {
+    "copy": {
+      "title": "Copiar bandera",
+      "success": "Se ha copiado la bandera al portapapeles",
+      "error": "No se puede copiar la bandera"
+    },
+    "download": {
+      "title": "Descargar bandera",
+      "filename": "bandera",
+      "error": "No se puede descargar la bandera"
+    },
+    "language": {
+      "title": "Cambiar idioma",
+      "current": "Se ha cambiado el idioma al español"
+    },
+    "link": {
+      "title": "Compartir bandera actual",
+      "success": "Se ha copiado el enlace a la bandera al portapapeles",
+      "error": "No se puede copiar el enlace"
+    },
+    "provide": {
+      "text": {
+        "title": "Proveer con texto"
+      },
+      "file": {
+        "title": "Proveer con archivo",
+        "tooLarge": "El archivo es demasiado grande",
+        "isValid": {
+          "true": "El archivo es válido",
+          "false": "Elige un archivo de 1KB como máximo"
+        }
+      },
+      "preview": "Se va a procesar la entrada como esta secuencia:"
+    },
+    "fullScreen": "Mostrar bandera",
+    "edit": "Editar número",
+    "read": "Ver número",
+    "about": {
+      "title": "Acerca de",
+      "main": "Creado por {author} y distribuído bajo los términos de la {license}",
+      "license": "licencia MIT"
+    }
+  },
+  "renderer": {
+    "title": "Renderizador de bandera",
+    "standard": "Estándar",
+    "divided": "Dividida",
+    "decorated": "Decorada"
+  },
+  "decorate": {
+    "title": "Decorados",
+    "options": "Opciones de decorado",
+    "hex": "Hexadecimal",
+    "mosaic": "Mosaico",
+    "triangle": "Triángulos",
+    "border": "Bordes",
+    "infinite": "Infinito",
+    "shape": "Figuras"
+  },
+  "shape": {
+    "circle": "Círculo",
+    "square": "Cuadrado"
+  },
+  "options": {
+    "mode": {
+      "dark": "Modo oscuro",
+      "light": "Modo claro"
+    },
+    "close": "Cerrar",
+    "sizing": "Ajustes de tamaño",
+    "remainder": "Manejo de bytes sobrantes",
+    "decorate": "Configuración de decorado",
+    "custom": { "long": "Personalizado", "short": "Person." },
+    "columns": {
+      "max": "Columnas máximas por fila",
+      "limit": "Limitar columnas"
+    },
+    "aspectRatio": "Relación de aspecto",
+    "dimensions": "Dimensiones",
+    "rows": "Número de filas",
+    "squares": "Número de cuadrados",
+    "offset": "Desviación",
+    "percent": "Porcentaje",
+    "corner": "Esquina",
+    "color": {
+      "mode": {
+        "title": "Habilitar rango de colores",
+        "true": "Complejo",
+        "false": "Grises"
+      },
+      "demo": "Colores de prueba"
+    },
+    "byte": ["Ninguno", "Primario", "Secundario", "Terciario"]
+  },
+  "number": {
+    "title": "Número",
+    "hex": "Hexadecimal",
+    "oct": "Octal",
+    "bin": "Binario",
+    "dec": "Decimal"
+  }
 }

@@ -1,0 +1,122 @@
+{
+  "title": {
+    "main": "Freedom Flagger",
+    "short": "Flagger"
+  },
+  "common": {
+    "apply": "Appliquer",
+    "size": "Taille",
+    "width": "Largeur",
+    "height": "Hauteur",
+    "vertical": "Verticale",
+    "horizontal": "Horizontale",
+    "margin": "Marge",
+    "direction": {
+      "top": "haut",
+      "bottom": "bas",
+      "left": "gauche",
+      "right": "droite"
+    }
+  },
+  "actions": {
+    "copy": {
+      "title": "Copier drapeau",
+      "success": "Le drapeau est copié sur le presse-papiers",
+      "error": "Impossible de copier le drapeau"
+    },
+    "download": {
+      "title": "Sauvegarder drapeau",
+      "filename": "drapeau",
+      "error": "Impossible de sauvegarder le drapeau"
+    },
+    "language": {
+      "title": "Changer la langue",
+      "current": "La langue est changée au français"
+    },
+    "link": {
+      "title": "Partager le drapeau actuel",
+      "success": "Le lien au drapeau est copié sur le presse-papiers",
+      "error": "Impossible de copier le lien"
+    },
+    "provide": {
+      "text": {
+        "title": "Apporter avec texte"
+      },
+      "file": {
+        "title": "Apporter avec fichier",
+        "tooLarge": "Le fichier est trop gros",
+        "isValid": {
+          "true": "Le fichier est valide",
+          "false": "Veuillez apporter un fichier de 1Ko maximum"
+        }
+      },
+      "preview": "Aperçu du nouvel nombre:"
+    },
+    "fullScreen": "Montrer drapeau",
+    "edit": "Éditer nombre",
+    "read": "Lire nombre",
+    "about": {
+      "title": "About",
+      "main": "Ce logiciel a été crée par {author} et est distribué avec la {license}",
+      "license": "license MIT"
+    }
+  },
+  "renderer": {
+    "title": "Render du drapeau",
+    "standard": "Standard",
+    "divided": "Bifurqué",
+    "decorated": "Décoré"
+  },
+  "decorate": {
+    "title": "Décors",
+    "options": "Options du décor",
+    "hex": "Hex bytes",
+    "mosaic": "Mosaïque",
+    "triangle": "Triangles",
+    "border": "Bords",
+    "infinite": "Infini",
+    "shape": "Figures"
+  },
+  "shape": {
+    "circle": "Cercle",
+    "square": "Carré"
+  },
+  "options": {
+    "mode": {
+      "dark": "Mode nuit",
+      "light": "Mode jour"
+    },
+    "close": "Fermer",
+    "sizing": "Options de taille",
+    "remainder": "Remainder handling",
+    "decorate": "Options du décor",
+    "custom": { "long": "Personnalisé", "short": "Personn." },
+    "columns": {
+      "max": "Colonnes maximales en file",
+      "limit": "Limiter colonnes"
+    },
+    "aspectRatio": "Allongement",
+    "dimensions": "Dimensions",
+    "rows": "Nombre de files",
+    "squares": "Nombre de carrés",
+    "offset": "Offset",
+    "percent": "Pourcentage",
+    "corner": "Angle",
+    "color": {
+      "mode": {
+        "title": "Activer couleurs complexes",
+        "true": "Complexes",
+        "false": "Gris"
+      },
+      "demo": "Couleurs pour test"
+    },
+    "byte": ["Aucun", "Prémier", "Deuxième", "Troisième"]
+  },
+  "number": {
+    "title": "Nombre",
+    "hex": "Hexadécimal",
+    "oct": "Octal",
+    "bin": "Binaire",
+    "dec": "Décimal"
+  }
+}

@@ -3,7 +3,7 @@ import { createI18n } from 'vue-i18n';
 // Adapted from https://vue-i18n.intlify.dev/guide/advanced/lazy.html
 // I'm NOT installing the router just for this
 
-export const SUPPORTED_LOCALES = ['en', 'es'];
+export const SUPPORTED_LOCALES = ['en', 'es', 'fr'];
 
 export const setupI18n = async (options = { locale: 'en' }) => {
   const messageEntries = await Promise.all(
