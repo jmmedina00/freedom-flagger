@@ -27,8 +27,6 @@
   });
 
   watch(fullFlagDisplay, async (status) => {
-    console.log(status);
-
     if (!!status && !!isSupported.value) {
       await Promise.any([enter(), lockOrientation('landscape')]); // lock orientation doesn't work on desktop
     } else {

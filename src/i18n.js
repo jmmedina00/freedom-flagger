@@ -14,7 +14,6 @@ export const setupI18n = async (options = { locale: 'en' }) => {
   );
 
   const messages = Object.fromEntries(messageEntries);
-  console.log(messages);
 
   const i18n = createI18n({
     ...options,

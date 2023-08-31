@@ -22,8 +22,6 @@ import { getNumberStartingValue } from './util/number';
   const app = createApp(App);
   const i18n = await setupI18n({ locale, legacy: false });
 
-  console.log(i18n);
-
   app.use(i18n);
   app.use(provideDefault(NOTIFICATION, null));
   app.use(provideDefault(NUMBER_BYTES, getNumberStartingValue()));
