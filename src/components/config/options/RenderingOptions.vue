@@ -54,12 +54,12 @@
 
 <template>
   <div>
-    <div class="mb-3">
+    <div>
       <input id="enabled" type="checkbox" class="switch" v-model="enabled" />
       <label for="enabled">{{ $t('options.columns.limit') }}</label>
     </div>
-    <div v-if="enabled">
-      <h5 class="mb-2">
+    <div v-if="enabled" class="mb-3">
+      <h5 class="my-2">
         {{ $t('options.columns.max') + ':' }}
       </h5>
       <p class="mb-1">

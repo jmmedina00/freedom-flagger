@@ -11,6 +11,7 @@
   import RenderingOptions from './RenderingOptions.vue';
   import RemainderButton from './button/RemainderButton.vue';
   import { useDark, useStorage } from '@vueuse/core';
+  import About from './button/About.vue';
 
   const fullFlagDisplay = inject(FULL_FLAG_DISPLAY);
   const notification = inject(NOTIFICATION);
@@ -118,5 +119,6 @@
     <SizingButton class="mb-2" />
     <RemainderButton class="mb-3" />
     <RenderingOptions />
+    <About />
   </div>
 </template>
