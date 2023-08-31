@@ -16,8 +16,8 @@ export const REMAINDER_COMPONENTS = {
 };
 
 export const REMAINDER_ICONS = {
-  [REM_MOSAIC]: 'auto_awesome_mosaic',
-  [REM_TRIANGLE]: 'rounded_corner',
-  [REM_BORDER]: 'border_style',
-  [REM_HEX]: 'abc',
+  [REM_MOSAIC]: 'icons/decorate-mosaic.svg',
+  [REM_TRIANGLE]: 'icons/decorate-triangles.svg',
+  [REM_BORDER]: 'icons/decorate-border.svg',
+  [REM_HEX]: 'icons/decorate-hex.svg',
 };

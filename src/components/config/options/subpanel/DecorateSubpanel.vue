@@ -15,9 +15,9 @@
   import IconOption from '../util/icon/IconOption.vue';
 
   const REMAINDER_ICONS = {
-    [DECORATE_MOSAIC]: 'auto_awesome_mosaic',
-    [DECORATE_INFINITE]: 'repeat_on',
-    [DECORATE_SHAPE]: 'interests',
+    [DECORATE_MOSAIC]: 'icons/decorate-mosaic.svg',
+    [DECORATE_INFINITE]: 'icons/decorate-infinite.svg',
+    [DECORATE_SHAPE]: 'icons/decorate-shape.svg',
   };
 
   const SUBPANELS = {

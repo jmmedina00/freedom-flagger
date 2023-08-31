@@ -10,11 +10,11 @@
   import ModalTitle from '../../shared/modal/ModalTitle.vue';
 
   const ratioLists = [
-    { ratio: [3, 2], icon: 'bolt' },
-    { ratio: [5, 3], icon: 'key' },
-    { ratio: [4, 3], icon: 'sync' },
-    { ratio: [16, 9], icon: 'undo' },
-    { ratio: [1, 1], icon: 'forward' },
+    { ratio: [3, 2], icon: 'crop_3_2' },
+    { ratio: [5, 3], icon: 'icons/crop-5-3.svg' },
+    { ratio: [4, 3], icon: 'crop_landscape' },
+    { ratio: [16, 9], icon: 'crop_16_9' },
+    { ratio: [1, 1], icon: 'crop_square' },
   ];
 
   const getRatioLabel = ([one, two]) => `${one}:${two}`;
@@ -119,7 +119,7 @@
           id="custom"
           :value="null"
           label="options.custom.long"
-          icon="logout"
+          icon="tune"
           v-model="aspectRatio"
         />
         <span class="ml-3 is-align-self-center has-text-weight-bold">

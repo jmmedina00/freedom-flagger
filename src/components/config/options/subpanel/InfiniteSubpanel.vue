@@ -18,7 +18,12 @@
     [BOTTOM_LEFT]: ['bottom', 'left'],
   };
 
-  const ICONS = ['electric_meter', 'heat_pump', 'gas_meter', 'propane_tank'];
+  const ICONS = [
+    'icons/triangle-top-left.svg',
+    'icons/triangle-top-right.svg',
+    'icons/triangle-bottom-right.svg',
+    'icons/triangle-bottom-left.svg',
+  ];
 
   const { t } = useI18n();
 

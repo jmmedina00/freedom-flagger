@@ -25,9 +25,9 @@ export const RENDERERS = {
 };
 
 export const RENDERER_ICONS = {
-  [RENDERER_STANDARD]: 'work',
-  [RENDERER_DIVIDED]: 'pets',
-  [RENDERER_DECORATE]: 'explore',
+  [RENDERER_STANDARD]: 'icons/render-standard.svg',
+  [RENDERER_DIVIDED]: 'icons/render-divided.svg',
+  [RENDERER_DECORATE]: 'icons/render-decorated.svg',
 };
 
 export const DECORATE_COMPONENTS = {
