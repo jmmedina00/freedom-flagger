@@ -37,7 +37,7 @@
       size: 20,
       ...zeroedEntries,
     },
-    { adapted: selectableAttrs, proportional: ['size'] }
+    { adapted: selectableAttrs.map(({ attr }) => attr), proportional: ['size'] }
   );
 </script>
 
