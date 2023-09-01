@@ -80,6 +80,6 @@
   >
     <component :is="component" />
     <RemainderHandler v-if="remainder.length > 0" :bytes="remainder" />
-    <TinyWatermark path="watermark.svg" proportion="0.1" />
+    <TinyWatermark path="watermark.svg" fill-opacity="0.5" proportion="0.3" />
   </svg>
 </template>
