@@ -1,7 +1,45 @@
-# Vue 3 + Vite
+# Freedom Flagger
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![](./public/logo512.png)
 
-## Recommended IDE Setup
+[![](./public/readme/vue.png)](https://vuejs.org/)
+[![](./public/readme/bulma.png)](https://bulma.io/)
+[![](./public/readme/sass.png)](https://sass-lang.com/)
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Stenographic flag generator, inspired by free speech flags related to "illegal numbers".
+
+![](./public/screenshot.png)
+
+## Building
+
+Install dependencies:
+
+```
+npm install
+```
+
+Run build script:
+
+```
+npm run build
+```
+
+## Testing
+
+Run test script:
+
+```
+npm test
+```
+
+## Running locally
+
+Run live server script:
+
+```
+npm run dev
+```
+
+---
+
+[Generated with `vue` template using Vite.](https://vitejs.dev/guide/)
