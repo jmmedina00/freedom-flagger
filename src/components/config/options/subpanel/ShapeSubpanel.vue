@@ -3,6 +3,7 @@
     DECORATE_SHAPE,
     SHAPE_CIRCLE,
     SHAPE_COMPONENTS,
+    SHAPE_RHOMBUS,
     SHAPE_SQUARE,
   } from '@app/components/shared/constant/rendering';
   import { useDefaultedConfig } from './common/default';
@@ -13,6 +14,7 @@
   const SHAPE_ICONS = {
     [SHAPE_CIRCLE]: 'lens',
     [SHAPE_SQUARE]: 'square',
+    [SHAPE_RHOMBUS]: 'icons/rhombus.svg',
   };
 
   const config = useDefaultedConfig(

@@ -79,7 +79,8 @@
   },
   "shape": {
     "circle": "Circle",
-    "square": "Square"
+    "square": "Square",
+    "rhombus": "Diamond"
   },
   "options": {
     "mode": {
