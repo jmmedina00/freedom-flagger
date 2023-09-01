@@ -5,6 +5,9 @@ import ShapeSeriesDecorate from '../decorate/ShapeSeriesDecorate.vue';
 import CircleShape from '../shape/CircleShape.vue';
 import SquareShape from '../shape/SquareShape.vue';
 import RhombusShape from '../shape/RhombusShape.vue';
+import PentagonShape from '../shape/PentagonShape.vue';
+import HexagonShape from '../shape/HexagonShape.vue';
+import StarShape from '../shape/StarShape.vue';
 import DividedFlagRenderer from '@app/components/render/flag/DividedFlagRenderer.vue';
 import DecoratedFlagRenderer from '@app/components/render/flag/DecoratedFlagRenderer.vue';
 
@@ -19,6 +22,9 @@ export const DECORATE_SHAPE = 'shape';
 export const SHAPE_CIRCLE = 'circle';
 export const SHAPE_SQUARE = 'square';
 export const SHAPE_RHOMBUS = 'rhombus';
+export const SHAPE_PENTAGON = 'pentagon';
+export const SHAPE_HEXAGON = 'hexagon';
+export const SHAPE_STAR = 'star';
 
 export const RENDERERS = {
   [RENDERER_STANDARD]: StandardFlagRenderer,
@@ -42,4 +48,7 @@ export const SHAPE_COMPONENTS = {
   [SHAPE_CIRCLE]: CircleShape,
   [SHAPE_SQUARE]: SquareShape,
   [SHAPE_RHOMBUS]: RhombusShape,
+  [SHAPE_PENTAGON]: PentagonShape,
+  [SHAPE_HEXAGON]: HexagonShape,
+  [SHAPE_STAR]: StarShape,
 };

@@ -80,7 +80,10 @@
   "shape": {
     "circle": "Cercle",
     "square": "Carré",
-    "rhombus": "Losange"
+    "rhombus": "Losange",
+    "pentagon": "Pentagone",
+    "hexagon": "Hexagone",
+    "star": "Étoile"
   },
   "options": {
     "mode": {

@@ -3,8 +3,11 @@
     DECORATE_SHAPE,
     SHAPE_CIRCLE,
     SHAPE_COMPONENTS,
+    SHAPE_HEXAGON,
+    SHAPE_PENTAGON,
     SHAPE_RHOMBUS,
     SHAPE_SQUARE,
+    SHAPE_STAR,
   } from '@app/components/shared/constant/rendering';
   import { useDefaultedConfig } from './common/default';
   import IconOption from '../util/icon/IconOption.vue';
@@ -15,6 +18,9 @@
     [SHAPE_CIRCLE]: 'lens',
     [SHAPE_SQUARE]: 'square',
     [SHAPE_RHOMBUS]: 'icons/rhombus.svg',
+    [SHAPE_PENTAGON]: 'pentagon',
+    [SHAPE_HEXAGON]: 'hexagon',
+    [SHAPE_STAR]: 'star',
   };
 
   const config = useDefaultedConfig(
@@ -33,7 +39,7 @@
     <LimitedSliderNumber :min="1" :max="50" v-model="config.size" />
   </p>
   <h6>{{ $t('options.corner') }}</h6>
-  <p class="is-flex">
+  <p class="flexi-paragraph">
     <IconOption
       v-for="shape in SHAPES"
       :id="shape"

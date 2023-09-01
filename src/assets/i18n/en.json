@@ -80,7 +80,10 @@
   "shape": {
     "circle": "Circle",
     "square": "Square",
-    "rhombus": "Diamond"
+    "rhombus": "Diamond",
+    "pentagon": "Pentagon",
+    "hexagon": "Hexagon",
+    "star": "Star"
   },
   "options": {
     "mode": {
